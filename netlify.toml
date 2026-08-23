@@ -1,5 +1,5 @@
 # Netlify configuration for Scrubin Detailing
-# You don't need to touch this — it just tells Netlify how to serve the site.
+# You don't need to touch this — it tells Netlify how to serve the site.
 
 [build]
   publish = "."
@@ -7,7 +7,15 @@
 # Images never change unless you rename them, so let browsers cache them for a year.
 # This is what makes repeat visits load almost instantly.
 [[headers]]
-  for = "/assets/*"
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
