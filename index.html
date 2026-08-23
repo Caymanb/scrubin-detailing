@@ -1152,7 +1152,7 @@ footer p{color:var(--steel);font-size:.9rem}
         </ul>
       </div>
 
-      <form class="q" id="quoteForm" method="POST" action="https://formspree.io/f/YOUR_FORM_ID" novalidate>
+      <form class="q" id="quoteForm" method="POST" action="https://api.web3forms.com/submit" novalidate>
         <div class="msg" id="formMsg" role="status" aria-live="polite"></div>
         <h3 style="margin-bottom:18px">Request a Quote</h3>
 
@@ -1168,6 +1168,10 @@ footer p{color:var(--steel);font-size:.9rem}
         </div>
 
         <div class="f2">
+          <div class="fld">
+            <label for="email">Email <span style="color:var(--steel);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+          </div>
           <div class="fld">
             <label for="city">City <span class="req">*</span></label>
             <select id="city" name="city" required>
@@ -1186,7 +1190,9 @@ footer p{color:var(--steel);font-size:.9rem}
               <option>Other / nearby</option>
             </select>
           </div>
-          <div class="fld">
+        </div>
+
+        <div class="fld">
             <label for="vehicle">What are we detailing? <span class="req">*</span></label>
             <select id="vehicle" name="vehicle_type" required>
               <option value="">Select vehicle type</option>
@@ -1199,7 +1205,6 @@ footer p{color:var(--steel);font-size:.9rem}
               <option>Motorcycle / dirt bike</option>
               <option>Multiple vehicles / fleet</option>
             </select>
-          </div>
         </div>
 
         <div class="fld">
@@ -1227,9 +1232,10 @@ footer p{color:var(--steel);font-size:.9rem}
           <textarea id="details" name="details" placeholder="Year/make/model, pet hair, stains or odors, water spots, preferred days and times&hellip;"></textarea>
         </div>
 
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
-        <input type="hidden" name="_subject" value="New quote request — scrubindetailing.com">
-        <input type="hidden" name="source_page" value="scrubindetailing.com single-page site">
+        <input type="hidden" name="access_key" value="ed06b41b-c1b8-42c9-b365-443c36e31775">
+        <input type="hidden" name="subject" value="New quote request — Scrubin Detailing website">
+        <input type="hidden" name="from_name" value="Scrubin Detailing Website">
+        <input type="checkbox" name="botcheck" tabindex="-1" style="display:none" aria-hidden="true">
 
         <button class="btn" type="submit" id="submitBtn">Send My Quote Request</button>
         <p class="fine">We'll text or call you back with an exact price. No spam, no sharing your info &mdash; ever.<br>In a hurry? <a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text us instead &rarr;</a></p>
@@ -1581,8 +1587,9 @@ footer p{color:var(--steel);font-size:.9rem}
       document.getElementById('phone').focus(); return;
     }
 
+    var keyField = form.querySelector('[name="access_key"]');
     var action = form.getAttribute('action') || '';
-    if (action.indexOf('YOUR_FORM_ID') > -1){
+    if (action.indexOf('YOUR_FORM_ID') > -1 || !keyField || !keyField.value || keyField.value.indexOf('YOUR_ACCESS_KEY') > -1){
       show('err','This form isn’t connected yet. Please call or text <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a> — we’ll get right back to you.');
       return;
     }
