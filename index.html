@@ -42,7 +42,6 @@
   --navy-700:#1a2745; --line:rgba(148,170,214,.16); --line-2:rgba(148,170,214,.28);
   --ice:#eef3fb; --ice-dim:#b9c6de; --steel:#8494b2;
   --red:#dc2430; --red-lt:#ff4550; --blue:#2563eb; --blue-lt:#4f8bff; --blue-deep:#123a8f;
-  --chrome:linear-gradient(180deg,#ffffff 0%,#dfe7f3 42%,#96a6c0 55%,#f3f7ff 78%,#c3cfe2 100%);
   --r:14px; --r-lg:22px; --maxw:1220px;
   --sh:0 18px 50px -14px rgba(0,0,0,.75);
   --ease:cubic-bezier(.22,1,.36,1);
@@ -67,40 +66,6 @@ h3{font-size:clamp(1.3rem,2.2vw,1.6rem);text-transform:uppercase;letter-spacing:
 p{margin:0 0 1em}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-
-/* chrome / gradient text */
-.chrome{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 2px 1px rgba(0,0,0,.55))}
-.rw{color:var(--red-lt)}
-.bw{color:var(--blue-lt)}
-
-.eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
-  letter-spacing:.3em;font-size:.82rem;color:var(--blue-lt);margin:0 0 .7em}
-.eyebrow.r{color:var(--red-lt)}
-.lede{color:var(--ice-dim);font-size:1.08rem;max-width:62ch}
-
-/* stripe divider */
-.stripe{height:4px;background:linear-gradient(90deg,var(--blue-deep),var(--blue-lt) 22%,#fff 50%,var(--red-lt) 78%,#7a0f16);}
-
-/* ============ BUTTONS ============ */
-.btn{
-  --bg:var(--red);
-  display:inline-flex;align-items:center;justify-content:center;gap:.55em;
-  min-height:52px;padding:0 26px;border:0;border-radius:11px;cursor:pointer;
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.12rem;
-  text-transform:uppercase;letter-spacing:.06em;text-decoration:none;color:#fff;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 82%,#fff) 0%,var(--bg) 46%,color-mix(in srgb,var(--bg) 72%,#000) 100%);
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 26px -10px color-mix(in srgb,var(--bg) 70%,transparent);
-  transition:transform .18s var(--ease),box-shadow .18s var(--ease),filter .18s;
-}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.08);
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 16px 32px -10px color-mix(in srgb,var(--bg) 78%,transparent)}
-.btn:active{transform:translateY(0)}
-.btn.blue{--bg:var(--blue)}
-.btn.ghost{background:rgba(255,255,255,.05);border:1px solid var(--line-2);box-shadow:none;color:var(--ice)}
-.btn.ghost:hover{background:rgba(255,255,255,.1);border-color:var(--blue-lt)}
-.btn svg{width:19px;height:19px;flex:none}
-.btn-row{display:flex;flex-wrap:wrap;gap:12px}
 
 /* ============ HEADER ============ */
 .skip{position:absolute;left:16px;top:-64px;z-index:200;background:var(--red);color:#fff;
@@ -351,9 +316,6 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
 
 /* ============ SECTIONS ============ */
 section{padding:clamp(56px,7vw,96px) 0;position:relative}
-.sec-head{max-width:760px;margin:0 auto clamp(34px,4vw,54px);text-align:center}
-.sec-head p{margin:1em auto 0}
-.alt{background:linear-gradient(180deg,var(--navy-900),var(--navy-850) 60%,var(--navy-900))}
 
 /* proof strip */
 .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;padding:0;
@@ -601,90 +563,131 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
 .step-list a:hover{color:#fff;border-bottom-color:var(--red-lt)}
 @media(max-width:760px){.step-list{grid-template-columns:1fr;gap:26px}}
 
-/* form */
-.quote-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
+/* ============ QUOTE / CONTACT ============ */
+#quote{padding:clamp(58px,7.2vw,102px) 0;
+  background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 6%,var(--ink-950) 100%)}
+.quote-grid{display:grid;grid-template-columns:1.02fr .98fr;
+  gap:clamp(30px,4.4vw,64px);align-items:start}
 @media(max-width:900px){.quote-grid{grid-template-columns:1fr}}
-form.q{background:linear-gradient(170deg,rgba(26,39,69,.9),rgba(8,13,26,.96));border:1px solid var(--line-2);
-  border-radius:var(--r-lg);padding:28px 26px;box-shadow:var(--sh)}
+
+.q-contact{margin:clamp(26px,3vw,36px) 0 0;border-top:1px solid var(--ink-line)}
+.q-contact>div{border-bottom:1px solid var(--ink-line);padding:15px 0}
+.q-contact dt{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.15em;font-size:.75rem;color:var(--ink-mute)}
+.q-contact dd{margin:.45em 0 0;color:var(--ink-dim);font-size:.97rem;line-height:1.6}
+.q-contact a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);word-break:break-word;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.q-contact a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+
+/* form panel: flat charcoal and a hairline, no gradient or drop shadow */
+form.q{background:var(--ink-900);border:1px solid var(--ink-line-2);border-radius:8px;
+  padding:clamp(22px,2.7vw,32px)}
+form.q h3{margin:0 0 clamp(16px,2vw,22px);font-size:1.32rem;text-transform:uppercase;
+  letter-spacing:.04em;color:#fff}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:520px){.f2{grid-template-columns:1fr}}
-.fld{margin-bottom:14px}
-.fld label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.13em;font-weight:600;
-  color:var(--ice-dim);margin-bottom:7px}
+.fld{margin-bottom:15px}
+.fld label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:.79rem;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:7px}
 .fld .req{color:var(--red-lt)}
 input,select,textarea{
-  width:100%;min-height:50px;padding:13px 14px;border-radius:11px;color:#fff;font:400 1rem/1.4 Inter,sans-serif;
-  background:rgba(4,8,17,.7);border:1px solid var(--line-2);transition:.16s;appearance:none
-}
+  width:100%;min-height:50px;padding:13px 14px;border-radius:6px;color:#fff;
+  font:400 1rem/1.4 Inter,sans-serif;background:var(--ink-950);
+  border:1px solid var(--ink-line-2);transition:border-color .16s,box-shadow .16s}
 textarea{min-height:104px;resize:vertical}
-select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238494b2' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+select{appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d8592' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
   background-repeat:no-repeat;background-position:right 13px center;background-size:19px;padding-right:42px}
-input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue-lt);box-shadow:0 0 0 3px rgba(79,139,255,.22)}
-input::placeholder,textarea::placeholder{color:#5d6b86}
-form.q .btn{width:100%;margin-top:6px}
-.fine{font-size:.8rem;color:var(--steel);margin:14px 0 0;text-align:center}
-.fine a{color:var(--ice-dim)}
-.msg{display:none;border-radius:var(--r);padding:15px 18px;margin-bottom:16px;font-size:.95rem}
-.msg.ok{display:block;background:rgba(22,163,74,.15);border:1px solid rgba(74,222,128,.42);color:#c8f3d6}
-.msg.err{display:block;background:rgba(220,36,48,.15);border:1px solid rgba(255,69,80,.45);color:#ffd4d7}
-.why-list{list-style:none;margin:0;padding:0}
-.why-list li{padding:15px 0;border-bottom:1px solid var(--line);display:flex;gap:15px}
-.why-list li:last-child{border-bottom:0}
-.why-list .ic{flex:none;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
-  background:linear-gradient(160deg,rgba(79,139,255,.22),rgba(220,36,48,.14));border:1px solid var(--line-2)}
-.why-list svg{width:22px;height:22px;color:var(--blue-lt)}
-.why-list b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;
-  font-size:1.14rem;letter-spacing:.03em;margin-bottom:2px}
-.why-list p{margin:0;font-size:.94rem;color:var(--ice-dim)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue-lt);
+  box-shadow:0 0 0 3px rgba(79,139,255,.25)}
+input::placeholder,textarea::placeholder{color:#6d7686}
 
-/* faq */
-.faq{max-width:880px;margin:0 auto}
-details{border:1px solid var(--line);border-radius:var(--r);background:rgba(255,255,255,.035);margin-bottom:11px;
-  transition:border-color .2s}
-details[open]{border-color:var(--line-2);background:rgba(255,255,255,.055)}
-summary{cursor:pointer;list-style:none;padding:18px 52px 18px 20px;position:relative;
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.2rem;text-transform:uppercase;
-  letter-spacing:.02em;color:#fff;min-height:56px;display:flex;align-items:center}
+/* the submit button is styled by selector so the form markup stays untouched */
+form.q .btn,form.q button[type="submit"]{
+  display:inline-flex;align-items:center;justify-content:center;width:100%;margin-top:6px;
+  min-height:54px;padding:0 26px;border:1px solid var(--red);border-radius:6px;cursor:pointer;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.08rem;
+  text-transform:uppercase;letter-spacing:.11em;color:#fff;background:var(--red);
+  transition:background .2s var(--ease),border-color .2s var(--ease)}
+form.q button[type="submit"]:hover{background:#b81c26;border-color:#b81c26}
+form.q button[type="submit"]:disabled{opacity:.62;cursor:default}
+.fine{font-size:.82rem;color:var(--ink-mute);margin:14px 0 0;text-align:center;line-height:1.6}
+.fine a{color:var(--ink-text);font-weight:600}
+.msg{display:none;border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:.95rem;line-height:1.55}
+.msg.ok{display:block;background:rgba(22,163,74,.14);border:1px solid rgba(74,222,128,.4);color:#c8f3d6}
+.msg.err{display:block;background:rgba(220,36,48,.14);border:1px solid rgba(255,69,80,.45);color:#ffd4d7}
+
+/* ============ FAQ ============ */
+#faq{padding:clamp(54px,6.6vw,92px) 0;background:var(--ink-900);border-top:1px solid var(--ink-line)}
+.faq{max-width:940px;margin:0;border-top:1px solid var(--ink-line)}
+details{border-bottom:1px solid var(--ink-line)}
+summary{cursor:pointer;list-style:none;position:relative;padding:17px 46px 17px 0;min-height:58px;
+  display:flex;align-items:center;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  font-size:clamp(1.02rem,1.5vw,1.18rem);text-transform:uppercase;letter-spacing:.03em;color:#fff;
+  transition:color .18s var(--ease)}
+summary:hover{color:var(--red-lt)}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";position:absolute;right:20px;top:50%;width:11px;height:11px;
-  border-right:2.5px solid var(--red-lt);border-bottom:2.5px solid var(--red-lt);
+summary::after{content:"";position:absolute;right:8px;top:50%;width:10px;height:10px;
+  border-right:2px solid var(--red-lt);border-bottom:2px solid var(--red-lt);
   transform:translateY(-70%) rotate(45deg);transition:transform .24s var(--ease)}
 details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
-details .a{padding:0 20px 20px;color:var(--ice-dim);font-size:.98rem}
+summary:focus-visible{outline:2px solid var(--blue-lt);outline-offset:2px;border-radius:4px}
+details .a{padding:0 0 22px;color:var(--ink-dim);font-size:.98rem;line-height:1.65;max-width:90ch}
 details .a p:last-child{margin-bottom:0}
+details .a b{color:var(--ink-text)}
+details .a a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+details .a a:hover{color:#fff;border-bottom-color:var(--red-lt)}
 
-/* final cta */
-.finalcta{background:
-  linear-gradient(180deg,rgba(5,9,18,.86),rgba(5,9,18,.94)),
-  radial-gradient(90% 130% at 50% 0%,rgba(37,99,235,.5),transparent 62%),
-  radial-gradient(80% 120% at 85% 100%,rgba(220,36,48,.36),transparent 60%);
-  text-align:center;border-top:1px solid var(--line)}
-.finalcta .btn-row{justify-content:center}
-.bignum{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:clamp(2.4rem,6.5vw,4.2rem);
-  text-decoration:none;display:inline-block;margin:.15em 0 .5em;letter-spacing:.01em}
+/* ============ CLOSING STATEMENT ============ */
+.finalcta{padding:clamp(56px,7vw,96px) 0;background:var(--ink-950);
+  border-top:1px solid var(--ink-line)}
+/* .fc-inner shares the element with .wrap, so constrain the children instead of the
+   box; overriding max-width here would re-centre it against the rest of the page. */
+.fc-inner h2{margin:0;font-size:clamp(2rem,4.2vw,3.3rem);text-transform:uppercase;
+  color:#fff;line-height:1.02;max-width:18ch}
+.fc-lede{margin:1.05em 0 0;color:var(--ink-dim);font-size:1.06rem;line-height:1.62;max-width:56ch}
+.fc-actions{display:flex;flex-wrap:wrap;align-items:center;
+  gap:14px clamp(20px,3vw,34px);margin-top:clamp(26px,3.4vw,40px)}
+.fc-tel{margin:0;font-size:.97rem;color:var(--ink-mute)}
+.fc-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.fc-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:520px){.fc-actions .cta{width:100%}}
 
-/* footer */
-footer{background:var(--navy-950);border-top:1px solid var(--line);padding:56px 0 108px;font-size:.94rem}
-.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.1fr;gap:34px}
+/* ============ FOOTER ============ */
+footer{background:var(--ink-950);border-top:2px solid var(--red);
+  padding:clamp(46px,5.4vw,68px) 0 clamp(44px,5vw,64px);font-size:.94rem}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.15fr;gap:clamp(26px,3.4vw,44px)}
 @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fgrid{grid-template-columns:1fr}}
-footer h4{font-size:1.1rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:1em;color:#fff}
+footer h4{margin:0 0 1.1em;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-mute);font-family:"Barlow Condensed",sans-serif;font-weight:700}
 footer ul{list-style:none;margin:0;padding:0}
-footer li{margin-bottom:9px}
-footer a{color:var(--ice-dim);text-decoration:none}
-footer a:hover{color:#fff;text-decoration:underline}
-footer .brand img{width:min(240px,80%);height:auto;margin-bottom:16px}
-footer p{color:var(--steel);font-size:.9rem}
-.socials{display:flex;gap:10px;margin-top:6px}
-.socials a{width:42px;height:42px;border-radius:11px;border:1px solid var(--line-2);display:grid;place-items:center;
-  background:rgba(255,255,255,.04);transition:.18s}
-.socials a:hover{background:rgba(79,139,255,.2);border-color:var(--blue-lt)}
-.socials svg{width:20px;height:20px;color:var(--ice)}
-.legal{border-top:1px solid var(--line);margin-top:38px;padding-top:22px;display:flex;flex-wrap:wrap;gap:12px;
-  justify-content:space-between;color:var(--steel);font-size:.84rem}
-.legal .credit a{color:var(--ice-dim);text-decoration:none;border-bottom:1px solid var(--line-2);
-  padding-bottom:1px;transition:.16s}
-.legal .credit a:hover{color:#fff;border-color:var(--blue-lt);text-decoration:none}
+footer li{margin-bottom:9px;color:var(--ink-dim)}
+footer a{color:var(--ink-dim);text-decoration:none;transition:color .18s var(--ease)}
+footer a:hover{color:#fff}
+footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
+.f-about{margin:0;color:var(--ink-mute);font-size:.92rem;line-height:1.6;max-width:38ch}
+.f-tel{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.3rem;
+  letter-spacing:.02em;color:#fff!important}
+.f-tel:hover{color:var(--red-lt)!important}
+.f-meta{color:var(--ink-mute)}
+.socials{display:flex;gap:10px;margin-top:18px}
+.socials a{width:40px;height:40px;border-radius:6px;border:1px solid var(--ink-line-2);
+  display:grid;place-items:center;transition:border-color .18s var(--ease)}
+.socials a:hover{border-color:rgba(255,255,255,.5)}
+.socials svg{width:19px;height:19px;color:var(--ink-text)}
+.legal{border-top:1px solid var(--ink-line);margin-top:clamp(30px,3.6vw,44px);padding-top:20px;
+  display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;
+  color:var(--ink-mute);font-size:.82rem}
+.legal a{color:var(--ink-mute);border-bottom:1px solid var(--ink-line-2);padding-bottom:1px}
+.legal a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+#quote a:focus-visible,#faq a:focus-visible,.finalcta a:focus-visible,footer a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* sticky mobile call bar */
 .callbar{display:none}
@@ -1469,7 +1472,7 @@ footer p{color:var(--steel);font-size:.9rem}
     <div class="pr-head">
       <p class="eyebrow-q">Fully mobile &#183; no trip fee</p>
       <h2 id="areas-title">Areas we serve</h2>
-      <p class="pr-lede">Based in the Temecula Valley and running mobile across Southwest Riverside County. Inside these lines, we come to you at no extra charge.</p>
+      <p class="pr-lede">Based in the Temecula Valley and running mobile across Southwest Riverside County. Inside these lines, we come to you.</p>
     </div>
 
     <dl class="area-list">
@@ -1490,14 +1493,14 @@ footer p{color:var(--steel);font-size:.9rem}
       <div>
         <dt>Menifee <span class="area-zip">92584 &#183; 92585 &#183; 92586</span></dt>
         <dd>
-          <p>The fastest-growing city in the valley, and new construction means constant dust on new paint. Audie Murphy Ranch through Sun City, including RVs and boats parked at home.</p>
+          <p>Steady new construction across the city means constant dust on new paint. Audie Murphy Ranch through Sun City, including RVs and boats parked at home.</p>
           <p class="area-hoods">Audie Murphy Ranch &#183; Menifee Lakes &#183; Heritage Lake &#183; Sun City &#183; Quail Valley &#183; Newport Road corridor</p>
         </dd>
       </div>
       <div>
         <dt>French Valley &amp; Winchester <span class="area-zip">92563 &#183; 92596</span></dt>
         <dd>
-          <p>French Valley has grown faster than almost anywhere in Riverside County, and the SR-79 / Winchester Road corridor is still half construction zone. Two-car households with a trailer in the driveway.</p>
+          <p>New tracts keep going up here, and the SR-79 / Winchester Road corridor is still half construction zone &mdash; which puts a lot of dust on a lot of paint. Two-car households with a trailer in the driveway.</p>
           <p class="area-hoods">French Valley Airport area &#183; Winchester &#183; SR-79 corridor &#183; Tucalota Hills &#183; Scott Road &#183; Auld Road</p>
         </dd>
       </div>
@@ -1524,7 +1527,7 @@ footer p{color:var(--steel);font-size:.9rem}
       <li>
         <p class="step-idx">02</p>
         <h3>We come to you</h3>
-        <p>Pick a day and time that works, including evenings and weekends. We arrive fully self-contained with our own water and power, so all you need is a parking spot. No trip fee, no convenience fee.</p>
+        <p>Pick a day and time that works, including evenings and weekends. We arrive fully self-contained with our own water and power, so all you need is a parking spot.</p>
       </li>
       <li>
         <p class="step-idx">03</p>
@@ -1536,20 +1539,32 @@ footer p{color:var(--steel);font-size:.9rem}
 </section>
 
 <!-- ================= QUOTE FORM ================= -->
-<section id="quote" class="alt">
+<section id="quote" aria-labelledby="quote-title">
   <div class="wrap">
     <div class="quote-grid">
       <div>
-        <p class="eyebrow">Free, no-pressure quote</p>
-        <h2 class="chrome" style="margin-bottom:.45em">Get Your Free Detailing Quote</h2>
-        <p class="lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot &mdash; usually within a couple of hours during business hours.</p>
+        <p class="eyebrow-q">Free, no-pressure quote</p>
+        <h2 id="quote-title">Get your free detailing quote</h2>
+        <p class="pr-lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot &mdash; usually within a couple of hours during business hours.</p>
 
-        <ul class="why-list" style="margin-top:26px">
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Prefer to talk?</b><p>Call or text <a href="tel:+19513913669" style="color:var(--blue-lt);font-weight:600">(951) 391-3669</a> &mdash; texting a photo is the fastest way to an exact price.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span><div><b>Email</b><p><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21" style="color:var(--blue-lt)">Caymanb4747@outlook.com</a></p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span><div><b>Hours</b><p>7 days a week, 7:00 AM &ndash; 7:00 PM. Early and late appointments available by request.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10Z"/><circle cx="12" cy="11" r="2.6"/></svg></span><div><b>Service area</b><p>Temecula, Murrieta, Menifee, French Valley, Winchester, Wildomar, Lake Elsinore, Canyon Lake &amp; Sun City.</p></div></li>
-        </ul>
+        <dl class="q-contact">
+          <div>
+            <dt>Prefer to talk?</dt>
+            <dd>Call or text <a href="tel:+19513913669">(951) 391-3669</a> &mdash; texting a photo is the fastest way to an exact price.</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21">Caymanb4747@outlook.com</a></dd>
+          </div>
+          <div>
+            <dt>Hours</dt>
+            <dd>7 days a week, 7:00 AM &ndash; 7:00 PM. Early and late appointments available by request.</dd>
+          </div>
+          <div>
+            <dt>Service area</dt>
+            <dd>Temecula, Murrieta, Menifee, French Valley, Winchester, Wildomar, Lake Elsinore, Canyon Lake &amp; Sun City.</dd>
+          </div>
+        </dl>
       </div>
 
       <form class="q" id="quoteForm" method="POST" action="https://api.web3forms.com/submit" novalidate>
@@ -1647,9 +1662,9 @@ footer p{color:var(--steel);font-size:.9rem}
 <!-- ================= FAQ ================= -->
 <section id="faq">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">Straight answers</p>
-      <h2 class="chrome">Mobile Detailing FAQs</h2>
+    <div class="pr-head">
+      <p class="eyebrow-q">Straight answers</p>
+      <h2>Mobile detailing FAQs</h2>
     </div>
     <div class="faq">
       <details open>
@@ -1690,7 +1705,7 @@ footer p{color:var(--steel);font-size:.9rem}
       </details>
       <details>
         <summary>Which cities and neighborhoods do you serve?</summary>
-        <div class="a"><p>Our core area is <b>Temecula (92590, 92591, 92592), Murrieta (92562, 92563), Menifee (92584, 92585, 92586) and French Valley &amp; Winchester (92563, 92596)</b> &mdash; including Redhawk, Harveston, Wolf Creek, Vail Ranch, Bear Creek, Copper Canyon, California Oaks, Audie Murphy Ranch, Menifee Lakes and Sun City. We also regularly serve Wildomar, Lake Elsinore, Canyon Lake, Perris and Fallbrook. There's no trip fee anywhere in that area. Outside it? <a href="tel:+19513913669">Call (951) 391-3669</a> and we'll tell you straight whether we can get to you.</p></div>
+        <div class="a"><p>Our core area is <b>Temecula (92590, 92591, 92592), Murrieta (92562, 92563), Menifee (92584, 92585, 92586) and French Valley &amp; Winchester (92563, 92596)</b> &mdash; including Redhawk, Harveston, Wolf Creek, Vail Ranch, Bear Creek, Copper Canyon, California Oaks, Audie Murphy Ranch, Menifee Lakes and Sun City. We also regularly serve Wildomar, Lake Elsinore, Canyon Lake, Perris and Fallbrook. Outside that area? <a href="tel:+19513913669">Call (951) 391-3669</a> and we'll tell you straight whether we can get to you.</p></div>
       </details>
       <details>
         <summary>What payment do you take, and are you insured?</summary>
@@ -1701,19 +1716,16 @@ footer p{color:var(--steel);font-size:.9rem}
 </section>
 
 <!-- ================= FINAL CTA ================= -->
-<section class="finalcta">
-  <div class="wrap">
-    <p class="eyebrow">Auto. Marine. Offroad.</p>
-    <h2 class="chrome" style="margin-bottom:.3em">Premium Detailing Done Right</h2>
-    <p class="lede" style="margin:0 auto 0">Protect. Enhance. Impress. Serving Temecula, Murrieta, Menifee &amp; French Valley &mdash; we come to you.</p>
-    <a class="bignum chrome" href="tel:+19513913669">(951) 391-3669</a>
-    <div class="btn-row">
-      <a class="btn" href="#quote">Get My Free Quote</a>
-      <a class="btn blue" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo for a Price</a>
+<section class="finalcta" aria-labelledby="fc-title">
+  <div class="wrap fc-inner">
+    <h2 id="fc-title">Park it. We'll handle the rest.</h2>
+    <p class="fc-lede">Send a photo and we'll come back with an exact price and the next open slot.</p>
+    <div class="fc-actions">
+      <a class="cta" href="#quote">Get a Free Quote</a>
+      <p class="fc-tel">or call <a href="tel:+19513913669">(951) 391-3669</a></p>
     </div>
   </div>
 </section>
-<div class="stripe"></div>
 
 <!-- ================= FOOTER ================= -->
 <footer>
@@ -1721,7 +1733,7 @@ footer p{color:var(--steel);font-size:.9rem}
     <div class="fgrid">
       <div>
         <a class="brand" href="#top" aria-label="Scrubin Detailing"><img src="logo.webp" width="900" height="450" alt="Scrubin Detailing logo" loading="lazy" decoding="async"></a>
-        <p>Premium mobile auto, marine and offroad detailing serving the Temecula Valley and Southwest Riverside County. Locally owned and operated.</p>
+        <p class="f-about">Premium mobile auto, marine and offroad detailing serving the Temecula Valley and Southwest Riverside County. Locally owned and operated.</p>
         <div class="socials">
           <a href="https://www.instagram.com/scrubin_detailing/" target="_blank" rel="noopener" aria-label="Scrubin Detailing on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a>
           <a href="https://www.tiktok.com/@scrubindetailing" target="_blank" rel="noopener" aria-label="Scrubin Detailing on TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.8a5 5 0 0 1-1.1-3h-3v12.1a2.6 2.6 0 1 1-1.9-2.5v-3a5.6 5.6 0 1 0 4.9 5.5V9.4a8 8 0 0 0 4.2 1.2V7.7a4.8 4.8 0 0 1-3.1-1.9Z"/></svg></a>
@@ -1757,13 +1769,12 @@ footer p{color:var(--steel);font-size:.9rem}
       <div>
         <h4>Contact</h4>
         <ul>
-          <li><a href="tel:+19513913669"><b style="color:#fff;font-size:1.15rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:.02em">(951) 391-3669</b></a></li>
+          <li><a class="f-tel" href="tel:+19513913669">(951) 391-3669</a></li>
           <li><a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text us a photo</a></li>
           <li><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21">Caymanb4747@outlook.com</a></li>
-          <li style="color:var(--steel)">Mobile service &mdash; Temecula, CA</li>
-          <li style="color:var(--steel)">Open 7 days &#183; 7:00 AM &ndash; 7:00 PM</li>
+          <li class="f-meta">Mobile service &mdash; Temecula, CA</li>
+          <li class="f-meta">Open 7 days &#183; 7:00 AM &ndash; 7:00 PM</li>
         </ul>
-        <a class="btn" href="#quote" style="margin-top:8px">Get a Free Quote</a>
       </div>
     </div>
     <div class="legal">
