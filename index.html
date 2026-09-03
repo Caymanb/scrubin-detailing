@@ -32,7 +32,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="hero-1600.webp" imagesrcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(min-width:661px)" href="hero-wide-1717.webp" imagesrcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(max-width:660px)" href="hero-tall-870.webp" imagesrcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" imagesizes="100vw" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -166,32 +167,35 @@ header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
    source artwork is shown; the lettering baked into the top of that file stays cropped out.
    Keep --band and --band-zoom in step: (2.421 x band) / (viewport x zoom) must stay under 0.28. */
 .hero{
-  --band:min(13vw,275px);
-  --band-zoom:1.3;
   position:relative;isolation:isolate;padding:0;overflow:hidden;
-  background:linear-gradient(180deg,var(--ink-950) 0%,#0b0d12 46%,var(--navy-900) 100%);
+  display:flex;align-items:center;
+  min-height:clamp(548px,80vh,840px);
+  background:var(--ink-950);
 }
-.hero-media{position:absolute;left:0;right:0;bottom:0;height:var(--band);overflow:hidden;z-index:0}
+.hero-media{position:absolute;inset:0;z-index:0}
 .hero-media picture{display:block;height:100%}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;
-  transform:scale(var(--band-zoom));transform-origin:50% 100%}
+/* the vehicle sits right of centre in the frame, so bias the crop right and keep the
+   open sky and hills on the left, where the headline sits */
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:66% 50%}
+/* just enough scrim for text contrast; the right side stays clear so the paint keeps
+   its gloss and reflections */
 .hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg,var(--ink-950) 0%,rgba(11,13,18,.60) 24%,rgba(11,13,18,.26) 52%,rgba(10,16,32,.58) 82%,var(--navy-900) 100%),
-    linear-gradient(90deg,rgba(11,13,18,.72) 0%,rgba(11,13,18,0) 24%,rgba(11,13,18,0) 76%,rgba(11,13,18,.72) 100%);
+    linear-gradient(94deg,rgba(6,7,10,.94) 0%,rgba(6,7,10,.91) 32%,rgba(6,7,10,.87) 46%,rgba(6,7,10,.56) 56%,rgba(6,7,10,.18) 66%,rgba(6,7,10,0) 77%),
+    linear-gradient(180deg,rgba(6,7,10,.56) 0%,rgba(6,7,10,0) 22%,rgba(6,7,10,0) 74%,rgba(6,7,10,.52) 100%);
 }
 
-.hero-inner{position:relative;z-index:1;
-  padding-top:clamp(52px,7.4vw,100px);
-  padding-bottom:calc(var(--band) + clamp(26px,3.6vw,52px));
+.hero-inner{position:relative;z-index:1;width:100%;
+  padding-top:clamp(44px,5.4vw,68px);
+  padding-bottom:clamp(44px,5.4vw,68px);
   padding-left:clamp(20px,3vw,28px);padding-right:clamp(20px,3vw,28px)}
 .hero-accent{width:52px;height:2px;background:var(--red);margin:0 0 22px}
 .hero-eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
   letter-spacing:.34em;font-size:.8rem;color:var(--ink-mute);margin:0 0 clamp(16px,2.2vw,24px)}
 h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   font-size:clamp(2.3rem,5.2vw,4.15rem);line-height:.99;letter-spacing:.005em;
-  text-transform:uppercase;text-wrap:balance;margin:0;max-width:720px}
-.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:56ch;color:var(--ink-dim);
+  text-transform:uppercase;text-wrap:balance;margin:0;max-width:min(100%,660px)}
+.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:min(100%,46ch);color:var(--ink-dim);
   font-size:clamp(1.02rem,1.3vw,1.16rem);line-height:1.62}
 .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.4vw,40px)}
 .hero-tel{margin:clamp(18px,2.2vw,24px) 0 0;font-size:.97rem;color:var(--ink-mute)}
@@ -200,14 +204,45 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   transition:color .18s var(--ease),border-color .18s var(--ease)}
 .hero-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
 .hero-areas{margin:clamp(28px,3.8vw,44px) 0 0;padding-top:clamp(16px,2vw,22px);
-  border-top:1px solid var(--ink-line);max-width:640px;
+  border-top:1px solid var(--ink-line);max-width:min(100%,560px);
   font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
   letter-spacing:.2em;font-size:.78rem;color:var(--ink-mute)}
 
-@media(max-width:900px){:root{--head-h:76px}.hero{--band:17vw;--band-zoom:1.75}}
+/* Between 901 and 1200px the frame is cropped harder, which slides the vehicle left
+   under the copy. Keep more of the left of the frame and hold the scrim a little wider. */
+@media(max-width:1200px){
+  .hero-media img{object-position:28% 50%}
+  .hero-media::after{background:
+    linear-gradient(94deg,rgba(6,7,10,.93) 0%,rgba(6,7,10,.90) 34%,rgba(6,7,10,.84) 48%,rgba(6,7,10,.56) 60%,rgba(6,7,10,.20) 71%,rgba(6,7,10,0) 82%),
+    linear-gradient(180deg,rgba(6,7,10,.45) 0%,rgba(6,7,10,0) 16%,rgba(6,7,10,0) 76%,rgba(6,7,10,.50) 100%)}
+  h1{max-width:min(100%,600px)}
+  .hero-lede{max-width:min(100%,44ch)}
+}
+
+@media(max-width:900px){:root{--head-h:76px}}
+
+/* Below 1024px the copy needs most of the width, so an overlay would either bury the
+   vehicle under a scrim or leave small text sitting on bright paint (measured: the
+   phone line drops to 3.6:1 at 901px). The hero stacks instead: copy on charcoal,
+   then the photograph full-width beneath it. */
+@media(max-width:1023px){
+  .hero{display:flex;flex-direction:column;min-height:0;background:var(--ink-950)}
+  .hero-inner{order:1;padding-top:clamp(38px,6vw,60px);padding-bottom:clamp(28px,4.6vw,40px)}
+  .hero-media{order:2;position:relative;inset:auto;width:100%;
+    aspect-ratio:1717/916;max-height:min(46vh,420px)}
+  .hero-media img{object-position:58% 50%}
+  .hero-media::after{background:
+    linear-gradient(180deg,var(--ink-950) 0%,rgba(6,7,10,.32) 8%,rgba(6,7,10,0) 20%,
+      rgba(6,7,10,0) 84%,rgba(6,7,10,.50) 95%,var(--navy-900) 100%)}
+  h1{max-width:min(100%,560px)}
+  .hero-lede{max-width:min(100%,46ch)}
+}
 @media(max-width:660px){
   :root{--head-h:68px}
-  .hero{--band:34vw;--band-zoom:3.5}
+  /* phones swap the wide frame for the dedicated portrait crop, which fits the whole
+     front of the vehicle into a narrow column */
+  .hero-media{aspect-ratio:870/916;max-height:min(52vh,430px)}
+  .hero-media img{object-position:50% 50%}
   .hero-actions .cta{flex:1 1 100%}
 }
 /* ============ CAPABILITY BAND (replaces the icon-pill strip) ============ */
@@ -746,8 +781,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero-media">
     <picture>
-      <source type="image/webp" srcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" sizes="100vw">
-      <img src="hero-1600.jpg" srcset="hero-760.jpg 760w, hero-1100.jpg 1100w, hero-1600.jpg 1600w" sizes="100vw" width="1600" height="661" alt="Scrubin Detailing &mdash; premium mobile auto, marine and offroad detailing in Temecula, Murrieta, Menifee and French Valley, California" fetchpriority="high" decoding="async">
+      <source media="(max-width:660px)" type="image/webp" srcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" sizes="100vw">
+      <source media="(max-width:660px)" type="image/jpeg" srcset="hero-tall-640.jpg 640w, hero-tall-870.jpg 870w" sizes="100vw">
+      <source type="image/webp" srcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" sizes="100vw">
+      <img src="hero-wide-1717.jpg" srcset="hero-wide-760.jpg 760w, hero-wide-1100.jpg 1100w, hero-wide-1400.jpg 1400w, hero-wide-1717.jpg 1717w" sizes="100vw" width="1717" height="916" alt="" fetchpriority="high" decoding="async">
     </picture>
   </div>
 
