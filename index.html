@@ -38,12 +38,10 @@
 <style>
 /* ============ TOKENS ============ */
 :root{
-  --navy-950:#050912; --navy-900:#0a1020; --navy-850:#0d1526; --navy-800:#121c33;
-  --navy-700:#1a2745; --line:rgba(148,170,214,.16); --line-2:rgba(148,170,214,.28);
-  --ice:#eef3fb; --ice-dim:#b9c6de; --steel:#8494b2;
-  --red:#dc2430; --red-lt:#ff4550; --blue:#2563eb; --blue-lt:#4f8bff; --blue-deep:#123a8f;
-  --r:14px; --r-lg:22px; --maxw:1220px;
-  --sh:0 18px 50px -14px rgba(0,0,0,.75);
+  --navy-950:#050912; --navy-900:#0a1020;
+  --steel:#8494b2;                      /* still referenced by an inline style in the quote form */
+  --red:#dc2430; --red-lt:#ff4550; --blue-lt:#4f8bff;
+  --maxw:1220px;
   --ease:cubic-bezier(.22,1,.36,1);
   /* Phase 1 redesign: neutral charcoal foundation for the header and hero. */
   --ink-950:#0a0b0d; --ink-900:#101216;
@@ -54,13 +52,13 @@
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 14px);-webkit-text-size-adjust:100%}
 body{
-  margin:0;background:var(--navy-950);color:var(--ice);
+  margin:0;background:var(--navy-950);color:var(--ink-text);
   font:400 16.5px/1.65 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-h1,h2,h3,h4,.dsp{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;line-height:1.02;letter-spacing:.005em;margin:0}
+h1,h2,h3,h4{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;line-height:1.02;letter-spacing:.005em;margin:0}
 h2{font-size:clamp(2.05rem,4.6vw,3.5rem);text-transform:uppercase}
 h3{font-size:clamp(1.3rem,2.2vw,1.6rem);text-transform:uppercase;letter-spacing:.02em}
 p{margin:0 0 1em}
@@ -334,8 +332,6 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
 }
 
 /* ============ PRICING MENU ============ */
-/* .tier / .prices / .tier-body / .flag / .addons / .note below are still used by the
-   RV, marine and powersports section, so they stay until that section is redesigned. */
 #pricing{
   padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
   background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 7%,var(--ink-950) 93%,var(--navy-950) 100%);
@@ -664,7 +660,7 @@ footer{background:var(--ink-950);border-top:2px solid var(--red);
 .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.15fr;gap:clamp(26px,3.4vw,44px)}
 @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fgrid{grid-template-columns:1fr}}
-footer h4{margin:0 0 1.1em;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;
+footer h3{margin:0 0 1.1em;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;
   color:var(--ink-mute);font-family:"Barlow Condensed",sans-serif;font-weight:700}
 footer ul{list-style:none;margin:0;padding:0}
 footer li{margin-bottom:9px;color:var(--ink-dim)}
@@ -711,11 +707,11 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 <body>
 
 <!-- ================= HEADER ================= -->
-<a class="skip" href="#services">Skip to main content</a>
+<a class="skip" href="#main">Skip to main content</a>
 <header>
   <div class="hbar">
     <a class="brand" href="#top" aria-label="Scrubin Detailing &mdash; home">
-      <img src="logo-sm.webp" width="520" height="260" alt="Scrubin Detailing &mdash; mobile auto, marine and offroad detailing in Temecula, CA">
+      <img src="logo-sm.webp" srcset="logo-xs.webp 420w, logo-sm.webp 520w" sizes="150px" width="520" height="260" alt="Scrubin Detailing &mdash; mobile auto, marine and offroad detailing in Temecula, CA">
     </a>
 
     <nav class="main" id="nav" aria-label="Primary">
@@ -743,6 +739,8 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     </div>
   </div>
 </header>
+
+<main id="main">
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="top" aria-labelledby="hero-title">
@@ -1545,7 +1543,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       <div>
         <p class="eyebrow-q">Free, no-pressure quote</p>
         <h2 id="quote-title">Get your free detailing quote</h2>
-        <p class="pr-lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot &mdash; usually within a couple of hours during business hours.</p>
+        <p class="pr-lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot. We'll get back to you as soon as possible during business hours.</p>
 
         <dl class="q-contact">
           <div>
@@ -1669,7 +1667,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     <div class="faq">
       <details open>
         <summary>Do you really come to me &mdash; and is there a trip fee?</summary>
-        <div class="a"><p>Yes. Scrubin Detailing is fully mobile. We arrive with our own water and power and work wherever your vehicle is parked &mdash; home, apartment complex, office lot or storage yard. There is <b>no trip fee, travel fee or convenience fee</b> anywhere in Temecula, Murrieta, Menifee, French Valley, Winchester or Wildomar. Some shops charge $25 or more just to come to you; we don't.</p></div>
+        <div class="a"><p>Yes. Scrubin Detailing is fully mobile. We arrive with our own water and power and work wherever your vehicle is parked &mdash; home, apartment complex, office lot or storage yard. There is <b>no trip fee, travel fee or convenience fee</b> anywhere in Temecula, Murrieta, Menifee, French Valley, Winchester or Wildomar.</p></div>
       </details>
       <details>
         <summary>How much does mobile detailing cost in Temecula?</summary>
@@ -1727,6 +1725,8 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
   </div>
 </section>
 
+</main>
+
 <!-- ================= FOOTER ================= -->
 <footer>
   <div class="wrap">
@@ -1741,7 +1741,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         </div>
       </div>
       <div>
-        <h4>Services</h4>
+        <h3>Services</h3>
         <ul>
           <li><a href="#pricing">Full Auto Detailing</a></li>
           <li><a href="#pricing">Interior Detailing</a></li>
@@ -1754,7 +1754,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         </ul>
       </div>
       <div>
-        <h4>Areas Served</h4>
+        <h3>Areas Served</h3>
         <ul>
           <li><a href="#areas">Temecula, CA</a></li>
           <li><a href="#areas">Murrieta, CA</a></li>
@@ -1767,7 +1767,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <ul>
           <li><a class="f-tel" href="tel:+19513913669">(951) 391-3669</a></li>
           <li><a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text us a photo</a></li>
@@ -1967,10 +1967,11 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 
     /* validation */
     var required = ['name','phone','city','vehicle'];
+    var friendly = { name:'name', phone:'phone number', city:'city', vehicle:'vehicle type' };
     for (var i=0;i<required.length;i++){
       var f = document.getElementById(required[i]);
       if (!f.value.trim()){
-        show('err','Please fill in your ' + (f.previousElementSibling.textContent.replace('*','').trim().toLowerCase()) + '.');
+        show('err','Please fill in your ' + friendly[required[i]] + '.');
         f.focus(); return;
       }
     }
@@ -1995,7 +1996,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     }).then(function(r){
       if (!r.ok) throw new Error('bad status');
       form.reset();
-      show('ok','<b>Got it — thanks!</b><br>We’ll text or call you back with an exact price, usually within a couple of hours during business hours. Need it sooner? Call <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a>.');
+      show('ok','<b>Got it — thanks!</b><br>We’ll get back to you as soon as possible during business hours with an exact price. Need it sooner? Call <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a>.');
     }).catch(function(){
       show('err','Something went wrong sending that. Please call or text <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a> and we’ll take care of you directly.');
     }).finally(function(){
