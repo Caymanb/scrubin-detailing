@@ -4,6 +4,14 @@
 [build]
   publish = "."
 
+# index_1.html was a stale duplicate of the homepage and has been deleted. Anything
+# still pointing at that URL (an old bookmark, a crawler) lands on the homepage instead
+# of a 404. Its canonical already pointed at "/", so no ranking signal moves.
+[[redirects]]
+  from = "/index_1.html"
+  to = "/"
+  status = 301
+
 # Images never change unless you rename them, so let browsers cache them for a year.
 # This is what makes repeat visits load almost instantly.
 [[headers]]

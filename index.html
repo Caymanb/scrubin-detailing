@@ -32,447 +32,819 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="hero-1600.webp" imagesrcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(min-width:661px)" href="hero-wide-1717.webp" imagesrcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(max-width:660px)" href="hero-tall-870.webp" imagesrcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" imagesizes="100vw" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* ============ TOKENS ============ */
 :root{
-  --navy-950:#050912; --navy-900:#0a1020; --navy-850:#0d1526; --navy-800:#121c33;
-  --navy-700:#1a2745; --line:rgba(148,170,214,.16); --line-2:rgba(148,170,214,.28);
-  --ice:#eef3fb; --ice-dim:#b9c6de; --steel:#8494b2;
-  --red:#dc2430; --red-lt:#ff4550; --blue:#2563eb; --blue-lt:#4f8bff; --blue-deep:#123a8f;
-  --chrome:linear-gradient(180deg,#ffffff 0%,#dfe7f3 42%,#96a6c0 55%,#f3f7ff 78%,#c3cfe2 100%);
-  --r:14px; --r-lg:22px; --maxw:1220px;
-  --sh:0 18px 50px -14px rgba(0,0,0,.75);
+  --navy-950:#050912; --navy-900:#0a1020;
+  --steel:#8494b2;                      /* still referenced by an inline style in the quote form */
+  --red:#dc2430; --red-lt:#ff4550; --blue-lt:#4f8bff;
+  --maxw:1220px;
   --ease:cubic-bezier(.22,1,.36,1);
+  /* Phase 1 redesign: neutral charcoal foundation for the header and hero. */
+  --ink-950:#0a0b0d; --ink-900:#101216;
+  --ink-line:rgba(255,255,255,.10); --ink-line-2:rgba(255,255,255,.20);
+  --ink-text:#f4f6f9; --ink-dim:#a8b0bd; --ink-mute:#7d8592;
+  --head-h:88px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 14px);-webkit-text-size-adjust:100%}
 body{
-  margin:0;background:var(--navy-950);color:var(--ice);
+  margin:0;background:var(--navy-950);color:var(--ink-text);
   font:400 16.5px/1.65 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-h1,h2,h3,h4,.dsp{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;line-height:1.02;letter-spacing:.005em;margin:0}
+h1,h2,h3,h4{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;line-height:1.02;letter-spacing:.005em;margin:0}
 h2{font-size:clamp(2.05rem,4.6vw,3.5rem);text-transform:uppercase}
 h3{font-size:clamp(1.3rem,2.2vw,1.6rem);text-transform:uppercase;letter-spacing:.02em}
 p{margin:0 0 1em}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* chrome / gradient text */
-.chrome{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 2px 1px rgba(0,0,0,.55))}
-.rw{color:var(--red-lt)}
-.bw{color:var(--blue-lt)}
-
-.eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
-  letter-spacing:.3em;font-size:.82rem;color:var(--blue-lt);margin:0 0 .7em}
-.eyebrow.r{color:var(--red-lt)}
-.lede{color:var(--ice-dim);font-size:1.08rem;max-width:62ch}
-
-/* stripe divider */
-.stripe{height:4px;background:linear-gradient(90deg,var(--blue-deep),var(--blue-lt) 22%,#fff 50%,var(--red-lt) 78%,#7a0f16);}
-
-/* ============ BUTTONS ============ */
-.btn{
-  --bg:var(--red);
-  display:inline-flex;align-items:center;justify-content:center;gap:.55em;
-  min-height:52px;padding:0 26px;border:0;border-radius:11px;cursor:pointer;
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.12rem;
-  text-transform:uppercase;letter-spacing:.06em;text-decoration:none;color:#fff;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 82%,#fff) 0%,var(--bg) 46%,color-mix(in srgb,var(--bg) 72%,#000) 100%);
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 26px -10px color-mix(in srgb,var(--bg) 70%,transparent);
-  transition:transform .18s var(--ease),box-shadow .18s var(--ease),filter .18s;
-}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.08);
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 16px 32px -10px color-mix(in srgb,var(--bg) 78%,transparent)}
-.btn:active{transform:translateY(0)}
-.btn.blue{--bg:var(--blue)}
-.btn.ghost{background:rgba(255,255,255,.05);border:1px solid var(--line-2);box-shadow:none;color:var(--ice)}
-.btn.ghost:hover{background:rgba(255,255,255,.1);border-color:var(--blue-lt)}
-.btn svg{width:19px;height:19px;flex:none}
-.btn-row{display:flex;flex-wrap:wrap;gap:12px}
-
 /* ============ HEADER ============ */
+.skip{position:absolute;left:16px;top:-64px;z-index:200;background:var(--red);color:#fff;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:1rem;padding:13px 20px;border-radius:6px;text-decoration:none;
+  transition:top .18s var(--ease)}
+.skip:focus{top:16px}
+
 header{
   position:sticky;top:0;z-index:60;
-  background:rgba(5,9,18,.82);backdrop-filter:blur(14px) saturate(1.3);
-  border-bottom:1px solid var(--line);
+  background:var(--ink-950);
+  border-bottom:1px solid var(--ink-line);
 }
-.hbar{display:flex;align-items:center;gap:18px;min-height:70px;max-width:var(--maxw);margin:0 auto;padding:8px 20px}
-.brand{flex:none;line-height:0}
-header .brand img{width:186px;height:auto}
-nav.main{margin-left:auto;display:flex;gap:2px;flex:0 1 auto}
-nav.main a{
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
-  letter-spacing:.05em;font-size:.97rem;color:var(--ice-dim);text-decoration:none;
-  padding:9px 10px;border-radius:8px;transition:.16s;white-space:nowrap;
+.hbar{display:flex;align-items:center;gap:clamp(14px,2.2vw,36px);
+  height:var(--head-h);max-width:var(--maxw);margin:0 auto;
+  padding:0 clamp(18px,3vw,28px)}
+
+.brand{flex:none;line-height:0;display:block;padding:7px 0}
+header .brand img{height:clamp(46px,6.5vw,68px);max-height:calc(var(--head-h) - 20px);width:auto}
+
+/* --- primary navigation --- */
+nav.main{margin-left:auto;display:flex;align-items:center;gap:clamp(6px,1.6vw,24px)}
+nav.main>a{
+  position:relative;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.13em;font-size:.9rem;
+  color:var(--ink-dim);text-decoration:none;padding:11px 2px;white-space:nowrap;
+  transition:color .18s var(--ease);
 }
-nav.main a:hover{color:#fff;background:rgba(255,255,255,.07)}
-@media(min-width:1301px){nav.main a.navlast{display:none}}
-.hcta{display:flex;gap:9px;align-items:center;flex:none}
-.hphone{
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.22rem;
-  color:#fff;text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;gap:.4em;
-  padding:8px 12px;border-radius:9px;border:1px solid var(--line-2);background:rgba(255,255,255,.04)
-}
-.hphone:hover{border-color:var(--red-lt);background:rgba(220,36,48,.14)}
-.hphone svg{width:17px;height:17px;color:var(--red-lt)}
-.burger{display:none;width:46px;height:46px;border:1px solid var(--line-2);background:rgba(255,255,255,.05);
-  border-radius:10px;color:#fff;align-items:center;justify-content:center;cursor:pointer}
-.burger svg{width:24px;height:24px}
-@media(max-width:1300px){
-  nav.main{position:fixed;inset:70px 0 auto;flex-direction:column;gap:0;background:var(--navy-900);
-    border-bottom:1px solid var(--line);padding:10px 16px 20px;transform:translateY(-130%);
-    transition:transform .35s var(--ease);max-height:calc(100vh - 70px);overflow:auto}
+nav.main>a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;
+  background:var(--red-lt);transform:scaleX(0);transform-origin:left center;
+  transition:transform .24s var(--ease)}
+nav.main>a:hover,nav.main>a:focus-visible{color:#fff}
+nav.main>a:hover::after,nav.main>a:focus-visible::after{transform:scaleX(1)}
+.nav-foot{display:none}
+
+/* --- header actions --- */
+.hcta{display:flex;align-items:center;gap:clamp(10px,1.3vw,18px);flex:none;
+  margin-left:clamp(8px,1.8vw,24px)}
+.htel{display:inline-flex;align-items:center;gap:.5em;text-decoration:none;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.06rem;letter-spacing:.05em;
+  color:var(--ink-text);transition:color .18s var(--ease)}
+.htel svg{width:15px;height:15px;flex:none;color:var(--red-lt)}
+.htel:hover{color:var(--red-lt)}
+
+.burger{display:none;width:44px;height:44px;border:1px solid var(--ink-line-2);
+  background:transparent;border-radius:6px;color:#fff;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .18s var(--ease),background .18s var(--ease)}
+.burger:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.05)}
+.burger svg{width:22px;height:22px}
+
+/* --- mobile navigation panel --- */
+@media(max-width:1160px){
+  nav.main{
+    position:fixed;left:0;right:0;top:var(--head-h);margin:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--ink-950);border-bottom:1px solid var(--ink-line);
+    padding:4px clamp(18px,5vw,28px) 28px;
+    transform:translateY(-140%);transition:transform .38s var(--ease);
+    max-height:calc(100vh - var(--head-h));overflow-y:auto;
+  }
   nav.main.open{transform:translateY(0)}
-  nav.main a{padding:14px 10px;font-size:1.15rem;border-bottom:1px solid var(--line)}
+  nav.main>a{font-size:1.15rem;letter-spacing:.11em;padding:18px 2px;
+    color:var(--ink-text);border-bottom:1px solid var(--ink-line)}
+  nav.main>a::after{display:none}
+  .nav-foot{display:flex;flex-direction:column;gap:12px;padding-top:24px}
+  .nav-foot .cta{width:100%}
+  .tel-block{display:inline-flex;align-items:center;justify-content:center;min-height:52px;
+    border:1px solid var(--ink-line-2);border-radius:6px;text-decoration:none;color:var(--ink-text);
+    font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.24rem;letter-spacing:.06em}
+  .tel-block:hover{border-color:rgba(255,255,255,.45)}
   .burger{display:flex}
-  .hcta .btn{display:none}
-  header .brand img{width:152px}
+  .hcta>.cta{display:none}
 }
-@media(max-width:520px){.hphone span{display:none}header .brand img{width:132px}}
+@media(max-width:600px){
+  .htel span{display:none}
+  .hcta>.htel{width:44px;height:44px;justify-content:center;
+    border:1px solid var(--ink-line-2);border-radius:6px}
+  .hcta>.htel svg{width:19px;height:19px;color:#fff}
+}
+
+/* ============ CTA BUTTONS (header + hero) ============ */
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55em;
+  min-height:54px;padding:0 30px;border-radius:6px;cursor:pointer;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.08rem;
+  text-transform:uppercase;letter-spacing:.11em;text-decoration:none;
+  color:#fff;background:var(--red);border:1px solid var(--red);
+  transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
+}
+.cta:hover{background:#b81c26;border-color:#b81c26;color:#fff}
+.cta--sm{min-height:46px;padding:0 22px;font-size:1rem}
+.cta--ghost{background:transparent;color:var(--ink-text);border-color:rgba(255,255,255,.45)}
+.cta--ghost:hover{background:rgba(255,255,255,.07);border-color:#fff;color:#fff}
+
+header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* ============ HERO ============ */
-.hero{position:relative;isolation:isolate;background:var(--navy-950)}
-.hero picture,.hero img.hbg{display:block;width:100%}
-.hero img.hbg{aspect-ratio:1717/709;object-fit:cover;object-position:50% 42%}
-.hero .scrim{
-  position:absolute;inset:0;z-index:1;pointer-events:none;
+/* The image band is bottom-anchored and zoomed so only the photographic strip of the
+   source artwork is shown; the lettering baked into the top of that file stays cropped out.
+   Keep --band and --band-zoom in step: (2.421 x band) / (viewport x zoom) must stay under 0.28. */
+.hero{
+  position:relative;isolation:isolate;padding:0;overflow:hidden;
+  display:flex;align-items:center;
+  min-height:clamp(548px,80vh,840px);
+  background:var(--ink-950);
+}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media picture{display:block;height:100%}
+/* the vehicle sits right of centre in the frame, so bias the crop right and keep the
+   open sky and hills on the left, where the headline sits */
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:66% 50%}
+/* just enough scrim for text contrast; the right side stays clear so the paint keeps
+   its gloss and reflections */
+.hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(5,9,18,.55) 0%,rgba(5,9,18,0) 24%,rgba(5,9,18,.52) 50%,rgba(5,9,18,.82) 66%,rgba(5,9,18,.95) 78%,var(--navy-950) 92%,var(--navy-950) 100%),
-    radial-gradient(120% 70% at 50% 108%,rgba(18,58,143,.4),transparent 60%);
+    linear-gradient(94deg,rgba(6,7,10,.94) 0%,rgba(6,7,10,.91) 32%,rgba(6,7,10,.87) 46%,rgba(6,7,10,.56) 56%,rgba(6,7,10,.18) 66%,rgba(6,7,10,0) 77%),
+    linear-gradient(180deg,rgba(6,7,10,.56) 0%,rgba(6,7,10,0) 22%,rgba(6,7,10,0) 74%,rgba(6,7,10,.52) 100%);
 }
-.hero-copy{position:relative;z-index:2;margin-top:-10%;padding-bottom:38px;text-align:center}
-@media(max-width:900px){.hero-copy{margin-top:-9%}}
-@media(max-width:660px){
-  .hero img.hbg{aspect-ratio:800/575;object-position:50% 50%}
-  .hero .scrim{background:linear-gradient(180deg,rgba(5,9,18,.2) 0%,rgba(5,9,18,0) 24%,rgba(5,9,18,0) 66%,rgba(5,9,18,.62) 85%,var(--navy-950) 98%)}
-  .hero-copy{margin-top:-9%}
-}
-h1{font-size:clamp(2rem,5.1vw,3.65rem);text-transform:uppercase;text-wrap:balance;margin:0 0 .45em}
-h1 .l2{display:block;font-size:.62em;font-weight:700;letter-spacing:.03em;color:var(--ice);margin-top:.25em}
-.hero .lede{margin:0 auto 1.5em;color:#dbe4f4;font-size:clamp(1rem,1.5vw,1.15rem)}
-.hero .btn-row{justify-content:center}
-.hero-note{margin:16px 0 0;font-size:.9rem;color:var(--steel)}
-.hero-note b{color:var(--ice)}
 
-/* ============ PILL FEATURES (replaces baked-in art strip) ============ */
-.pills{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--navy-900),var(--navy-950))}
-.pills ul{list-style:none;margin:0;padding:20px;display:grid;gap:8px 26px;
-  grid-template-columns:repeat(6,1fr);max-width:var(--maxw);margin-inline:auto}
-.pills li{display:flex;align-items:center;gap:11px;min-width:0}
-.pills .ic{flex:none;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
-  background:linear-gradient(160deg,rgba(79,139,255,.2),rgba(220,36,48,.14));border:1px solid var(--line-2)}
-.pills svg{width:21px;height:21px;color:var(--blue-lt)}
-.pills b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;
-  font-size:1.02rem;letter-spacing:.03em;line-height:1.15}
-.pills small{color:var(--steel);font-size:.76rem;letter-spacing:.04em;text-transform:uppercase}
-@media(max-width:1280px){.pills ul{grid-template-columns:repeat(3,1fr);gap:16px 26px}}
-@media(max-width:600px){.pills ul{grid-template-columns:repeat(2,1fr);gap:14px 12px}.pills small{display:none}
-  .pills .ic{width:36px;height:36px;border-radius:10px}.pills svg{width:19px;height:19px}.pills b{font-size:.95rem}}
+.hero-inner{position:relative;z-index:1;width:100%;
+  padding-top:clamp(44px,5.4vw,68px);
+  padding-bottom:clamp(44px,5.4vw,68px);
+  padding-left:clamp(20px,3vw,28px);padding-right:clamp(20px,3vw,28px)}
+.hero-accent{width:52px;height:2px;background:var(--red);margin:0 0 22px}
+.hero-eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.34em;font-size:.8rem;color:var(--ink-mute);margin:0 0 clamp(16px,2.2vw,24px)}
+h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
+  font-size:clamp(2.3rem,5.2vw,4.15rem);line-height:.99;letter-spacing:.005em;
+  text-transform:uppercase;text-wrap:balance;margin:0;max-width:min(100%,660px)}
+.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:min(100%,46ch);color:var(--ink-dim);
+  font-size:clamp(1.02rem,1.3vw,1.16rem);line-height:1.62}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.4vw,40px)}
+.hero-tel{margin:clamp(18px,2.2vw,24px) 0 0;font-size:.97rem;color:var(--ink-mute)}
+.hero-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.hero-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+.hero-areas{margin:clamp(28px,3.8vw,44px) 0 0;padding-top:clamp(16px,2vw,22px);
+  border-top:1px solid var(--ink-line);max-width:min(100%,560px);
+  font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.2em;font-size:.78rem;color:var(--ink-mute)}
+
+/* Between 901 and 1200px the frame is cropped harder, which slides the vehicle left
+   under the copy. Keep more of the left of the frame and hold the scrim a little wider. */
+@media(max-width:1200px){
+  .hero-media img{object-position:28% 50%}
+  .hero-media::after{background:
+    linear-gradient(94deg,rgba(6,7,10,.93) 0%,rgba(6,7,10,.90) 34%,rgba(6,7,10,.84) 48%,rgba(6,7,10,.56) 60%,rgba(6,7,10,.20) 71%,rgba(6,7,10,0) 82%),
+    linear-gradient(180deg,rgba(6,7,10,.45) 0%,rgba(6,7,10,0) 16%,rgba(6,7,10,0) 76%,rgba(6,7,10,.50) 100%)}
+  h1{max-width:min(100%,600px)}
+  .hero-lede{max-width:min(100%,44ch)}
+}
+
+@media(max-width:900px){:root{--head-h:76px}}
+
+/* Below 1024px the copy needs most of the width, so an overlay would either bury the
+   vehicle under a scrim or leave small text sitting on bright paint (measured: the
+   phone line drops to 3.6:1 at 901px). The hero stacks instead: copy on charcoal,
+   then the photograph full-width beneath it. */
+@media(max-width:1023px){
+  .hero{display:flex;flex-direction:column;min-height:0;background:var(--ink-950)}
+  .hero-inner{order:1;padding-top:clamp(38px,6vw,60px);padding-bottom:clamp(28px,4.6vw,40px)}
+  .hero-media{order:2;position:relative;inset:auto;width:100%;
+    aspect-ratio:1717/916;max-height:min(46vh,420px)}
+  .hero-media img{object-position:58% 50%}
+  .hero-media::after{background:
+    linear-gradient(180deg,var(--ink-950) 0%,rgba(6,7,10,.32) 8%,rgba(6,7,10,0) 20%,
+      rgba(6,7,10,0) 84%,rgba(6,7,10,.50) 95%,var(--navy-900) 100%)}
+  h1{max-width:min(100%,560px)}
+  .hero-lede{max-width:min(100%,46ch)}
+}
+@media(max-width:660px){
+  :root{--head-h:68px}
+  /* phones swap the wide frame for the dedicated portrait crop, which fits the whole
+     front of the vehicle into a narrow column */
+  .hero-media{aspect-ratio:870/916;max-height:min(52vh,430px)}
+  .hero-media img{object-position:50% 50%}
+  .hero-actions .cta{flex:1 1 100%}
+}
+/* ============ CAPABILITY BAND (replaces the icon-pill strip) ============ */
+.eyebrow-q{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.3em;font-size:.78rem;color:var(--ink-mute);margin:0 0 1.15em}
+
+.capability{
+  padding:clamp(52px,6.4vw,88px) 0 clamp(44px,5vw,70px);
+  background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 34%,var(--ink-950) 100%);
+  border-bottom:1px solid var(--ink-line);
+}
+.cap-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(28px,4.6vw,72px);align-items:start}
+.cap-intro h2{font-size:clamp(1.75rem,3.1vw,2.6rem);text-transform:uppercase;color:#fff;
+  line-height:1.04;max-width:15ch}
+.cap-lede{margin:1.1em 0 0;color:var(--ink-dim);font-size:1.02rem;line-height:1.62;max-width:46ch}
+
+.cap-list{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(26px,3.4vw,48px);margin:0}
+.cap-list>div{border-top:1px solid var(--ink-line);padding:17px 0 19px}
+.cap-list dt{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;font-size:1.02rem;color:#fff}
+.cap-list dd{margin:.5em 0 0;color:var(--ink-dim);font-size:.93rem;line-height:1.6}
+@media(max-width:900px){.cap-grid{grid-template-columns:1fr;gap:28px}.cap-intro h2{max-width:none}}
+@media(max-width:600px){.cap-list{grid-template-columns:1fr}}
+
+/* ============ SERVICES (editorial index, not a card grid) ============ */
+#services{
+  padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
+  background:linear-gradient(180deg,var(--ink-950) 0%,var(--ink-950) 84%,var(--navy-900) 100%);
+}
+.svc-head{max-width:780px;margin:0 0 clamp(32px,4.2vw,54px)}
+.svc-head h2{font-size:clamp(1.95rem,3.9vw,3.1rem);text-transform:uppercase;color:#fff;line-height:1.01}
+.svc-head .svc-lede{margin:1.1em 0 0;color:var(--ink-dim);font-size:1.04rem;line-height:1.62;max-width:60ch}
+
+.svc-list{list-style:none;margin:0;padding:0}
+.svc{display:grid;grid-template-columns:54px minmax(0,1fr) minmax(148px,auto);
+  gap:clamp(14px,2.2vw,36px);align-items:start;
+  border-top:1px solid var(--ink-line);padding:clamp(24px,2.9vw,34px) 0}
+.svc:last-child{border-bottom:1px solid var(--ink-line)}
+.svc-idx{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1rem;
+  letter-spacing:.14em;color:var(--ink-mute);padding-top:.4em}
+.svc-main h3{margin:0;font-size:clamp(1.32rem,2.25vw,1.85rem);text-transform:uppercase;
+  letter-spacing:.02em;color:#fff;line-height:1.06}
+.svc-main p{margin:.75em 0 0;color:var(--ink-dim);font-size:1rem;line-height:1.62;max-width:62ch}
+.svc-main .svc-inc{margin-top:.9em;max-width:none;font-family:"Barlow Condensed",sans-serif;
+  font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--ink-mute)}
+.svc-aside{display:flex;flex-direction:column;align-items:flex-end;gap:13px;text-align:right}
+.svc-price{margin:0;font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-mute);display:flex;align-items:baseline;gap:.55em;white-space:nowrap}
+.svc-price b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.95rem;
+  letter-spacing:.01em;color:#fff}
+
+.svc-link{display:inline-flex;align-items:center;gap:.5em;text-decoration:none;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.11em;font-size:.9rem;color:var(--ink-text);
+  border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:3px;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.svc-link::after{content:"\2192";transition:transform .18s var(--ease)}
+.svc-link:hover{color:#fff;border-bottom-color:var(--red-lt)}
+.svc-link:hover::after{transform:translateX(3px)}
+
+@media(max-width:760px){
+  .svc{grid-template-columns:1fr;gap:0;padding:25px 0}
+  .svc-idx{padding-top:0;margin-bottom:9px}
+  .svc-main p{max-width:none}
+  .svc-aside{flex-direction:row;align-items:baseline;justify-content:space-between;
+    text-align:left;width:100%;margin-top:18px;gap:16px}
+}
+
+/* secondary specialty: one block, not five cards */
+.svc-specialty{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(24px,3.6vw,60px);margin-top:clamp(40px,4.8vw,66px);
+  padding-top:clamp(26px,3.2vw,38px);border-top:2px solid var(--red)}
+.svc-specialty h3{margin:0;font-size:clamp(1.45rem,2.5vw,2rem);text-transform:uppercase;
+  color:#fff;line-height:1.06}
+.svc-specialty p{margin:.85em 0 0;color:var(--ink-dim);font-size:1rem;line-height:1.62;max-width:52ch}
+.spec-prices{list-style:none;margin:0 0 22px;padding:0}
+.spec-prices li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--ink-line);font-size:.95rem;color:var(--ink-dim)}
+.spec-prices li:first-child{border-top:1px solid var(--ink-line)}
+.spec-prices b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.22rem;
+  color:#fff;white-space:nowrap}
+.spec-prices small{font-weight:400;font-size:.62em;color:var(--ink-mute)}
+@media(max-width:760px){.svc-specialty{grid-template-columns:1fr;gap:22px}}
+
+/* add-ons: one inline run, no badges */
+.svc-addons{margin-top:clamp(32px,3.8vw,50px);padding-top:clamp(20px,2.4vw,28px);
+  border-top:1px solid var(--ink-line);display:grid;
+  grid-template-columns:auto minmax(0,1fr);gap:10px clamp(22px,2.8vw,44px);align-items:baseline}
+.svc-addons__label{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;color:var(--ink-mute);white-space:nowrap}
+.svc-addons ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:9px 28px}
+.svc-addons li{font-size:.93rem;color:var(--ink-dim)}
+.svc-addons b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.05rem;
+  color:#fff;margin-left:.4em}
+.svc-addons small{font-weight:400;font-size:.7em;color:var(--ink-mute)}
+@media(max-width:760px){.svc-addons{grid-template-columns:1fr;gap:13px}}
+
+.svc-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(32px,4vw,50px)}
+@media(max-width:520px){.svc-actions .cta{flex:1 1 100%}}
+
+.capability a:focus-visible,#services a:focus-visible,.callbar a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* ============ SECTIONS ============ */
 section{padding:clamp(56px,7vw,96px) 0;position:relative}
-.sec-head{max-width:760px;margin:0 auto clamp(34px,4vw,54px);text-align:center}
-.sec-head p{margin:1em auto 0}
-.alt{background:linear-gradient(180deg,var(--navy-900),var(--navy-850) 60%,var(--navy-900))}
 
-/* cards */
-.grid{display:grid;gap:18px}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
-.g4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:960px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
-
-.card{
-  background:linear-gradient(165deg,rgba(26,39,69,.85),rgba(10,16,32,.9));
-  border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 24px;
-  position:relative;overflow:hidden;transition:border-color .22s,transform .22s var(--ease)
+/* proof strip */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;padding:0;
+  margin:clamp(36px,4.4vw,58px) 0 0;border-top:1px solid var(--ink-line)}
+.trust li{padding:24px 24px 0;border-left:1px solid var(--ink-line)}
+.trust li:first-child{border-left:0;padding-left:0}
+.trust b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;
+  font-size:clamp(1.65rem,2.5vw,2.15rem);line-height:1;color:#fff}
+.trust span{display:block;margin-top:8px;font-size:.76rem;text-transform:uppercase;
+  letter-spacing:.16em;color:var(--ink-mute)}
+@media(max-width:760px){
+  .trust{grid-template-columns:1fr 1fr}
+  .trust li{padding:20px 18px}
+  .trust li:nth-child(odd){border-left:0;padding-left:0}
+  .trust li:nth-child(n+3){border-top:1px solid var(--ink-line);padding-top:20px}
 }
-.card::before{content:"";position:absolute;inset:0 0 auto;height:3px;
-  background:linear-gradient(90deg,var(--blue-lt),#fff,var(--red-lt));opacity:.55;transition:opacity .22s}
-.card:hover{border-color:var(--line-2);transform:translateY(-4px)}
-.card:hover::before{opacity:1}
-.card .ic{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;
-  background:linear-gradient(160deg,rgba(79,139,255,.24),rgba(220,36,48,.16));border:1px solid var(--line-2)}
-.card .ic svg{width:26px;height:26px;color:var(--blue-lt)}
-.card h3{margin-bottom:.5em}
-.card p{color:var(--ice-dim);font-size:.97rem;margin-bottom:0}
-.card ul{margin:.9em 0 0;padding:0;list-style:none;font-size:.93rem;color:var(--ice-dim)}
-.card ul li{padding:5px 0 5px 24px;position:relative}
-.card ul li::before{content:"";position:absolute;left:2px;top:12px;width:11px;height:6px;border:2px solid var(--blue-lt);
-  border-top:0;border-right:0;transform:rotate(-45deg)}
 
-/* trust strip */
-.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;list-style:none;margin:0;padding:0}
-.trust li{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:var(--r);
-  padding:18px 18px;text-align:center}
-.trust b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.85rem;line-height:1}
-.trust span{display:block;margin-top:6px;font-size:.83rem;text-transform:uppercase;letter-spacing:.13em;color:var(--steel)}
-@media(max-width:760px){.trust{grid-template-columns:repeat(2,1fr)}}
-
-/* ============ PRICING ============ */
-.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px}
-.tabs button{
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  font-size:1.02rem;color:var(--ice-dim);background:rgba(255,255,255,.04);border:1px solid var(--line);
-  padding:11px 18px;border-radius:10px;cursor:pointer;transition:.18s;min-height:46px
+/* ============ PRICING MENU ============ */
+#pricing{
+  padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
+  background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 7%,var(--ink-950) 93%,var(--navy-950) 100%);
 }
-.tabs button:hover{color:#fff;border-color:var(--line-2)}
-.tabs button[aria-selected="true"]{color:#fff;background:linear-gradient(180deg,var(--blue),#0f3aa0);border-color:var(--blue-lt)}
-.panel[hidden]{display:none}
+.pr-head{max-width:820px;margin:0 0 clamp(30px,3.8vw,50px)}
+.pr-head h2{font-size:clamp(1.95rem,3.9vw,3.1rem);text-transform:uppercase;color:#fff;line-height:1.01}
+.pr-lede{margin:1.1em 0 0;color:var(--ink-dim);font-size:1.04rem;line-height:1.62;max-width:64ch}
+.pr-lede b{color:#fff;font-weight:600}
 
-.tier{
-  display:flex;flex-direction:column;background:linear-gradient(170deg,rgba(26,39,69,.9),rgba(8,13,26,.95));
-  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative
+/* a family of related packages, basic -> premium */
+.pr-fam{margin-top:clamp(36px,4.4vw,62px)}
+.pr-fam-head{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);
+  align-items:baseline;gap:6px clamp(20px,3vw,40px);
+  padding-top:clamp(16px,2vw,24px);border-top:2px solid var(--red)}
+.pr-fam-head h3{margin:0;font-size:clamp(1.28rem,2.1vw,1.7rem);text-transform:uppercase;
+  letter-spacing:.05em;color:#fff;line-height:1.06;white-space:nowrap}
+.pr-fam-head p{margin:0;color:var(--ink-mute);font-size:.95rem;line-height:1.55;max-width:62ch}
+@media(max-width:760px){
+  .pr-fam-head{grid-template-columns:1fr}
+  .pr-fam-head h3{white-space:normal}
 }
-.tier.feat{border-color:rgba(255,69,80,.5);box-shadow:0 0 0 1px rgba(255,69,80,.18),var(--sh)}
-.tier .flag{position:absolute;top:0;right:0;background:linear-gradient(180deg,var(--red-lt),var(--red));
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
-  font-size:.72rem;padding:6px 14px;border-bottom-left-radius:12px}
-.tier-top{padding:26px 24px 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
-.tier-top h3{font-size:1.42rem;margin-bottom:.35em}
-.tier-top .sub{font-size:.85rem;color:var(--steel);text-transform:uppercase;letter-spacing:.11em;margin:0}
-.prices{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px}
-.prices li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
-.prices .lbl{font-size:.83rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ice-dim)}
-.prices .amt{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.5rem;color:#fff;line-height:1}
-.tier-body{padding:22px 24px 26px;flex:1;display:flex;flex-direction:column}
-.tier-body .inc{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--blue-lt);margin:0 0 .8em;font-weight:600}
-.tier-body ul{margin:0;padding:0;list-style:none;font-size:.94rem;color:var(--ice-dim);flex:1}
-.tier-body ul li{padding:5px 0 5px 23px;position:relative}
-.tier-body ul li::before{content:"";position:absolute;left:1px;top:12px;width:11px;height:6px;
-  border:2px solid var(--red-lt);border-top:0;border-right:0;transform:rotate(-45deg)}
-.tier-body ul li.prev{color:var(--ice);font-weight:500}
-.tier-body ul li.prev::before{border-color:#fff}
-.tier .btn{margin-top:20px;width:100%}
 
-.addons{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.addons li{display:flex;justify-content:space-between;align-items:center;gap:12px;
-  background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:var(--r);padding:15px 18px}
-.addons .amt{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.35rem;color:var(--red-lt);white-space:nowrap}
-@media(max-width:860px){.addons{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.addons{grid-template-columns:1fr}}
+/* one package */
+.pk{display:grid;gap:0 clamp(20px,3.2vw,52px);align-items:start;
+  grid-template-columns:minmax(0,1fr) minmax(196px,248px);
+  grid-template-areas:"id price" "detail price";
+  /* the price column spans both rows; pin row 1 to its content so the extra
+     height falls below the inclusions instead of under the package name */
+  grid-template-rows:min-content 1fr;
+  border-top:1px solid var(--ink-line);padding:clamp(22px,2.7vw,32px) 0}
+.pr-fam .pk:first-of-type{border-top:0}
+.pk-id{grid-area:id}
+.pk-price{grid-area:price}
+.pk-detail{grid-area:detail;margin-top:clamp(14px,1.8vw,20px)}
 
-.note{background:rgba(37,99,235,.1);border:1px solid rgba(79,139,255,.32);border-radius:var(--r);
-  padding:16px 20px;font-size:.93rem;color:#d5e2fb;margin-top:26px}
-.note b{color:#fff}
+.pk-name{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:800;
+  font-size:clamp(1.22rem,2vw,1.6rem);text-transform:uppercase;letter-spacing:.02em;
+  color:#fff;line-height:1.08}
+.pk-tag{display:inline-block;margin-left:.7em;font-family:"Barlow Condensed",sans-serif;
+  font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.2em;
+  color:var(--red-lt);vertical-align:middle;white-space:nowrap}
+.pk-sub{margin:.55em 0 0;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.13em;font-size:.79rem;color:var(--ink-mute)}
 
-/* reviews */
-.rev{display:flex;flex-direction:column;gap:14px}
-.stars{display:flex;gap:3px;color:#ffc233}
-.stars svg{width:18px;height:18px}
-blockquote{margin:0;font-size:1.02rem;color:var(--ice);flex:1}
-.rev cite{font-style:normal;font-size:.88rem;color:var(--steel);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.pk-inc-label{margin:0 0 .7em;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--ink-mute)}
+.pk-inc{list-style:none;margin:0;padding:0;columns:2;column-gap:clamp(20px,2.8vw,44px);
+  font-size:.93rem;line-height:1.5;color:var(--ink-dim)}
+.pk-inc li{break-inside:avoid;padding:3px 0 3px 15px;position:relative}
+.pk-inc li::before{content:"";position:absolute;left:0;top:.78em;width:6px;height:1px;
+  background:var(--ink-mute)}
+.pk-extra{margin:1em 0 0;font-size:.9rem;line-height:1.55;color:var(--ink-mute)}
 
-/* areas */
-.area{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
-.area h3{color:#fff;margin-bottom:.5em}
-.area h3 small{display:block;font-family:Inter,sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--red-lt);margin-bottom:.5em}
-.area p{color:var(--ice-dim);font-size:.96rem;margin-bottom:0}
-.hoods{margin:14px 0 0;font-size:.84rem;color:var(--steel);line-height:1.7}
-.also{margin-top:26px;text-align:center;font-size:.95rem;color:var(--ice-dim)}
-.also b{color:#fff}
+/* price block: headline start price, then the full vehicle-size table */
+.pk-from{margin:0;display:flex;align-items:baseline;gap:.55em;white-space:nowrap;
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+.pk-from b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.92rem;
+  letter-spacing:.01em;color:#fff}
+.pk-sizes{margin:13px 0 0}
+.pk-sizes>div{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:8px 0;border-bottom:1px solid var(--ink-line)}
+.pk-sizes>div:first-child{border-top:1px solid var(--ink-line)}
+.pk-sizes dt{font-size:.79rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mute)}
+.pk-sizes dd{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  font-size:1.05rem;color:var(--ink-text)}
+.pk-cta{display:inline-flex;align-items:center;gap:.5em;margin-top:16px;text-decoration:none;
+  white-space:nowrap;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.11em;font-size:.87rem;color:var(--ink-text);
+  border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:3px;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.pk-cta::after{content:"\2192";transition:transform .18s var(--ease)}
+.pk-cta:hover{color:#fff;border-bottom-color:var(--red-lt)}
+.pk-cta:hover::after{transform:translateX(3px)}
 
-/* steps */
-.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;list-style:none;margin:0;padding:0}
-.steps li{position:relative;padding:28px 24px 26px;background:linear-gradient(165deg,rgba(26,39,69,.8),rgba(10,16,32,.9));
-  border:1px solid var(--line);border-radius:var(--r-lg)}
-.steps li::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;left:22px;
-  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.5rem;color:#fff;
-  background:linear-gradient(180deg,var(--red-lt),#96121b);box-shadow:0 8px 20px -8px rgba(220,36,48,.8)}
-.steps h3{margin:20px 0 .5em}
-.steps p{color:var(--ice-dim);font-size:.96rem;margin:0}
-@media(max-width:760px){.steps{grid-template-columns:1fr}}
+@media(max-width:820px){
+  /* name, then price, then what you get */
+  .pk{grid-template-columns:1fr;grid-template-areas:"id" "price" "detail"}
+  .pk-price{margin-top:16px}
+  .pk-detail{margin-top:20px}
+  .pk-inc{columns:1}
+}
 
-/* form */
-.quote-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
+/* maintenance: restricted rate, kept away from the entry-price families */
+.pr-maint{display:block}
+.pr-elig{margin:clamp(16px,2vw,22px) 0 0;padding:14px 0 0;border-top:1px solid var(--ink-line);
+  font-size:.94rem;line-height:1.6;color:var(--ink-dim)}
+.pr-elig b{color:var(--red-lt);font-weight:600}
+
+/* add-ons */
+.pr-addons{list-style:none;margin:clamp(18px,2.2vw,26px) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(24px,3vw,48px)}
+.pr-addons li{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:11px 0;border-bottom:1px solid var(--ink-line);font-size:.95rem;color:var(--ink-dim)}
+.pr-addons b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.14rem;
+  color:#fff;white-space:nowrap}
+.pr-addons small{font-weight:400;font-size:.62em;color:var(--ink-mute)}
+@media(max-width:820px){.pr-addons{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.pr-addons{grid-template-columns:1fr}}
+
+/* closing notes */
+.pr-notes{margin-top:clamp(34px,4.2vw,56px);padding-top:clamp(20px,2.4vw,28px);
+  border-top:1px solid var(--ink-line);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,48px)}
+.pr-notes p{margin:0;font-size:.92rem;line-height:1.62;color:var(--ink-mute)}
+.pr-notes b{color:var(--ink-text);font-weight:600}
+.pr-notes a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);transition:color .18s var(--ease),border-color .18s var(--ease)}
+.pr-notes a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:760px){.pr-notes{grid-template-columns:1fr;gap:18px}}
+
+#pricing a:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
+
+/* ============ RV / MARINE / POWERSPORTS ============ */
+/* Reuses the pricing menu components. A slightly lifted charcoal plateau separates this
+   division from the automotive pricing above without turning it into a container. */
+#marine{
+  padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
+  background:linear-gradient(180deg,var(--navy-950) 0%,var(--ink-900) 5%,var(--ink-900) 95%,var(--navy-950) 100%);
+}
+.pr-subhead{margin:.55em 0 0;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.15em;font-size:.86rem;color:var(--red-lt)}
+
+/* single-rate price block: per-foot or flat, never ambiguous */
+.pk-rate{margin:0;display:flex;align-items:baseline;gap:.1em;white-space:nowrap;line-height:1}
+.pk-rate b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.92rem;
+  letter-spacing:.01em;color:#fff}
+.pk-unit{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.02rem;
+  color:var(--ink-mute)}
+.pk-basis{margin:9px 0 0;padding-top:9px;border-top:1px solid var(--ink-line);
+  font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+
+/* an inclusion carried forward from the cheaper package it builds on */
+.pk-inc li.prev{color:var(--ink-text);font-weight:500}
+.pk-inc li.prev::before{background:var(--red-lt);width:8px}
+
+.pr-notes--one{grid-template-columns:1fr}
+.pr-notes--one p{max-width:96ch}
+
+#marine a:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
+
+/* ============ LOCAL CONDITIONS / REVIEWS / AREAS / PROCESS ============ */
+#why,#areas{background:var(--ink-950)}
+#reviews,#process{background:var(--ink-900)}
+#why,#reviews,#areas,#process{
+  padding:clamp(54px,6.6vw,92px) 0;border-top:1px solid var(--ink-line)}
+#process{background:linear-gradient(180deg,var(--ink-900) 0%,var(--ink-900) 88%,var(--navy-900) 100%)}
+#why a:focus-visible,#reviews a:focus-visible,#areas a:focus-visible,#process a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
+
+/* local conditions: paired rows, no cards and no icons */
+.cond-list{margin:0;display:grid;grid-template-columns:1fr 1fr;
+  gap:0 clamp(28px,4vw,64px);border-bottom:1px solid var(--ink-line)}
+.cond-list>div{border-top:1px solid var(--ink-line);padding:clamp(17px,2.1vw,24px) 0}
+.cond-list dt{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;font-size:clamp(1.02rem,1.5vw,1.24rem);color:#fff;line-height:1.14}
+.cond-list dd{margin:.55em 0 0;color:var(--ink-dim);font-size:.96rem;line-height:1.6}
+.cond-cta{margin-top:clamp(28px,3.4vw,42px)}
+@media(max-width:820px){.cond-list{grid-template-columns:1fr}}
+@media(max-width:520px){.cond-cta .cta{width:100%}}
+
+/* reviews: quiet social proof, no cards and no repeated star rows */
+.rev-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;
+  gap:12px clamp(20px,3vw,40px);max-width:none}
+/* auto-placement would drop the heading into the right-hand column, so pin all three */
+.rev-head .eyebrow-q{grid-column:1;grid-row:1;margin-bottom:0}
+.rev-head h2{grid-column:1;grid-row:2}
+.rev-head .rev-rating{grid-column:2;grid-row:2;justify-self:end}
+.rev-rating{margin:0;display:flex;align-items:baseline;gap:.5em;white-space:nowrap}
+.rev-rating b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.9rem;
+  color:#fff;line-height:1}
+.rev-rating b::after{content:"\2605";margin-left:.12em;font-size:.68em;color:var(--red-lt)}
+.rev-rating span{font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+
+.rev-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-top:1px solid var(--ink-line);border-bottom:1px solid var(--ink-line)}
+.rev-list figure{margin:0;padding:clamp(22px,2.6vw,30px) clamp(20px,2.4vw,32px);
+  border-left:1px solid var(--ink-line);display:flex;flex-direction:column;gap:14px}
+.rev-list figure:first-child{border-left:0;padding-left:0}
+.rev-list blockquote{margin:0;font-size:1.02rem;line-height:1.6;color:var(--ink-text);flex:1}
+.rev-list figcaption{font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--ink-mute)}
+.rev-ask{margin:clamp(22px,2.6vw,30px) 0 0;font-size:.94rem;color:var(--ink-mute)}
+.rev-ask b{color:var(--ink-text);font-weight:600}
+@media(max-width:820px){
+  .rev-head{grid-template-columns:1fr;align-items:start}
+  .rev-head .rev-rating{grid-column:1;grid-row:3;justify-self:start;margin-top:4px}
+  .rev-list{grid-template-columns:1fr;border-bottom:0}
+  .rev-list figure{border-left:0;padding-left:0;padding-right:0;
+    border-bottom:1px solid var(--ink-line)}
+}
+
+/* service area: city, zips, one line of local detail, then the neighbourhoods */
+.area-list{margin:0;display:grid;grid-template-columns:1fr 1fr;
+  gap:0 clamp(28px,4vw,64px);border-bottom:1px solid var(--ink-line)}
+.area-list>div{border-top:1px solid var(--ink-line);padding:clamp(18px,2.2vw,26px) 0}
+.area-list dt{font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;
+  letter-spacing:.04em;font-size:clamp(1.1rem,1.6vw,1.34rem);color:#fff;line-height:1.12}
+.area-zip{display:inline-block;margin-left:.7em;font-family:Inter,sans-serif;font-weight:600;
+  font-size:.7rem;letter-spacing:.13em;color:var(--ink-mute);vertical-align:middle}
+.area-list dd{margin:.7em 0 0}
+.area-list dd p{margin:0;color:var(--ink-dim);font-size:.96rem;line-height:1.6}
+.area-hoods{margin-top:.85em!important;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;color:var(--ink-mute)!important;
+  line-height:1.7}
+.area-also{margin:clamp(24px,2.8vw,34px) 0 0;font-size:.95rem;line-height:1.62;color:var(--ink-dim)}
+.area-also b{color:var(--ink-text);font-weight:600}
+.area-also a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.area-also a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:820px){.area-list{grid-template-columns:1fr}}
+
+/* how it works: numbered sequence, no boxes */
+.step-list{counter-reset:none;list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,48px)}
+.step-list li{border-top:2px solid var(--red);padding-top:clamp(16px,2vw,22px)}
+.step-idx{margin:0 0 .7em;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  font-size:.86rem;letter-spacing:.2em;color:var(--ink-mute)}
+.step-list h3{margin:0;font-size:clamp(1.16rem,1.8vw,1.42rem);text-transform:uppercase;
+  letter-spacing:.03em;color:#fff;line-height:1.1}
+.step-list li>p:last-child{margin:.75em 0 0;color:var(--ink-dim);font-size:.98rem;line-height:1.62}
+.step-list a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.step-list a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:760px){.step-list{grid-template-columns:1fr;gap:26px}}
+
+/* ============ QUOTE / CONTACT ============ */
+#quote{padding:clamp(58px,7.2vw,102px) 0;
+  background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 6%,var(--ink-950) 100%)}
+.quote-grid{display:grid;grid-template-columns:1.02fr .98fr;
+  gap:clamp(30px,4.4vw,64px);align-items:start}
 @media(max-width:900px){.quote-grid{grid-template-columns:1fr}}
-form.q{background:linear-gradient(170deg,rgba(26,39,69,.9),rgba(8,13,26,.96));border:1px solid var(--line-2);
-  border-radius:var(--r-lg);padding:28px 26px;box-shadow:var(--sh)}
+
+.q-contact{margin:clamp(26px,3vw,36px) 0 0;border-top:1px solid var(--ink-line)}
+.q-contact>div{border-bottom:1px solid var(--ink-line);padding:15px 0}
+.q-contact dt{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.15em;font-size:.75rem;color:var(--ink-mute)}
+.q-contact dd{margin:.45em 0 0;color:var(--ink-dim);font-size:.97rem;line-height:1.6}
+.q-contact a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);word-break:break-word;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.q-contact a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+
+/* form panel: flat charcoal and a hairline, no gradient or drop shadow */
+form.q{background:var(--ink-900);border:1px solid var(--ink-line-2);border-radius:8px;
+  padding:clamp(22px,2.7vw,32px)}
+form.q h3{margin:0 0 clamp(16px,2vw,22px);font-size:1.32rem;text-transform:uppercase;
+  letter-spacing:.04em;color:#fff}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:520px){.f2{grid-template-columns:1fr}}
-.fld{margin-bottom:14px}
-.fld label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.13em;font-weight:600;
-  color:var(--ice-dim);margin-bottom:7px}
+.fld{margin-bottom:15px}
+.fld label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:.79rem;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:7px}
 .fld .req{color:var(--red-lt)}
 input,select,textarea{
-  width:100%;min-height:50px;padding:13px 14px;border-radius:11px;color:#fff;font:400 1rem/1.4 Inter,sans-serif;
-  background:rgba(4,8,17,.7);border:1px solid var(--line-2);transition:.16s;appearance:none
-}
+  width:100%;min-height:50px;padding:13px 14px;border-radius:6px;color:#fff;
+  font:400 1rem/1.4 Inter,sans-serif;background:var(--ink-950);
+  border:1px solid var(--ink-line-2);transition:border-color .16s,box-shadow .16s}
 textarea{min-height:104px;resize:vertical}
-select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238494b2' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+select{appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d8592' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
   background-repeat:no-repeat;background-position:right 13px center;background-size:19px;padding-right:42px}
-input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue-lt);box-shadow:0 0 0 3px rgba(79,139,255,.22)}
-input::placeholder,textarea::placeholder{color:#5d6b86}
-form.q .btn{width:100%;margin-top:6px}
-.fine{font-size:.8rem;color:var(--steel);margin:14px 0 0;text-align:center}
-.fine a{color:var(--ice-dim)}
-.msg{display:none;border-radius:var(--r);padding:15px 18px;margin-bottom:16px;font-size:.95rem}
-.msg.ok{display:block;background:rgba(22,163,74,.15);border:1px solid rgba(74,222,128,.42);color:#c8f3d6}
-.msg.err{display:block;background:rgba(220,36,48,.15);border:1px solid rgba(255,69,80,.45);color:#ffd4d7}
-.why-list{list-style:none;margin:0;padding:0}
-.why-list li{padding:15px 0;border-bottom:1px solid var(--line);display:flex;gap:15px}
-.why-list li:last-child{border-bottom:0}
-.why-list .ic{flex:none;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
-  background:linear-gradient(160deg,rgba(79,139,255,.22),rgba(220,36,48,.14));border:1px solid var(--line-2)}
-.why-list svg{width:22px;height:22px;color:var(--blue-lt)}
-.why-list b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;
-  font-size:1.14rem;letter-spacing:.03em;margin-bottom:2px}
-.why-list p{margin:0;font-size:.94rem;color:var(--ice-dim)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue-lt);
+  box-shadow:0 0 0 3px rgba(79,139,255,.25)}
+input::placeholder,textarea::placeholder{color:#6d7686}
 
-/* faq */
-.faq{max-width:880px;margin:0 auto}
-details{border:1px solid var(--line);border-radius:var(--r);background:rgba(255,255,255,.035);margin-bottom:11px;
-  transition:border-color .2s}
-details[open]{border-color:var(--line-2);background:rgba(255,255,255,.055)}
-summary{cursor:pointer;list-style:none;padding:18px 52px 18px 20px;position:relative;
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.2rem;text-transform:uppercase;
-  letter-spacing:.02em;color:#fff;min-height:56px;display:flex;align-items:center}
+/* the submit button is styled by selector so the form markup stays untouched */
+form.q .btn,form.q button[type="submit"]{
+  display:inline-flex;align-items:center;justify-content:center;width:100%;margin-top:6px;
+  min-height:54px;padding:0 26px;border:1px solid var(--red);border-radius:6px;cursor:pointer;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.08rem;
+  text-transform:uppercase;letter-spacing:.11em;color:#fff;background:var(--red);
+  transition:background .2s var(--ease),border-color .2s var(--ease)}
+form.q button[type="submit"]:hover{background:#b81c26;border-color:#b81c26}
+form.q button[type="submit"]:disabled{opacity:.62;cursor:default}
+.fine{font-size:.82rem;color:var(--ink-mute);margin:14px 0 0;text-align:center;line-height:1.6}
+.fine a{color:var(--ink-text);font-weight:600}
+.msg{display:none;border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:.95rem;line-height:1.55}
+.msg.ok{display:block;background:rgba(22,163,74,.14);border:1px solid rgba(74,222,128,.4);color:#c8f3d6}
+.msg.err{display:block;background:rgba(220,36,48,.14);border:1px solid rgba(255,69,80,.45);color:#ffd4d7}
+
+/* ============ FAQ ============ */
+#faq{padding:clamp(54px,6.6vw,92px) 0;background:var(--ink-900);border-top:1px solid var(--ink-line)}
+.faq{max-width:940px;margin:0;border-top:1px solid var(--ink-line)}
+details{border-bottom:1px solid var(--ink-line)}
+summary{cursor:pointer;list-style:none;position:relative;padding:17px 46px 17px 0;min-height:58px;
+  display:flex;align-items:center;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  font-size:clamp(1.02rem,1.5vw,1.18rem);text-transform:uppercase;letter-spacing:.03em;color:#fff;
+  transition:color .18s var(--ease)}
+summary:hover{color:var(--red-lt)}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";position:absolute;right:20px;top:50%;width:11px;height:11px;
-  border-right:2.5px solid var(--red-lt);border-bottom:2.5px solid var(--red-lt);
+summary::after{content:"";position:absolute;right:8px;top:50%;width:10px;height:10px;
+  border-right:2px solid var(--red-lt);border-bottom:2px solid var(--red-lt);
   transform:translateY(-70%) rotate(45deg);transition:transform .24s var(--ease)}
 details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
-details .a{padding:0 20px 20px;color:var(--ice-dim);font-size:.98rem}
+summary:focus-visible{outline:2px solid var(--blue-lt);outline-offset:2px;border-radius:4px}
+details .a{padding:0 0 22px;color:var(--ink-dim);font-size:.98rem;line-height:1.65;max-width:90ch}
 details .a p:last-child{margin-bottom:0}
+details .a b{color:var(--ink-text)}
+details .a a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+details .a a:hover{color:#fff;border-bottom-color:var(--red-lt)}
 
-/* final cta */
-.finalcta{background:
-  linear-gradient(180deg,rgba(5,9,18,.86),rgba(5,9,18,.94)),
-  radial-gradient(90% 130% at 50% 0%,rgba(37,99,235,.5),transparent 62%),
-  radial-gradient(80% 120% at 85% 100%,rgba(220,36,48,.36),transparent 60%);
-  text-align:center;border-top:1px solid var(--line)}
-.finalcta .btn-row{justify-content:center}
-.bignum{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:clamp(2.4rem,6.5vw,4.2rem);
-  text-decoration:none;display:inline-block;margin:.15em 0 .5em;letter-spacing:.01em}
+/* ============ CLOSING STATEMENT ============ */
+.finalcta{padding:clamp(56px,7vw,96px) 0;background:var(--ink-950);
+  border-top:1px solid var(--ink-line)}
+/* .fc-inner shares the element with .wrap, so constrain the children instead of the
+   box; overriding max-width here would re-centre it against the rest of the page. */
+.fc-inner h2{margin:0;font-size:clamp(2rem,4.2vw,3.3rem);text-transform:uppercase;
+  color:#fff;line-height:1.02;max-width:18ch}
+.fc-lede{margin:1.05em 0 0;color:var(--ink-dim);font-size:1.06rem;line-height:1.62;max-width:56ch}
+.fc-actions{display:flex;flex-wrap:wrap;align-items:center;
+  gap:14px clamp(20px,3vw,34px);margin-top:clamp(26px,3.4vw,40px)}
+.fc-tel{margin:0;font-size:.97rem;color:var(--ink-mute)}
+.fc-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.fc-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:520px){.fc-actions .cta{width:100%}}
 
-/* footer */
-footer{background:var(--navy-950);border-top:1px solid var(--line);padding:56px 0 108px;font-size:.94rem}
-.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.1fr;gap:34px}
+/* ============ FOOTER ============ */
+footer{background:var(--ink-950);border-top:2px solid var(--red);
+  padding:clamp(46px,5.4vw,68px) 0 clamp(44px,5vw,64px);font-size:.94rem}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.15fr;gap:clamp(26px,3.4vw,44px)}
 @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fgrid{grid-template-columns:1fr}}
-footer h4{font-size:1.1rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:1em;color:#fff}
+footer h3{margin:0 0 1.1em;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-mute);font-family:"Barlow Condensed",sans-serif;font-weight:700}
 footer ul{list-style:none;margin:0;padding:0}
-footer li{margin-bottom:9px}
-footer a{color:var(--ice-dim);text-decoration:none}
-footer a:hover{color:#fff;text-decoration:underline}
-footer .brand img{width:min(240px,80%);height:auto;margin-bottom:16px}
-footer p{color:var(--steel);font-size:.9rem}
-.socials{display:flex;gap:10px;margin-top:6px}
-.socials a{width:42px;height:42px;border-radius:11px;border:1px solid var(--line-2);display:grid;place-items:center;
-  background:rgba(255,255,255,.04);transition:.18s}
-.socials a:hover{background:rgba(79,139,255,.2);border-color:var(--blue-lt)}
-.socials svg{width:20px;height:20px;color:var(--ice)}
-.legal{border-top:1px solid var(--line);margin-top:38px;padding-top:22px;display:flex;flex-wrap:wrap;gap:12px;
-  justify-content:space-between;color:var(--steel);font-size:.84rem}
-.legal .credit a{color:var(--ice-dim);text-decoration:none;border-bottom:1px solid var(--line-2);
-  padding-bottom:1px;transition:.16s}
-.legal .credit a:hover{color:#fff;border-color:var(--blue-lt);text-decoration:none}
+footer li{margin-bottom:9px;color:var(--ink-dim)}
+footer a{color:var(--ink-dim);text-decoration:none;transition:color .18s var(--ease)}
+footer a:hover{color:#fff}
+footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
+.f-about{margin:0;color:var(--ink-mute);font-size:.92rem;line-height:1.6;max-width:38ch}
+.f-tel{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.3rem;
+  letter-spacing:.02em;color:#fff!important}
+.f-tel:hover{color:var(--red-lt)!important}
+.f-meta{color:var(--ink-mute)}
+.socials{display:flex;gap:10px;margin-top:18px}
+.socials a{width:40px;height:40px;border-radius:6px;border:1px solid var(--ink-line-2);
+  display:grid;place-items:center;transition:border-color .18s var(--ease)}
+.socials a:hover{border-color:rgba(255,255,255,.5)}
+.socials svg{width:19px;height:19px;color:var(--ink-text)}
+.legal{border-top:1px solid var(--ink-line);margin-top:clamp(30px,3.6vw,44px);padding-top:20px;
+  display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;
+  color:var(--ink-mute);font-size:.82rem}
+.legal a{color:var(--ink-mute);border-bottom:1px solid var(--ink-line-2);padding-bottom:1px}
+.legal a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+#quote a:focus-visible,#faq a:focus-visible,.finalcta a:focus-visible,footer a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* sticky mobile call bar */
 .callbar{display:none}
 @media(max-width:820px){
-  .callbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:70;
-    padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:rgba(5,9,18,.94);
-    backdrop-filter:blur(12px);border-top:1px solid var(--line-2)}
-  .callbar .btn{min-height:50px;padding:0 8px;font-size:1rem;letter-spacing:.04em}
-  footer{padding-bottom:100px}
+  .callbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;
+    z-index:70;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:var(--ink-950);border-top:1px solid var(--ink-line)}
+  .callbar .cta{min-height:48px;padding:0 10px;font-size:.98rem;letter-spacing:.08em}
+  footer{padding-bottom:104px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 <noscript><style>
-  /* No JavaScript: show every pricing panel stacked instead of hiding two-thirds of the prices. */
-  .panel[hidden]{display:block!important}
-  .tabs{display:none}
+  /* No JavaScript: the burger cannot toggle the panel, so lay the nav out inline. */
+  @media(max-width:1160px){
+    nav.main{position:static;transform:none;max-height:none;padding-bottom:16px}
+    .burger{display:none}
+  }
 </style></noscript>
 </head>
 <body>
 
 <!-- ================= HEADER ================= -->
+<a class="skip" href="#main">Skip to main content</a>
 <header>
   <div class="hbar">
-    <a class="brand" href="#top" aria-label="Scrubin Detailing home">
-      <img src="logo-sm.webp" width="520" height="260" alt="Scrubin Detailing — mobile auto, marine and offroad detailing in Temecula, CA">
+    <a class="brand" href="#top" aria-label="Scrubin Detailing &mdash; home">
+      <img src="logo-head-272.webp" srcset="logo-head-136.webp 136w, logo-head-272.webp 272w, logo-head-408.webp 408w" sizes="(max-width:600px) 92px, (max-width:900px) 112px, 136px" width="136" height="68" alt="Scrubin Detailing &mdash; mobile auto, marine and offroad detailing in Temecula, CA">
     </a>
-    <nav class="main" id="nav">
+
+    <nav class="main" id="nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#pricing">Pricing</a>
       <a href="#marine">RV &amp; Marine</a>
       <a href="#reviews">Reviews</a>
       <a href="#areas">Areas</a>
-      <a href="#faq" class="navlast">FAQ</a>
-      <a href="#quote" class="navlast">Get a Quote</a>
+      <a href="#faq">FAQ</a>
+      <div class="nav-foot">
+        <a class="tel-block" href="tel:+19513913669">Call (951) 391-3669</a>
+        <a class="cta" href="#quote">Get a Free Quote</a>
+      </div>
     </nav>
+
     <div class="hcta">
-      <a class="hphone" href="tel:+19513913669">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
+      <a class="htel" href="tel:+19513913669" aria-label="Call Scrubin Detailing at (951) 391-3669">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
         <span>(951) 391-3669</span>
       </a>
-      <a class="btn" href="#quote">Free Quote</a>
+      <a class="cta cta--sm" href="#quote">Get a Free Quote</a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
   </div>
 </header>
 
+<main id="main">
+
 <!-- ================= HERO ================= -->
-<div class="hero" id="top">
-  <picture>
-    <source media="(max-width:660px)" type="image/webp" srcset="hero-mobile.webp">
-    <source media="(max-width:660px)" type="image/jpeg" srcset="hero-mobile.jpg">
-    <source type="image/webp" srcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" sizes="100vw">
-    <img class="hbg" src="hero-1600.jpg" srcset="hero-760.jpg 760w, hero-1100.jpg 1100w, hero-1600.jpg 1600w" sizes="100vw" width="1717" height="709" alt="Scrubin Detailing — premium mobile auto, marine and offroad detailing in Temecula, Murrieta, Menifee and French Valley, California" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="scrim"></div>
-  <div class="wrap hero-copy">
-    <h1>
-      <span class="chrome">Mobile Auto Detailing in Temecula &amp; Murrieta</span>
-      <span class="l2">Menifee &#183; French Valley &#183; Winchester &#183; Wildomar</span>
-    </h1>
-    <p class="lede">Premium detailing done right &mdash; in your driveway. We bring our own water and power, so you never leave the house. Cars, trucks, RVs, boats, jet skis and dirt bikes. <b class="rw">No trip fee. Ever.</b></p>
-    <div class="btn-row">
-      <a class="btn" href="#quote">Get My Free Quote</a>
-      <a class="btn blue" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-4-.8L3 21l1.9-4.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"/></svg>
-        Text a Photo
-      </a>
-      <a class="btn ghost" href="tel:+19513913669">Call (951) 391-3669</a>
-    </div>
-    <p class="hero-note">Full details from <b>$115</b> &nbsp;&#124;&nbsp; Ceramic coating from <b>$550</b> &nbsp;&#124;&nbsp; <b>Same-day &amp; weekend</b> appointments available</p>
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-media">
+    <picture>
+      <source media="(max-width:660px)" type="image/webp" srcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" sizes="100vw">
+      <source media="(max-width:660px)" type="image/jpeg" srcset="hero-tall-640.jpg 640w, hero-tall-870.jpg 870w" sizes="100vw">
+      <source type="image/webp" srcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" sizes="100vw">
+      <img src="hero-wide-1717.jpg" srcset="hero-wide-760.jpg 760w, hero-wide-1100.jpg 1100w, hero-wide-1400.jpg 1400w, hero-wide-1717.jpg 1717w" sizes="100vw" width="1717" height="916" alt="" fetchpriority="high" decoding="async">
+    </picture>
   </div>
-</div>
 
-<!-- ================= FEATURE PILLS ================= -->
-<div class="pills">
-  <ul>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2 4.3 4.7.6-3.4 3.3.8 4.7-4.1-2.2-4.1 2.2.8-4.7L5.3 7.9 10 7.3Z"/><path d="M5 20h14"/></svg></span><div><b>Paint Correction</b><small>Restore &amp; revive</small></div></li>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><b>Ceramic Coatings</b><small>Protect &amp; shine</small></div></li>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-6a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6"/><path d="M4 18h16M8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg></span><div><b>Interior Detailing</b><small>Clean. Fresh. Protected.</small></div></li>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18l-2.5-5H5.5Z"/><path d="M12 12V4l6 5"/><path d="M3 20c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/></svg></span><div><b>Marine Detailing</b><small>Shine on the water</small></div></li>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/></svg></span><div><b>Offroad Detailing</b><small>Built for adventure</small></div></li>
-    <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17V9h11l3 3h4v5"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M14 9V6H6"/></svg></span><div><b>Mobile Service</b><small>We come to you</small></div></li>
-  </ul>
-</div>
+  <div class="wrap hero-inner">
+    <div class="hero-accent"></div>
+    <p class="hero-eyebrow">Mobile Detailing &#183; Southwest Riverside County</p>
+    <h1 id="hero-title">Premium Mobile Auto Detailing in Temecula &amp; Murrieta</h1>
+    <p class="hero-lede">Professional detailing brought to your home or workplace &mdash; for daily drivers, luxury vehicles, trucks, SUVs, RVs and marine.</p>
+    <div class="hero-actions">
+      <a class="cta" href="#quote">Get a Free Quote</a>
+      <a class="cta cta--ghost" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo</a>
+    </div>
+    <p class="hero-tel">Or call <a href="tel:+19513913669">(951) 391-3669</a> &#183; seven days a week, no trip fee.</p>
+    <p class="hero-areas">Temecula &#183; Murrieta &#183; Menifee &#183; French Valley &#183; Winchester &#183; Wildomar</p>
+  </div>
+</section>
 
-<!-- ================= TRUST ================= -->
-<section style="padding-top:clamp(40px,5vw,64px);padding-bottom:0">
+<!-- ================= CAPABILITY + PROOF ================= -->
+<section class="capability" aria-labelledby="cap-title">
+  <div class="wrap cap-grid">
+    <div class="cap-intro">
+      <p class="eyebrow-q">What comes with the van</p>
+      <h2 id="cap-title">A full detailing bay that drives to you</h2>
+      <p class="cap-lede">We arrive with our own water, power and product, so a proper detail happens in your driveway instead of your Saturday.</p>
+    </div>
+
+    <dl class="cap-list">
+      <div>
+        <dt>Fully mobile</dt>
+        <dd>Your home or your workplace, seven days a week. No trip fee anywhere in our core service area.</dd>
+      </div>
+      <div>
+        <dt>Professional-grade product</dt>
+        <dd>pH-neutral chemistry, iron fallout remover, clay bar and machine polish &mdash; not consumer shelf supplies.</dd>
+      </div>
+      <div>
+        <dt>Interior and exterior</dt>
+        <dd>Steam, shampoo and hot-water extraction inside. Decontamination, correction and protection outside.</dd>
+      </div>
+      <div>
+        <dt>Ceramic protection</dt>
+        <dd>A four-year semi-permanent barrier against valley sun, hard-water spotting and windblown dust.</dd>
+      </div>
+      <div>
+        <dt>RV, marine and powersports</dt>
+        <dd>Motorhomes, fifth wheels, travel trailers, boats, jet skis, motorcycles and dirt bikes.</dd>
+      </div>
+      <div>
+        <dt>Southwest Riverside County</dt>
+        <dd>Temecula, Murrieta, Menifee, French Valley, Winchester and Wildomar.</dd>
+      </div>
+    </dl>
+  </div>
+
   <div class="wrap">
     <ul class="trust">
-      <li><b class="chrome">5.0&#9733;</b><span>Google rated</span></li>
-      <li><b class="chrome">$0</b><span>Trip / travel fee</span></li>
-      <li><b class="chrome">7 Days</b><span>A week, incl. evenings</span></li>
-      <li><b class="chrome">9+</b><span>Vehicle types serviced</span></li>
+      <li><b>5.0&#9733;</b><span>Google rated</span></li>
+      <li><b>$0</b><span>Trip / travel fee</span></li>
+      <li><b>7 Days</b><span>A week, incl. evenings</span></li>
+      <li><b>9+</b><span>Vehicle types serviced</span></li>
     </ul>
   </div>
 </section>
@@ -480,388 +852,418 @@ footer p{color:var(--steel);font-size:.9rem}
 <!-- ================= SERVICES ================= -->
 <section id="services">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Auto. Marine. Offroad.</p>
-      <h2><span class="chrome">Mobile Detailing Services</span><br><span class="rw" style="font-size:.58em;letter-spacing:.04em">Temecula &#183; Murrieta &#183; Menifee &#183; French Valley</span></h2>
-      <p class="lede">One fully self-contained mobile setup handles everything from a maintenance wash to a multi-year ceramic coating. Book at your home, your office, or wherever your rig is parked.</p>
+    <div class="svc-head">
+      <p class="eyebrow-q">Services &#183; Temecula &#183; Murrieta &#183; Menifee &#183; French Valley</p>
+      <h2>Four ways to book a detail</h2>
+      <p class="svc-lede">Pick the one that matches the car you are looking at right now. Every price below is for mobile service at your address, and every package can be tailored when we get there.</p>
     </div>
-    <div class="grid g3">
 
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18l-1.8-6.4A2 2 0 0 0 17.3 9H6.7a2 2 0 0 0-1.9 1.6Z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M8 9V6h8v3"/></svg></span>
-        <h3>Full Auto Detailing</h3>
-        <p>Four complete inside-and-out packages, from a safe foam-bath wash to a one-step paint correction and a four-year ceramic coating.</p>
-        <ul>
-          <li>Basic Detail &mdash; from $115</li>
-          <li>Full Detail &mdash; from $200</li>
-          <li>1 Step Paint Correction &mdash; from $300</li>
-          <li>Ceramic Coating Package &mdash; from $550</li>
+    <ol class="svc-list">
+
+      <li class="svc">
+        <p class="svc-idx">01</p>
+        <div class="svc-main">
+          <h3>Exterior Detailing</h3>
+          <p>Iron fallout remover and a clay bar pull out what a wash leaves bonded in the paint, then a six-month protection wax seals the finish. When the paint only needs cleaning, the Exterior Wash is the lighter option.</p>
+          <p class="svc-inc">Exterior Detail, Clay &amp; Wax &#183; Exterior Wash from $60</p>
+        </div>
+        <div class="svc-aside">
+          <p class="svc-price"><span>From</span><b>$130</b></p>
+          <a class="svc-link" href="#pricing">See pricing</a>
+        </div>
+      </li>
+
+      <li class="svc">
+        <p class="svc-idx">02</p>
+        <div class="svc-main">
+          <h3>Interior Detailing</h3>
+          <p>The basic is a vacuum, a one-step clean and a conditioning wipe-down. The premium brings steam, shampoo and hot-water extraction &mdash; built for car seats, spilled coffee and dog hair.</p>
+          <p class="svc-inc">Basic Interior &#183; Premium Interior &#183; Pet hair removal from $30/hr</p>
+        </div>
+        <div class="svc-aside">
+          <p class="svc-price"><span>From</span><b>$75</b></p>
+          <a class="svc-link" href="#pricing">See pricing</a>
+        </div>
+      </li>
+
+      <li class="svc">
+        <p class="svc-idx">03</p>
+        <div class="svc-main">
+          <h3>Inside &amp; Out Detailing</h3>
+          <p>Inside and out in one visit. Scrubin's Basic Detail is a maintenance reset; Scrubin's Full Detail adds decontamination, seat and carpet extraction and paint protection.</p>
+          <p class="svc-inc">Scrubin's Basic Detail &#183; Scrubin's Full Detail from $200</p>
+        </div>
+        <div class="svc-aside">
+          <p class="svc-price"><span>From</span><b>$115</b></p>
+          <a class="svc-link" href="#pricing">See pricing</a>
+        </div>
+      </li>
+
+      <li class="svc">
+        <p class="svc-idx">04</p>
+        <div class="svc-main">
+          <h3>Paint Correction &amp; Ceramic Coating</h3>
+          <p>One-step machine correction lifts light swirl marks and oxidation. Finish it with a four-year ceramic coating: a semi-permanent barrier that leaves paint slicker, glossier and far easier to wash.</p>
+          <p class="svc-inc">1 Step Paint Correction &#183; Ceramic Coating Package from $550</p>
+        </div>
+        <div class="svc-aside">
+          <p class="svc-price"><span>From</span><b>$300</b></p>
+          <a class="svc-link" href="#pricing">See pricing</a>
+        </div>
+      </li>
+
+    </ol>
+
+    <aside class="svc-specialty" aria-labelledby="spec-title">
+      <div>
+        <p class="eyebrow-q">Also in the book</p>
+        <h3 id="spec-title">RV, Marine &amp; Powersports</h3>
+        <p>Motorhomes, fifth wheels and travel trailers, boats, jet skis, motorcycles and dirt bikes &mdash; washed and detailed where they are parked, priced by the foot or at a flat rate.</p>
+      </div>
+      <div>
+        <ul class="spec-prices">
+          <li><span>RV &amp; trailer exterior wash</span><b>$7<small>/ft</small></b></li>
+          <li><span>Boat exterior wash</span><b>$7<small>/ft</small></b></li>
+          <li><span>Boat full detail</span><b>$15<small>/ft</small></b></li>
+          <li><span>Jet ski detail</span><b>$150</b></li>
+          <li><span>Motorcycle &amp; dirt bike detail</span><b>$50</b></li>
         </ul>
-      </article>
+        <a class="svc-link" href="#marine">RV &amp; marine detail</a>
+      </div>
+    </aside>
 
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19v-7a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v7"/><path d="M4 19h16M8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M9 13h6"/></svg></span>
-        <h3>Interior Deep Cleaning</h3>
-        <p>Steam, shampoo and hot-water extraction for family cars that have seen car seats, spilled coffee and dog hair. Interior-only packages from $75.</p>
-        <ul>
-          <li>Carpet shampooing</li>
-          <li>Seat &amp; carpet extraction (cloth seats only)</li>
-          <li>Scrub &amp; decontamination on plastics &amp; leather</li>
-          <li>Steam clean</li>
-          <li>Pet hair removal &mdash; $30/hr add-on</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <h3>Ceramic Coating</h3>
-        <p>A four-year semi-permanent barrier against Temecula Valley sun, hard-water sprinkler spotting and Santa Ana dust. Slicker paint, easier washes, deeper gloss.</p>
-        <ul>
-          <li>pH-neutral wash &amp; iron fallout remover</li>
-          <li>Deep wheel treatment &amp; tire shine</li>
-          <li>Clay bar</li>
-          <li>1-step paint correction</li>
-          <li>4-year ceramic coating &mdash; from $550</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2 4.3 4.7.6-3.4 3.3.8 4.7-4.1-2.2-4.1 2.2.8-4.7L5.3 7.9 10 7.3Z"/><path d="M5 21h14"/></svg></span>
-        <h3>Paint Correction &amp; Polish</h3>
-        <p>One-step machine correction that removes light swirl marks and oxidation &mdash; then locks the finish in with a six-month protection wax.</p>
-        <ul>
-          <li>1 Step Paint Correction Detail &mdash; from $300</li>
-          <li>Iron fallout remover</li>
-          <li>Clay bar decontamination</li>
-          <li>Exterior Detail, Clay &amp; Wax &mdash; from $130</li>
-          <li>6-month paint protection wax</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
-        <h3>Headlights, Trim &amp; Engine Bay</h3>
-        <p>The finishing touches that make a 10-year-old commuter look years newer. Add any of these to any package.</p>
-        <ul>
-          <li>Headlight restoration &mdash; $30</li>
-          <li>Trim restoration &mdash; $30</li>
-          <li>Engine bay detail &mdash; $30</li>
-          <li>Clay bar treatment &mdash; $40</li>
-          <li>Pet hair removal &mdash; $30/hr</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18l-2.5-5H5.5Z"/><path d="M12 12V4l6 5"/><path d="M3 20c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/></svg></span>
-        <h3>RV, Boat &amp; Powersports</h3>
-        <p>Motorhomes, fifth wheels, travel trailers, boats, jet skis, motorcycles and dirt bikes &mdash; priced by the foot, washed on site.</p>
-        <ul>
-          <li>RV &amp; trailer exterior wash &mdash; $7/ft</li>
-          <li>Boat exterior wash &mdash; $7/ft</li>
-          <li>Boat full detail &mdash; $15/ft</li>
-          <li>Jet ski detail &mdash; $150 each</li>
-          <li>Motorcycle &amp; dirt bike detail &mdash; $50</li>
-        </ul>
-      </article>
-
+    <div class="svc-addons">
+      <p class="svc-addons__label">Add to any package</p>
+      <ul>
+        <li>Clay bar treatment <b>$40</b></li>
+        <li>Headlight restoration <b>$30</b></li>
+        <li>Engine bay detail <b>$30</b></li>
+        <li>Trim restoration <b>$30</b></li>
+        <li>Pet hair removal <b>$30<small>/hr</small></b></li>
+      </ul>
     </div>
-    <div class="btn-row" style="justify-content:center;margin-top:34px">
-      <a class="btn" href="#pricing">See Full Pricing</a>
-      <a class="btn ghost" href="#quote">Not sure what you need? Ask us</a>
+
+    <div class="svc-actions">
+      <a class="cta" href="#quote">Get a Free Quote</a>
+      <a class="cta cta--ghost" href="#pricing">See Full Pricing</a>
     </div>
   </div>
 </section>
 
 <!-- ================= PRICING ================= -->
-<section id="pricing" class="alt">
+<section id="pricing">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">Transparent, published pricing</p>
-      <h2><span class="chrome">Mobile Detailing Prices</span><br><span class="rw" style="font-size:.5em;letter-spacing:.04em">Temecula Valley &#183; No Trip Fee</span></h2>
-      <p class="lede">Real prices, listed up front &mdash; no "call for a quote" runaround. Every price below includes mobile service anywhere in our core area. <b style="color:#fff">Sedan / SUV &amp; Truck / Oversized</b> tiers shown.</p>
+    <div class="pr-head">
+      <p class="eyebrow-q">Transparent, published pricing</p>
+      <h2>Mobile Detailing Prices</h2>
+      <p class="pr-lede">Real prices, listed up front &mdash; no "call for a quote" runaround. Every price below includes mobile service anywhere in our core area, with no trip charge. Rates are shown for <b>Sedan</b>, <b>SUV &amp; Truck</b> and <b>Oversized</b> vehicles.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Pricing categories">
-      <button role="tab" id="t1" aria-controls="p1" aria-selected="true">Full Detail Packages</button>
-      <button role="tab" id="t2" aria-controls="p2" aria-selected="false">Interior &amp; Exterior Only</button>
-      <button role="tab" id="t3" aria-controls="p3" aria-selected="false">Maintenance &amp; Add-Ons</button>
-    </div>
-
-    <!-- PANEL 1 -->
-    <div class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
-      <div class="grid g2" style="gap:18px">
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's Basic Detail</h3>
-            <p class="sub">Inside &amp; out maintenance reset</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$115</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$130</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$145</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Interior vacuum</li>
-              <li>Interior 1-step clean and conditioning wipe down</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Basic Detail</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Most popular</span>
-          <div class="tier-top">
-            <h3>Scrubin's Full Detail</h3>
-            <p class="sub">Decontaminated, extracted &amp; protected</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$200</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$225</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$250</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>6-month paint protection wax</li>
-              <li>Thorough vacuuming of the seats and flooring</li>
-              <li>Carpet shampooing</li>
-              <li>Seat and carpet extraction (cloth seats only)</li>
-              <li>Scrub and decontamination on all plastics &amp; leather</li>
-              <li>Steam clean</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-              <li>Trim shine</li>
-            </ul>
-            <a class="btn" href="#quote">Book Full Detail</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's 1 Step Paint Correction Detail</h3>
-            <p class="sub">Removes light swirl marks &amp; oxidation</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$300</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$350</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$400</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
-            </ul>
-            <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">You can also add an interior detail if you would like.</p>
-            <a class="btn ghost" href="#quote">Book Paint Correction</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Ultimate protection</span>
-          <div class="tier-top">
-            <h3>Ceramic Coating Package</h3>
-            <p class="sub">4-year ceramic coating</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$550</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$650</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$750</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath (pH neutral)</li>
-              <li>Deep wheel treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar</li>
-              <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
-              <li>4-year ceramic coating &mdash; semi-permanent barrier to vehicle paint, high gloss and protection</li>
-            </ul>
-            <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">You can also add an interior detail if you would like.</p>
-            <a class="btn" href="#quote">Get My Ceramic Coating Quote</a>
-          </div>
-        </article>
-
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Exterior</h3>
+        <p>Two levels: a safe maintenance wash, or a full decontamination and protection.</p>
       </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Exterior Wash</h4>
+            <p class="pk-sub">Safe hand wash &amp; wheels</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$60</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$60</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$75</dd></div>
+            <div><dt>Oversized</dt><dd>$90</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Exterior Detail, Clay &amp; Wax</h4>
+            <p class="pk-sub">Decontaminated &amp; protected</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$130</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$130</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$145</dd></div>
+            <div><dt>Oversized</dt><dd>$160</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>6-month paint protection wax</li>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <!-- PANEL 2 -->
-    <div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
-      <div class="grid g2" style="gap:18px">
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's Basic Interior Detail</h3>
-            <p class="sub">Interior only &#183; quick reset</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$75</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$90</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$105</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>Interior vacuum</li>
-              <li>Interior 1-step clean and conditioning wipe down</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Basic Interior</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Deep clean</span>
-          <div class="tier-top">
-            <h3>Scrubin's Premium Interior Detail</h3>
-            <p class="sub">Steam, shampoo &amp; extraction</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$130</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$150</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$170</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>Thorough vacuuming of the seats and flooring</li>
-              <li>Carpet shampooing</li>
-              <li>Seat and carpet extraction (cloth seats only)</li>
-              <li>Scrub and decontamination on all plastics &amp; leather</li>
-              <li>Steam clean</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn" href="#quote">Book Premium Interior</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Basic Exterior Detail</h3>
-            <p class="sub">Safe hand wash &amp; wheels</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$60</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$75</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$90</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Exterior Wash</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Exterior Detail, Clay &amp; Wax</h3>
-            <p class="sub">Decontaminated &amp; protected</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$130</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$145</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$160</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>6-month paint protection wax</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Clay &amp; Wax</a>
-          </div>
-        </article>
-
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Interior</h3>
+        <p>Two levels: a vacuum-and-wipe reset, or steam, shampoo and hot-water extraction.</p>
       </div>
-    </div>
-
-    <!-- PANEL 3 -->
-    <div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
-      <div class="grid g2" style="gap:18px;align-items:start">
-
-        <article class="tier feat">
-          <span class="flag">Returning clients</span>
-          <div class="tier-top">
-            <h3>Maintenance Detail</h3>
-            <p class="sub">Vehicles detailed within the last 60 days</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$85</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$100</span></li>
-            </ul>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Basic Interior Detail</h4>
+            <p class="pk-sub">Interior only &#183; quick reset</p>
           </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Vacuum &mdash; floors, seats, mats</li>
-              <li>Interior quick wipe</li>
-              <li>Interior windows cleaned</li>
-              <li>Leather wipe</li>
-              <li>Mats shined</li>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$75</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$75</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$90</dd></div>
+            <div><dt>Oversized</dt><dd>$105</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>Interior vacuum</li>
+            <li>Interior 1-step clean and conditioning wipe down</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
             </ul>
-            <a class="btn" href="#quote">Set Up Recurring Service</a>
           </div>
         </article>
-
-        <div>
-          <h3 style="margin-bottom:16px">Add-On Services</h3>
-          <ul class="addons" style="grid-template-columns:1fr">
-            <li><span>Clay bar treatment</span><span class="amt">$40</span></li>
-            <li><span>Headlight restoration</span><span class="amt">$30</span></li>
-            <li><span>Engine bay detail</span><span class="amt">$30</span></li>
-            <li><span>Trim restoration</span><span class="amt">$30</span></li>
-            <li><span>Pet hair removal</span><span class="amt">$30<small style="font-weight:400;font-size:.62em;color:var(--steel)">/hr</small></span></li>
-          </ul>
-          <div class="note" style="margin-top:18px">
-            <b>Why a maintenance plan makes sense here.</b> Between spring pollen, Santa Ana dust and hard-water sprinkler overspray, paint in the Temecula Valley gets attacked year-round. Keeping a vehicle on a 60-day maintenance detail is far cheaper than paying to correct etched water spots later.
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Premium Interior Detail</h4>
+            <p class="pk-sub">Steam, shampoo &amp; extraction</p>
           </div>
-        </div>
-
-      </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$130</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$130</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$150</dd></div>
+            <div><dt>Oversized</dt><dd>$170</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>Thorough vacuuming of the seats and flooring</li>
+            <li>Carpet shampooing</li>
+            <li>Seat and carpet extraction (cloth seats only)</li>
+            <li>Scrub and decontamination on all plastics &amp; leather</li>
+            <li>Steam clean</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <div class="note">
-      <b>Pricing notes.</b> Prices shown are per vehicle and include mobile service in Temecula, Murrieta, Menifee, French Valley, Winchester and Wildomar &mdash; there is no trip charge or convenience fee. Heavily soiled vehicles, excessive pet hair, or oversized/lifted rigs may need additional time; we'll always confirm before we start, never after. <a href="#quote" style="color:#fff;font-weight:600">Send a photo for an exact quote &rarr;</a>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Inside &amp; Out</h3>
+        <p>The whole vehicle in one visit &mdash; from a maintenance reset to a decontaminated, extracted and protected finish.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Basic Detail</h4>
+            <p class="pk-sub">Inside &amp; out maintenance reset</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$115</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$115</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$130</dd></div>
+            <div><dt>Oversized</dt><dd>$145</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Interior vacuum</li>
+            <li>Interior 1-step clean and conditioning wipe down</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Full Detail<span class="pk-tag">Most popular</span></h4>
+            <p class="pk-sub">Decontaminated, extracted &amp; protected</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$200</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$200</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$225</dd></div>
+            <div><dt>Oversized</dt><dd>$250</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>6-month paint protection wax</li>
+            <li>Thorough vacuuming of the seats and flooring</li>
+            <li>Carpet shampooing</li>
+            <li>Seat and carpet extraction (cloth seats only)</li>
+            <li>Scrub and decontamination on all plastics &amp; leather</li>
+            <li>Steam clean</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            <li>Trim shine</li>
+            </ul>
+          </div>
+        </article>
+    </div>
+
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Paint Correction &amp; Protection</h3>
+        <p>Machine correction to lift defects out of the clearcoat, then optional four-year ceramic protection.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's 1 Step Paint Correction Detail</h4>
+            <p class="pk-sub">Removes light swirl marks &amp; oxidation</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$300</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$300</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$350</dd></div>
+            <div><dt>Oversized</dt><dd>$400</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
+            </ul>
+          <p class="pk-extra">You can also add an interior detail if you would like.</p>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Ceramic Coating Package</h4>
+            <p class="pk-sub">4-year ceramic coating</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$550</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$550</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$650</dd></div>
+            <div><dt>Oversized</dt><dd>$750</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath (pH neutral)</li>
+            <li>Deep wheel treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar</li>
+            <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
+            <li>4-year ceramic coating &mdash; semi-permanent barrier to vehicle paint, high gloss and protection</li>
+            </ul>
+          <p class="pk-extra">You can also add an interior detail if you would like.</p>
+          </div>
+        </article>
+    </div>
+
+    <aside class="pr-fam pr-maint" aria-labelledby="maint-title">
+      <div class="pr-fam-head">
+        <h3 id="maint-title">Returning Clients</h3>
+        <p>A reduced rate for vehicles Scrubin has already detailed. It is not a first-visit service.</p>
+      </div>
+      <p class="pr-elig"><b>Who qualifies:</b> vehicles detailed by Scrubin within the previous 60 days. If it has been longer than that, or we have not detailed the vehicle before, one of the packages above applies instead.</p>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Maintenance Detail</h4>
+            <p class="pk-sub">Vehicles detailed within the last 60 days</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$85</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$85</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$100</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Vacuum &mdash; floors, seats, mats</li>
+            <li>Interior quick wipe</li>
+            <li>Interior windows cleaned</li>
+            <li>Leather wipe</li>
+            <li>Mats shined</li>
+            </ul>
+          </div>
+        </article>
+    </aside>
+
+    <div class="pr-fam pr-addons-wrap">
+      <div class="pr-fam-head">
+        <h3>Add-On Services</h3>
+        <p>Priced per vehicle and added to any package above.</p>
+      </div>
+      <ul class="pr-addons">
+        <li><span>Clay bar treatment</span><b>$40</b></li>
+        <li><span>Headlight restoration</span><b>$30</b></li>
+        <li><span>Engine bay detail</span><b>$30</b></li>
+        <li><span>Trim restoration</span><b>$30</b></li>
+        <li><span>Pet hair removal</span><b>$30<small>/hr</small></b></li>
+      </ul>
+    </div>
+
+    <div class="pr-notes">
+      <p><b>Why a maintenance plan makes sense here.</b> Between spring pollen, Santa Ana dust and hard-water sprinkler overspray, paint in the Temecula Valley gets attacked year-round. Keeping a vehicle on a 60-day maintenance detail is far cheaper than paying to correct etched water spots later.</p>
+      <p><b>Pricing notes.</b> Prices shown are per vehicle and include mobile service in Temecula, Murrieta, Menifee, French Valley, Winchester and Wildomar &mdash; there is no trip charge or convenience fee. Heavily soiled vehicles, excessive pet hair, or oversized/lifted rigs may need additional time; we'll always confirm before we start, never after. <a href="#quote">Send a photo for an exact quote</a></p>
     </div>
   </div>
 </section>
@@ -869,22 +1271,31 @@ footer p{color:var(--steel);font-size:.9rem}
 <!-- ================= MARINE / RV / OFFROAD ================= -->
 <section id="marine">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Auto. Marine. Offroad.</p>
-      <h2><span class="chrome">RV, Boat &amp; Jet Ski Detailing</span><br><span class="rw" style="font-size:.5em;letter-spacing:.04em">Mobile RV Detailing Across the Temecula Valley</span></h2>
-      <p class="lede">Lake Skinner, Diamond Valley Lake, Lake Elsinore and Canyon Lake are all a short tow away &mdash; and Temecula Valley driveways are full of motorhomes, fifth wheels, ski boats and dirt bikes. We detail all of them on site, so you never have to find a rig-friendly wash bay.</p>
+    <div class="pr-head">
+      <p class="eyebrow-q">Auto. Marine. Offroad.</p>
+      <h2>RV, Boat &amp; Jet Ski Detailing</h2>
+      <p class="pr-subhead">Mobile RV detailing across the Temecula Valley</p>
+      <p class="pr-lede">Lake Skinner, Diamond Valley Lake, Lake Elsinore and Canyon Lake are all a short tow away &mdash; and Temecula Valley driveways are full of motorhomes, fifth wheels, ski boats and dirt bikes. We detail all of them on site, so you never have to find a rig-friendly wash bay.</p>
     </div>
 
-    <div class="grid g4">
-      <article class="tier">
-        <div class="tier-top">
-          <h3>RV &amp; Trailer Exterior Wash</h3>
-          <p class="sub">Motorhomes &#183; fifth wheels &#183; travel trailers</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$7<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>RV &amp; Trailers</h3>
+        <p>Motorhomes, fifth wheels and travel trailers.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">RV &amp; Trailer Exterior Wash</h4>
+            <p class="pk-sub">Motorhomes &#183; fifth wheels &#183; travel trailers</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Roof wash</li>
             <li>Bug removal</li>
@@ -893,20 +1304,29 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Spot-free rinse &amp; hand dry</li>
             <li>Tire shine</li>
             <li>Final quality inspection</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My RV</a>
-        </div>
-      </article>
+            </ul>
+          </div>
+        </article>
+    </div>
 
-      <article class="tier">
-        <div class="tier-top">
-          <h3>Boat Exterior Wash</h3>
-          <p class="sub">Hull &amp; topside, trailer included</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$7<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Marine</h3>
+        <p>Boats and jet skis &mdash; hull, topside and trailer.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Boat Exterior Wash</h4>
+            <p class="pk-sub">Hull &amp; topside, trailer included</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Hull and topside wash</li>
             <li>Bug, bird dropping &amp; light algae removal</li>
@@ -915,21 +1335,22 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Trailer wheels &amp; tires cleaned (if applicable)</li>
             <li>Tire shine (if applicable)</li>
             <li>Spot-free rinse &amp; hand dry</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My Boat</a>
-        </div>
-      </article>
-
-      <article class="tier feat">
-        <span class="flag">Full detail</span>
-        <div class="tier-top">
-          <h3>Boat Full Detail</h3>
-          <p class="sub">Inside, out, decks &amp; seating</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$15<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">Everything in the exterior wash, plus</p>
-          <ul>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Boat Full Detail</h4>
+            <p class="pk-sub">Inside, out, decks &amp; seating</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$15</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">Everything in the exterior wash, plus</p>
+            <ul class="pk-inc">
             <li class="prev">Full boat exterior wash</li>
             <li>Thorough vacuuming (if carpeted)</li>
             <li>If not carpeted, power wash on flooring</li>
@@ -939,20 +1360,22 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Storage compartments cleaned</li>
             <li>Streak-free windows</li>
             <li>Ceramic detail spray</li>
-          </ul>
-          <a class="btn" href="#quote">Quote Full Boat Detail</a>
-        </div>
-      </article>
-
-      <article class="tier">
-        <div class="tier-top">
-          <h3>Jet Ski Detail</h3>
-          <p class="sub">Per jet ski, trailer included</p>
-          <ul class="prices"><li><span class="lbl">Flat rate</span><span class="amt">$150</span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Jet Ski Detail</h4>
+            <p class="pk-sub">Per jet ski, trailer included</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$150</b></p>
+            <p class="pk-basis">Flat rate</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Complete exterior wash</li>
             <li>Bug &amp; water spot removal</li>
@@ -961,24 +1384,28 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>UV protectant applied to plastics &amp; vinyl</li>
             <li>Ceramic detail spray</li>
             <li>Trailer wheels &amp; tires cleaned (if applicable)</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My Jet Ski</a>
-        </div>
-      </article>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <div class="grid g2" style="margin-top:18px">
-      <article class="tier">
-        <div class="tier-top" style="display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap">
-          <div>
-            <h3>Motorcycle &amp; Dirt Bike Detail</h3>
-            <p class="sub">Street, cruiser, MX &amp; offroad</p>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Motorcycles &amp; Powersports</h3>
+        <p>Street, cruiser, MX and offroad.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Motorcycle &amp; Dirt Bike Detail</h4>
+            <p class="pk-sub">Street, cruiser, MX &amp; offroad</p>
           </div>
-          <span class="amt" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.2rem;color:#fff">$50</span>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul style="columns:2;column-gap:28px">
+          <div class="pk-price">
+            <p class="pk-rate"><b>$50</b></p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Wheels, tires &amp; rims cleaned</li>
             <li>Bug removal</li>
@@ -987,150 +1414,158 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Seat cleaned &amp; conditioned</li>
             <li>Spot-free rinse &amp; hand dry</li>
             <li>Final quality inspection</li>
-          </ul>
-          <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">Add-on: <b style="color:#fff">Chrome Polish &amp; Protection +$50</b></p>
-          <a class="btn ghost" href="#quote">Quote My Bike</a>
-        </div>
-      </article>
+            </ul>
+            <p class="pk-extra">Add-on: Chrome Polish &amp; Protection +$50</p>
+          </div>
+        </article>
+    </div>
 
-      <div>
-        <h3 style="margin-bottom:16px">Marine &amp; RV Add-Ons</h3>
-        <ul class="addons" style="grid-template-columns:1fr">
-          <li><span>Machine polish wax</span><span class="amt">$150</span></li>
-          <li><span>4-month paint protection wax</span><span class="amt">$75</span></li>
-          <li><span>Awning clean</span><span class="amt">$75</span></li>
-          <li><span>Trim restoration (jet skis)</span><span class="amt">$30</span></li>
-        </ul>
-        <div class="note" style="margin-top:18px">
-          <b>Heading out to Skinner or Diamond Valley?</b> Both are Metropolitan Water District reservoirs, and every vessel has to pass a pre-launch inspection in clean, seaworthy condition. Book a wash the day before your trip and roll up to the ramp inspection-ready.
-        </div>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Marine &amp; RV Add-Ons</h3>
+        <p>Added to any RV, boat or jet ski service above.</p>
       </div>
+      <ul class="pr-addons">
+        <li><span>Machine polish wax</span><b>$150</b></li>
+        <li><span>4-month paint protection wax</span><b>$75</b></li>
+        <li><span>Awning clean</span><b>$75</b></li>
+        <li><span>Trim restoration (jet skis)</span><b>$30</b></li>
+      </ul>
+    </div>
+
+    <div class="pr-notes pr-notes--one">
+      <p><b>Heading out to Skinner or Diamond Valley?</b> Both are Metropolitan Water District reservoirs, and every vessel has to pass a pre-launch inspection in clean, seaworthy condition. Book a wash the day before your trip and roll up to the ramp inspection-ready.</p>
     </div>
   </div>
 </section>
 
 <!-- ================= WHY / LOCAL CONDITIONS ================= -->
-<section id="why" class="alt">
+<section id="why" aria-labelledby="why-title">
   <div class="wrap">
-    <div class="quote-grid">
+    <div class="pr-head">
+      <p class="eyebrow-q">Local conditions</p>
+      <h2 id="why-title">Why paint doesn't last here</h2>
+      <p class="pr-lede">A detail in Southwest Riverside County is not the same job as a detail on the coast. Inland heat, mineral-heavy water and windblown dust are unusually hard on paint, trim and interiors &mdash; which is why protection matters more here.</p>
+    </div>
+
+    <dl class="cond-list">
       <div>
-        <p class="eyebrow">Built for the Temecula Valley</p>
-        <h2 class="chrome" style="margin-bottom:.5em">Why Paint Doesn't Last in the Temecula Valley</h2>
-        <p class="lede">A detail in Southwest Riverside County is not the same job as a detail on the coast. Between inland heat, mineral-heavy water and windblown dust, this valley is unusually hard on paint, trim and interiors &mdash; and it's why protection matters more here than almost anywhere in Southern California.</p>
-        <div class="btn-row" style="margin-top:26px">
-          <a class="btn" href="#quote">Get Protected &mdash; Free Quote</a>
-        </div>
+        <dt>Hard water &amp; sprinkler spotting</dt>
+        <dd>Inland water is heavily mineralized. Sprinkler overspray dries fast in the heat and etches minerals straight into clearcoat. Clay bar decontamination and a ceramic coating are the real fix.</dd>
       </div>
-      <ul class="why-list">
-        <li>
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3s5.5 6.2 5.5 10a5.5 5.5 0 0 1-11 0C6.5 9.2 12 3 12 3Z"/></svg></span>
-          <div><b>Hard water &amp; sprinkler spotting</b><p>Inland water is heavily mineralized. Sprinkler overspray dries fast in the heat and etches minerals straight into clearcoat. Clay bar decontamination and a ceramic coating are the real fix.</p></div>
-        </li>
-        <li>
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h13a3 3 0 1 0-3-3M3 12h16M3 16h11a3 3 0 1 1-3 3"/></svg></span>
-          <div><b>Santa Ana winds &amp; dust</b><p>Fall through spring, northeast winds gust hard enough to trigger windblown dust advisories across Temecula, Murrieta and Lake Elsinore. That fine grit sandblasts paint and loads up your cabin filter.</p></div>
-        </li>
-        <li>
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
-          <div><b>Relentless UV and inland heat</b><p>Summers here bake dashboards, crack leather, fade trim and yellow headlights. Paint sealants, trim coatings and interior UV protection buy years of life back.</p></div>
-        </li>
-        <li>
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-1.5-4-4-6-7-6.5 3-2 5.5-1 7 1.5 1.5-2.5 4-3.5 7-1.5-3 .5-5.5 2.5-7 6.5Z"/><path d="M12 15V3"/></svg></span>
-          <div><b>Spring pollen &amp; wine-country road dust</b><p>Pollen is abrasive and turns acidic when it gets damp. Add the unpaved shoulders around Wine Country, De Luz and the still-building French Valley corridor and weekly washing genuinely pays off.</p></div>
-        </li>
-        <li>
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span>
-          <div><b>You already commute 36 minutes each way</b><p>Two cars per household and a long haul down the I-15 &mdash; the last thing that should eat your Saturday is sitting in a detail shop lobby. We come to your driveway instead.</p></div>
-        </li>
-      </ul>
+      <div>
+        <dt>Santa Ana winds &amp; dust</dt>
+        <dd>Fall through spring, northeast winds gust hard enough to trigger windblown dust advisories across Temecula, Murrieta and Lake Elsinore. That fine grit sandblasts paint and loads up your cabin filter.</dd>
+      </div>
+      <div>
+        <dt>Relentless UV and inland heat</dt>
+        <dd>Summers here bake dashboards, crack leather, fade trim and yellow headlights. Paint sealants, trim coatings and interior UV protection buy years of life back.</dd>
+      </div>
+      <div>
+        <dt>Spring pollen &amp; wine-country road dust</dt>
+        <dd>Pollen is abrasive and turns acidic when it gets damp. Add the unpaved shoulders around Wine Country, De Luz and the still-building French Valley corridor and weekly washing genuinely pays off.</dd>
+      </div>
+    </dl>
+
+    <div class="cond-cta">
+      <a class="cta" href="#quote">Get a Free Quote</a>
     </div>
   </div>
 </section>
 
 <!-- ================= REVIEWS ================= -->
-<section id="reviews">
+<section id="reviews" aria-labelledby="rev-title">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">5.0 stars on Google</p>
-      <h2 class="chrome">What Temecula Valley Clients Say</h2>
+    <div class="pr-head rev-head">
+      <p class="eyebrow-q">Reviews</p>
+      <h2 id="rev-title">What clients say</h2>
+      <p class="rev-rating"><b>5.0</b> <span>rated on Google</span></p>
     </div>
-    <div class="grid g3">
-      <article class="card rev">
-        <div class="stars" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg></div>
+
+    <div class="rev-list">
+      <figure>
         <blockquote>&ldquo;Outstanding quality of work. Very professional, respectful, and easy to work with.&rdquo;</blockquote>
-        <cite>&mdash; Mohammed Zubair</cite>
-      </article>
-      <article class="card rev">
-        <div class="stars" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg></div>
+        <figcaption>Mohammed Zubair</figcaption>
+      </figure>
+      <figure>
         <blockquote>&ldquo;Attention to detail and little extras were amazing. Excellent communication.&rdquo;</blockquote>
-        <cite>&mdash; Justin Hodge</cite>
-      </article>
-      <article class="card rev">
-        <div class="stars" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7.2.9-5.3 5 1.3 7.1L12 18.2 5.8 21.6l1.3-7.1-5.3-5 7.2-.9Z"/></svg></div>
+        <figcaption>Justin Hodge</figcaption>
+      </figure>
+      <figure>
         <blockquote>&ldquo;Thorough &mdash; my car was cleaner than the day I got it.&rdquo;</blockquote>
-        <cite>&mdash; Claire Russell</cite>
-      </article>
+        <figcaption>Claire Russell</figcaption>
+      </figure>
     </div>
-    <p class="also">Detailed with us? <b>A quick Google review</b> genuinely helps a small local business &mdash; and mentioning your city helps neighbors find us.</p>
+
+    <p class="rev-ask">Detailed with us? <b>A quick Google review</b> genuinely helps a small local business.</p>
   </div>
 </section>
 
 <!-- ================= AREAS SERVED ================= -->
-<section id="areas" class="alt">
+<section id="areas" aria-labelledby="areas-title">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Fully mobile &#183; no trip fee</p>
-      <h2 class="chrome">Areas We Serve</h2>
-      <p class="lede">We're based in the Temecula Valley and run mobile across Southwest Riverside County. If you're inside these lines, we come to you at no extra charge.</p>
+    <div class="pr-head">
+      <p class="eyebrow-q">Fully mobile &#183; no trip fee</p>
+      <h2 id="areas-title">Areas we serve</h2>
+      <p class="pr-lede">Based in the Temecula Valley and running mobile across Southwest Riverside County. Inside these lines, we come to you.</p>
     </div>
 
-    <div class="grid g2">
-      <div class="area">
-        <h3><small>Riverside County &#183; 92590 / 92591 / 92592</small>Mobile Detailing in Temecula</h3>
-        <p>From Old Town and Harveston down through Redhawk, Wolf Creek and Vail Ranch, we detail in driveways all over Temecula &mdash; plus Wine Country and De Luz, where dirt-road dust is a weekly fact of life. Work from home? We'll detail your car in the driveway while you're on calls.</p>
-        <p class="hoods">Redhawk &#183; Harveston &#183; Wolf Creek &#183; Vail Ranch &#183; Paloma del Sol &#183; Chardonnay Hills &#183; Meadowview &#183; Old Town &#183; Temecula Wine Country &#183; De Luz</p>
+    <dl class="area-list">
+      <div>
+        <dt>Temecula <span class="area-zip">92590 &#183; 92591 &#183; 92592</span></dt>
+        <dd>
+          <p>From Old Town and Harveston down through Redhawk, Wolf Creek and Vail Ranch &mdash; plus Wine Country and De Luz, where dirt-road dust is a weekly fact of life.</p>
+          <p class="area-hoods">Redhawk &#183; Harveston &#183; Wolf Creek &#183; Vail Ranch &#183; Paloma del Sol &#183; Chardonnay Hills &#183; Meadowview &#183; Old Town &#183; Temecula Wine Country &#183; De Luz</p>
+        </dd>
       </div>
-
-      <div class="area">
-        <h3><small>Riverside County &#183; 92562 / 92563</small>Mobile Detailing in Murrieta</h3>
-        <p>Bear Creek, Copper Canyon, California Oaks, The Colony and up onto the Santa Rosa Plateau. Shift workers at Loma Linda University Medical Center&ndash;Murrieta are some of our best clients &mdash; we work early, late and weekends so a detail never costs you sleep.</p>
-        <p class="hoods">Bear Creek &#183; Copper Canyon &#183; Central Park &#183; The Colony &#183; Alta Murrieta &#183; California Oaks &#183; Los Alamos Hills &#183; La Cresta &#183; Santa Rosa Plateau</p>
+      <div>
+        <dt>Murrieta <span class="area-zip">92562 &#183; 92563</span></dt>
+        <dd>
+          <p>Bear Creek, Copper Canyon, California Oaks, The Colony and up onto the Santa Rosa Plateau. Shift workers at Loma Linda University Medical Center&ndash;Murrieta are some of our best clients, so we work early, late and weekends.</p>
+          <p class="area-hoods">Bear Creek &#183; Copper Canyon &#183; Central Park &#183; The Colony &#183; Alta Murrieta &#183; California Oaks &#183; Los Alamos Hills &#183; La Cresta &#183; Santa Rosa Plateau</p>
+        </dd>
       </div>
-
-      <div class="area">
-        <h3><small>Riverside County &#183; 92584 / 92585 / 92586</small>Mobile Detailing in Menifee</h3>
-        <p>Menifee is the fastest-growing city in the valley, and new construction means constant dust on new paint. We cover Audie Murphy Ranch, Menifee Lakes, Heritage Lake, Quail Valley and Sun City &mdash; including RVs and boats parked at home.</p>
-        <p class="hoods">Audie Murphy Ranch &#183; Menifee Lakes &#183; Heritage Lake &#183; Sun City &#183; Quail Valley &#183; Newport Road corridor</p>
+      <div>
+        <dt>Menifee <span class="area-zip">92584 &#183; 92585 &#183; 92586</span></dt>
+        <dd>
+          <p>Steady new construction across the city means constant dust on new paint. Audie Murphy Ranch through Sun City, including RVs and boats parked at home.</p>
+          <p class="area-hoods">Audie Murphy Ranch &#183; Menifee Lakes &#183; Heritage Lake &#183; Sun City &#183; Quail Valley &#183; Newport Road corridor</p>
+        </dd>
       </div>
-
-      <div class="area">
-        <h3><small>Riverside County &#183; 92563 / 92596</small>Mobile Detailing in French Valley &amp; Winchester</h3>
-        <p>French Valley has grown faster than almost anywhere in Riverside County, and the SR-79 / Winchester Road corridor is still half construction zone. Two-car, two-kid households with a trailer in the driveway &mdash; exactly what our mobile setup was built for.</p>
-        <p class="hoods">French Valley Airport area &#183; Winchester &#183; SR-79 corridor &#183; Tucalota Hills &#183; Scott Road &#183; Auld Road</p>
+      <div>
+        <dt>French Valley &amp; Winchester <span class="area-zip">92563 &#183; 92596</span></dt>
+        <dd>
+          <p>New tracts keep going up here, and the SR-79 / Winchester Road corridor is still half construction zone &mdash; which puts a lot of dust on a lot of paint. Two-car households with a trailer in the driveway.</p>
+          <p class="area-hoods">French Valley Airport area &#183; Winchester &#183; SR-79 corridor &#183; Tucalota Hills &#183; Scott Road &#183; Auld Road</p>
+        </dd>
       </div>
-    </div>
+    </dl>
 
-    <p class="also">Also serving <b>Wildomar, Lake Elsinore, Canyon Lake, Sun City, Perris</b> and <b>Fallbrook</b>. Just outside the area? <a href="tel:+19513913669" style="color:var(--blue-lt);font-weight:600">Call (951) 391-3669</a> &mdash; we'll tell you straight whether we can get to you.</p>
+    <p class="area-also">Also serving <b>Wildomar, Lake Elsinore, Canyon Lake, Sun City, Perris</b> and <b>Fallbrook</b>. Just outside the area? <a href="tel:+19513913669">Call (951) 391-3669</a> and we'll tell you straight whether we can get to you.</p>
   </div>
 </section>
 
 <!-- ================= PROCESS ================= -->
-<section id="process">
+<section id="process" aria-labelledby="process-title">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">Dead simple</p>
-      <h2 class="chrome">How It Works</h2>
+    <div class="pr-head">
+      <p class="eyebrow-q">How it works</p>
+      <h2 id="process-title">Three steps, start to finish</h2>
     </div>
-    <ol class="steps">
+
+    <ol class="step-list">
       <li>
+        <p class="step-idx">01</p>
         <h3>Text us a photo</h3>
-        <p>Stand next to your vehicle, snap a picture, and text it to <a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote." style="color:var(--blue-lt);font-weight:600">(951) 391-3669</a> &mdash; or fill out the quote form. Photos let us quote accurately the first time, with no surprise upcharges when we arrive.</p>
+        <p>Stand next to your vehicle, snap a picture, and text it to <a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">(951) 391-3669</a> &mdash; or fill out the quote form. Photos let us quote accurately the first time, with no surprise upcharges when we arrive.</p>
       </li>
       <li>
+        <p class="step-idx">02</p>
         <h3>We come to you</h3>
-        <p>Pick a day and time that works, including evenings and weekends. We arrive fully self-contained with our own water and power, so all you need is a parking spot. No trip fee, no convenience fee.</p>
+        <p>Pick a day and time that works, including evenings and weekends. We arrive fully self-contained with our own water and power, so all you need is a parking spot.</p>
       </li>
       <li>
+        <p class="step-idx">03</p>
         <h3>Walk out to a better vehicle</h3>
         <p>We finish with a quality inspection and walk you around the vehicle before we leave. Not happy with something? Tell us on the spot and we'll make it right before we pack up.</p>
       </li>
@@ -1139,20 +1574,32 @@ footer p{color:var(--steel);font-size:.9rem}
 </section>
 
 <!-- ================= QUOTE FORM ================= -->
-<section id="quote" class="alt">
+<section id="quote" aria-labelledby="quote-title">
   <div class="wrap">
     <div class="quote-grid">
       <div>
-        <p class="eyebrow">Free, no-pressure quote</p>
-        <h2 class="chrome" style="margin-bottom:.45em">Get Your Free Detailing Quote</h2>
-        <p class="lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot &mdash; usually within a couple of hours during business hours.</p>
+        <p class="eyebrow-q">Free, no-pressure quote</p>
+        <h2 id="quote-title">Get your free detailing quote</h2>
+        <p class="pr-lede">Tell us what you're driving and what's bugging you about it. We'll come back with an exact price and the next available slot. We'll get back to you as soon as possible during business hours.</p>
 
-        <ul class="why-list" style="margin-top:26px">
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Prefer to talk?</b><p>Call or text <a href="tel:+19513913669" style="color:var(--blue-lt);font-weight:600">(951) 391-3669</a> &mdash; texting a photo is the fastest way to an exact price.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span><div><b>Email</b><p><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21" style="color:var(--blue-lt)">Caymanb4747@outlook.com</a></p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span><div><b>Hours</b><p>7 days a week, 7:00 AM &ndash; 7:00 PM. Early and late appointments available by request.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10Z"/><circle cx="12" cy="11" r="2.6"/></svg></span><div><b>Service area</b><p>Temecula, Murrieta, Menifee, French Valley, Winchester, Wildomar, Lake Elsinore, Canyon Lake &amp; Sun City.</p></div></li>
-        </ul>
+        <dl class="q-contact">
+          <div>
+            <dt>Prefer to talk?</dt>
+            <dd>Call or text <a href="tel:+19513913669">(951) 391-3669</a> &mdash; texting a photo is the fastest way to an exact price.</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21">Caymanb4747@outlook.com</a></dd>
+          </div>
+          <div>
+            <dt>Hours</dt>
+            <dd>7 days a week, 7:00 AM &ndash; 7:00 PM. Early and late appointments available by request.</dd>
+          </div>
+          <div>
+            <dt>Service area</dt>
+            <dd>Temecula, Murrieta, Menifee, French Valley, Winchester, Wildomar, Lake Elsinore, Canyon Lake &amp; Sun City.</dd>
+          </div>
+        </dl>
       </div>
 
       <form class="q" id="quoteForm" method="POST" action="https://api.web3forms.com/submit" novalidate>
@@ -1220,7 +1667,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <option>Ceramic Coating Package (from $550)</option>
             <option>Basic Interior Detail (from $75)</option>
             <option>Premium Interior Detail (from $130)</option>
-            <option>Basic Exterior Detail (from $60)</option>
+            <option>Exterior Wash (from $60)</option>
             <option>Exterior Detail, Clay &amp; Wax (from $130)</option>
             <option>Maintenance Detail (returning client)</option>
             <option>RV / trailer wash ($7/ft)</option>
@@ -1250,14 +1697,14 @@ footer p{color:var(--steel);font-size:.9rem}
 <!-- ================= FAQ ================= -->
 <section id="faq">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">Straight answers</p>
-      <h2 class="chrome">Mobile Detailing FAQs</h2>
+    <div class="pr-head">
+      <p class="eyebrow-q">Straight answers</p>
+      <h2>Mobile detailing FAQs</h2>
     </div>
     <div class="faq">
       <details open>
         <summary>Do you really come to me &mdash; and is there a trip fee?</summary>
-        <div class="a"><p>Yes. Scrubin Detailing is fully mobile. We arrive with our own water and power and work wherever your vehicle is parked &mdash; home, apartment complex, office lot or storage yard. There is <b>no trip fee, travel fee or convenience fee</b> anywhere in Temecula, Murrieta, Menifee, French Valley, Winchester or Wildomar. Some shops charge $25 or more just to come to you; we don't.</p></div>
+        <div class="a"><p>Yes. Scrubin Detailing is fully mobile. We arrive with our own water and power and work wherever your vehicle is parked &mdash; home, apartment complex, office lot or storage yard. There is <b>no trip fee, travel fee or convenience fee</b> anywhere in Temecula, Murrieta, Menifee, French Valley, Winchester or Wildomar.</p></div>
       </details>
       <details>
         <summary>How much does mobile detailing cost in Temecula?</summary>
@@ -1293,7 +1740,7 @@ footer p{color:var(--steel);font-size:.9rem}
       </details>
       <details>
         <summary>Which cities and neighborhoods do you serve?</summary>
-        <div class="a"><p>Our core area is <b>Temecula (92590, 92591, 92592), Murrieta (92562, 92563), Menifee (92584, 92585, 92586) and French Valley &amp; Winchester (92563, 92596)</b> &mdash; including Redhawk, Harveston, Wolf Creek, Vail Ranch, Bear Creek, Copper Canyon, California Oaks, Audie Murphy Ranch, Menifee Lakes and Sun City. We also regularly serve Wildomar, Lake Elsinore, Canyon Lake, Perris and Fallbrook. There's no trip fee anywhere in that area. Outside it? <a href="tel:+19513913669">Call (951) 391-3669</a> and we'll tell you straight whether we can get to you.</p></div>
+        <div class="a"><p>Our core area is <b>Temecula (92590, 92591, 92592), Murrieta (92562, 92563), Menifee (92584, 92585, 92586) and French Valley &amp; Winchester (92563, 92596)</b> &mdash; including Redhawk, Harveston, Wolf Creek, Vail Ranch, Bear Creek, Copper Canyon, California Oaks, Audie Murphy Ranch, Menifee Lakes and Sun City. We also regularly serve Wildomar, Lake Elsinore, Canyon Lake, Perris and Fallbrook. Outside that area? <a href="tel:+19513913669">Call (951) 391-3669</a> and we'll tell you straight whether we can get to you.</p></div>
       </details>
       <details>
         <summary>What payment do you take, and are you insured?</summary>
@@ -1304,19 +1751,18 @@ footer p{color:var(--steel);font-size:.9rem}
 </section>
 
 <!-- ================= FINAL CTA ================= -->
-<section class="finalcta">
-  <div class="wrap">
-    <p class="eyebrow">Auto. Marine. Offroad.</p>
-    <h2 class="chrome" style="margin-bottom:.3em">Premium Detailing Done Right</h2>
-    <p class="lede" style="margin:0 auto 0">Protect. Enhance. Impress. Serving Temecula, Murrieta, Menifee &amp; French Valley &mdash; we come to you.</p>
-    <a class="bignum chrome" href="tel:+19513913669">(951) 391-3669</a>
-    <div class="btn-row">
-      <a class="btn" href="#quote">Get My Free Quote</a>
-      <a class="btn blue" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo for a Price</a>
+<section class="finalcta" aria-labelledby="fc-title">
+  <div class="wrap fc-inner">
+    <h2 id="fc-title">Park it. We'll handle the rest.</h2>
+    <p class="fc-lede">Send a photo and we'll come back with an exact price and the next open slot.</p>
+    <div class="fc-actions">
+      <a class="cta" href="#quote">Get a Free Quote</a>
+      <p class="fc-tel">or call <a href="tel:+19513913669">(951) 391-3669</a></p>
     </div>
   </div>
 </section>
-<div class="stripe"></div>
+
+</main>
 
 <!-- ================= FOOTER ================= -->
 <footer>
@@ -1324,7 +1770,7 @@ footer p{color:var(--steel);font-size:.9rem}
     <div class="fgrid">
       <div>
         <a class="brand" href="#top" aria-label="Scrubin Detailing"><img src="logo.webp" width="900" height="450" alt="Scrubin Detailing logo" loading="lazy" decoding="async"></a>
-        <p>Premium mobile auto, marine and offroad detailing serving the Temecula Valley and Southwest Riverside County. Locally owned and operated.</p>
+        <p class="f-about">Premium mobile auto, marine and offroad detailing serving the Temecula Valley and Southwest Riverside County. Locally owned and operated.</p>
         <div class="socials">
           <a href="https://www.instagram.com/scrubin_detailing/" target="_blank" rel="noopener" aria-label="Scrubin Detailing on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a>
           <a href="https://www.tiktok.com/@scrubindetailing" target="_blank" rel="noopener" aria-label="Scrubin Detailing on TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.8a5 5 0 0 1-1.1-3h-3v12.1a2.6 2.6 0 1 1-1.9-2.5v-3a5.6 5.6 0 1 0 4.9 5.5V9.4a8 8 0 0 0 4.2 1.2V7.7a4.8 4.8 0 0 1-3.1-1.9Z"/></svg></a>
@@ -1332,20 +1778,20 @@ footer p{color:var(--steel);font-size:.9rem}
         </div>
       </div>
       <div>
-        <h4>Services</h4>
+        <h3>Services</h3>
         <ul>
           <li><a href="#pricing">Full Auto Detailing</a></li>
-          <li><a href="#p2">Interior Detailing</a></li>
+          <li><a href="#pricing">Interior Detailing</a></li>
           <li><a href="#pricing">Ceramic Coating</a></li>
           <li><a href="#services">Paint Correction</a></li>
           <li><a href="#marine">RV &amp; Trailer Detailing</a></li>
           <li><a href="#marine">Boat &amp; Jet Ski Detailing</a></li>
           <li><a href="#marine">Motorcycle &amp; Dirt Bike</a></li>
-          <li><a href="#p3">Maintenance Details</a></li>
+          <li><a href="#pricing">Maintenance Details</a></li>
         </ul>
       </div>
       <div>
-        <h4>Areas Served</h4>
+        <h3>Areas Served</h3>
         <ul>
           <li><a href="#areas">Temecula, CA</a></li>
           <li><a href="#areas">Murrieta, CA</a></li>
@@ -1358,15 +1804,14 @@ footer p{color:var(--steel);font-size:.9rem}
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <ul>
-          <li><a href="tel:+19513913669"><b style="color:#fff;font-size:1.15rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:.02em">(951) 391-3669</b></a></li>
+          <li><a class="f-tel" href="tel:+19513913669">(951) 391-3669</a></li>
           <li><a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text us a photo</a></li>
           <li><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21">Caymanb4747@outlook.com</a></li>
-          <li style="color:var(--steel)">Mobile service &mdash; Temecula, CA</li>
-          <li style="color:var(--steel)">Open 7 days &#183; 7:00 AM &ndash; 7:00 PM</li>
+          <li class="f-meta">Mobile service &mdash; Temecula, CA</li>
+          <li class="f-meta">Open 7 days &#183; 7:00 AM &ndash; 7:00 PM</li>
         </ul>
-        <a class="btn" href="#quote" style="margin-top:8px">Get a Free Quote</a>
       </div>
     </div>
     <div class="legal">
@@ -1379,9 +1824,9 @@ footer p{color:var(--steel);font-size:.9rem}
 
 <!-- ================= STICKY MOBILE CALL BAR ================= -->
 <div class="callbar">
-  <a class="btn" href="tel:+19513913669">Call</a>
-  <a class="btn blue" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text</a>
-  <a class="btn ghost" href="#quote">Quote</a>
+  <a class="cta" href="tel:+19513913669">Call</a>
+  <a class="cta cta--ghost" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text</a>
+  <a class="cta cta--ghost" href="#quote">Quote</a>
 </div>
 
 <!-- ================= STRUCTURED DATA =================
@@ -1464,7 +1909,7 @@ footer p{color:var(--steel);font-size:.9rem}
           { "@type": "Offer", "name": "Ceramic Coating Package", "description": "pH neutral safe wash and foam bath, deep wheel treatment and shine, tire shine, iron fallout remover, clay bar, 1-step paint correction, and a 4-year ceramic coating providing a semi-permanent barrier, high gloss and protection. An interior detail can be added.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 550, "maxPrice": 750, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Ceramic coating", "serviceType": "Ceramic coating", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's Basic Interior Detail", "description": "Interior vacuum, interior 1-step clean and conditioning wipe down, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 75, "maxPrice": 105, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Interior detailing", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's Premium Interior Detail", "description": "Thorough vacuuming of the seats and flooring, carpet shampooing, seat and carpet extraction on cloth seats, scrub and decontamination on all plastics and leather, steam clean, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 130, "maxPrice": 170, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Interior detailing", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Basic Exterior Detail", "description": "100% safe wash and foam bath, wheel treatment and shine, wheel well treatment and shine, tire shine.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 60, "maxPrice": 90, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Exterior hand wash", "serviceType": "Exterior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Exterior Wash", "description": "100% safe wash and foam bath, wheel treatment and shine, wheel well treatment and shine, tire shine.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 60, "maxPrice": 90, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Exterior hand wash", "serviceType": "Exterior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Exterior Detail, Clay & Wax", "description": "Safe wash and foam bath, wheel and wheel well treatment, tire shine, iron fallout remover, clay bar decontamination and 6-month paint protection wax.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 130, "maxPrice": 160, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Clay bar and wax", "serviceType": "Exterior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Maintenance Detail", "description": "For returning customers with vehicles detailed within the last 60 days: safe wash and foam bath, wheel treatment and shine, tire shine, vacuum of floors seats and mats, interior quick wipe, interior windows cleaned, leather wipe and mats shined.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 85, "maxPrice": 100, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Maintenance detail", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "RV & Trailer Exterior Wash", "description": "Premium foam bath and hand wash, roof wash, bug removal, wheels tires and wheel wells cleaned, exterior windows cleaned, spot-free rinse and hand dry, tire shine and final quality inspection. Priced per foot.", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": 7, "priceCurrency": "USD", "unitText": "per foot" }, "itemOffered": { "@type": "Service", "name": "RV detailing", "serviceType": "RV detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
@@ -1527,38 +1972,19 @@ footer p{color:var(--steel);font-size:.9rem}
   burger.addEventListener('click', function(){
     var open = nav.classList.toggle('open');
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      burger.setAttribute('aria-label','Open menu');
+      burger.focus();
+    }
   });
   nav.addEventListener('click', function(e){
-    if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+    if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Open menu'); }
   });
-
-  /* ---- pricing tabs ---- */
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role=tab]'));
-  function select(tab){
-    tabs.forEach(function(t){
-      var on = t === tab;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-  }
-  tabs.forEach(function(t, i){
-    t.addEventListener('click', function(){ select(t); });
-    t.addEventListener('keydown', function(e){
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      var n = tabs[(i + d + tabs.length) % tabs.length];
-      n.focus(); select(n);
-    });
-  });
-  /* deep-link support: #p2 / #p3 open the right pricing tab */
-  function openFromHash(){
-    var h = location.hash.replace('#','');
-    var t = document.querySelector('.tabs [aria-controls="' + h + '"]');
-    if (t){ select(t); document.getElementById('pricing').scrollIntoView({behavior:'smooth'}); }
-  }
-  window.addEventListener('hashchange', openFromHash);
-  if (location.hash) openFromHash();
 
   /* ---- quote form ---- */
   var form = document.getElementById('quoteForm'),
@@ -1578,10 +2004,11 @@ footer p{color:var(--steel);font-size:.9rem}
 
     /* validation */
     var required = ['name','phone','city','vehicle'];
+    var friendly = { name:'name', phone:'phone number', city:'city', vehicle:'vehicle type' };
     for (var i=0;i<required.length;i++){
       var f = document.getElementById(required[i]);
       if (!f.value.trim()){
-        show('err','Please fill in your ' + (f.previousElementSibling.textContent.replace('*','').trim().toLowerCase()) + '.');
+        show('err','Please fill in your ' + friendly[required[i]] + '.');
         f.focus(); return;
       }
     }
@@ -1606,7 +2033,7 @@ footer p{color:var(--steel);font-size:.9rem}
     }).then(function(r){
       if (!r.ok) throw new Error('bad status');
       form.reset();
-      show('ok','<b>Got it — thanks!</b><br>We’ll text or call you back with an exact price, usually within a couple of hours during business hours. Need it sooner? Call <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a>.');
+      show('ok','<b>Got it — thanks!</b><br>We’ll get back to you as soon as possible during business hours with an exact price. Need it sooner? Call <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a>.');
     }).catch(function(){
       show('err','Something went wrong sending that. Please call or text <a href="tel:+19513913669" style="color:#fff;font-weight:600">(951) 391-3669</a> and we’ll take care of you directly.');
     }).finally(function(){
