@@ -12,6 +12,13 @@
   to = "/"
   status = 301
 
+# Old /book-now URL now points at the quote form on the homepage. The section is
+# <section id="quote"> and holds the quote form, so the fragment lands on it.
+[[redirects]]
+  from = "/book-now"
+  to = "/#quote"
+  status = 301
+
 # Images never change unless you rename them, so let browsers cache them for a year.
 # This is what makes repeat visits load almost instantly.
 [[headers]]
