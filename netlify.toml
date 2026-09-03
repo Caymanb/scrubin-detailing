@@ -35,4 +35,4 @@
     X-Frame-Options = "SAMEORIGIN"
     # While the site is only up for private review, remove the "#" from the next
     # line to keep Google from indexing this URL. Put the "#" back before launch.
-    X-Robots-Tag = "noindex"
+    # X-Robots-Tag = "noindex"
