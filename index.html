@@ -398,17 +398,120 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
   .trust li:nth-child(n+3){border-top:1px solid var(--ink-line);padding-top:20px}
 }
 
-/* ============ PRICING ============ */
-.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px}
-.tabs button{
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  font-size:1.02rem;color:var(--ice-dim);background:rgba(255,255,255,.04);border:1px solid var(--line);
-  padding:11px 18px;border-radius:10px;cursor:pointer;transition:.18s;min-height:46px
+/* ============ PRICING MENU ============ */
+/* .tier / .prices / .tier-body / .flag / .addons / .note below are still used by the
+   RV, marine and powersports section, so they stay until that section is redesigned. */
+#pricing{
+  padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
+  background:linear-gradient(180deg,var(--navy-900) 0%,var(--ink-950) 7%,var(--ink-950) 93%,var(--navy-950) 100%);
 }
-.tabs button:hover{color:#fff;border-color:var(--line-2)}
-.tabs button[aria-selected="true"]{color:#fff;background:linear-gradient(180deg,var(--blue),#0f3aa0);border-color:var(--blue-lt)}
-.panel[hidden]{display:none}
+.pr-head{max-width:820px;margin:0 0 clamp(30px,3.8vw,50px)}
+.pr-head h2{font-size:clamp(1.95rem,3.9vw,3.1rem);text-transform:uppercase;color:#fff;line-height:1.01}
+.pr-lede{margin:1.1em 0 0;color:var(--ink-dim);font-size:1.04rem;line-height:1.62;max-width:64ch}
+.pr-lede b{color:#fff;font-weight:600}
 
+/* a family of related packages, basic -> premium */
+.pr-fam{margin-top:clamp(36px,4.4vw,62px)}
+.pr-fam-head{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);
+  align-items:baseline;gap:6px clamp(20px,3vw,40px);
+  padding-top:clamp(16px,2vw,24px);border-top:2px solid var(--red)}
+.pr-fam-head h3{margin:0;font-size:clamp(1.28rem,2.1vw,1.7rem);text-transform:uppercase;
+  letter-spacing:.05em;color:#fff;line-height:1.06;white-space:nowrap}
+.pr-fam-head p{margin:0;color:var(--ink-mute);font-size:.95rem;line-height:1.55;max-width:62ch}
+@media(max-width:760px){
+  .pr-fam-head{grid-template-columns:1fr}
+  .pr-fam-head h3{white-space:normal}
+}
+
+/* one package */
+.pk{display:grid;gap:0 clamp(20px,3.2vw,52px);align-items:start;
+  grid-template-columns:minmax(0,1fr) minmax(196px,248px);
+  grid-template-areas:"id price" "detail price";
+  /* the price column spans both rows; pin row 1 to its content so the extra
+     height falls below the inclusions instead of under the package name */
+  grid-template-rows:min-content 1fr;
+  border-top:1px solid var(--ink-line);padding:clamp(22px,2.7vw,32px) 0}
+.pr-fam .pk:first-of-type{border-top:0}
+.pk-id{grid-area:id}
+.pk-price{grid-area:price}
+.pk-detail{grid-area:detail;margin-top:clamp(14px,1.8vw,20px)}
+
+.pk-name{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:800;
+  font-size:clamp(1.22rem,2vw,1.6rem);text-transform:uppercase;letter-spacing:.02em;
+  color:#fff;line-height:1.08}
+.pk-tag{display:inline-block;margin-left:.7em;font-family:"Barlow Condensed",sans-serif;
+  font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.2em;
+  color:var(--red-lt);vertical-align:middle;white-space:nowrap}
+.pk-sub{margin:.55em 0 0;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.13em;font-size:.79rem;color:var(--ink-mute)}
+
+.pk-inc-label{margin:0 0 .7em;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--ink-mute)}
+.pk-inc{list-style:none;margin:0;padding:0;columns:2;column-gap:clamp(20px,2.8vw,44px);
+  font-size:.93rem;line-height:1.5;color:var(--ink-dim)}
+.pk-inc li{break-inside:avoid;padding:3px 0 3px 15px;position:relative}
+.pk-inc li::before{content:"";position:absolute;left:0;top:.78em;width:6px;height:1px;
+  background:var(--ink-mute)}
+.pk-extra{margin:1em 0 0;font-size:.9rem;line-height:1.55;color:var(--ink-mute)}
+
+/* price block: headline start price, then the full vehicle-size table */
+.pk-from{margin:0;display:flex;align-items:baseline;gap:.55em;white-space:nowrap;
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+.pk-from b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.92rem;
+  letter-spacing:.01em;color:#fff}
+.pk-sizes{margin:13px 0 0}
+.pk-sizes>div{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:8px 0;border-bottom:1px solid var(--ink-line)}
+.pk-sizes>div:first-child{border-top:1px solid var(--ink-line)}
+.pk-sizes dt{font-size:.79rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mute)}
+.pk-sizes dd{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  font-size:1.05rem;color:var(--ink-text)}
+.pk-cta{display:inline-flex;align-items:center;gap:.5em;margin-top:16px;text-decoration:none;
+  white-space:nowrap;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.11em;font-size:.87rem;color:var(--ink-text);
+  border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:3px;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.pk-cta::after{content:"\2192";transition:transform .18s var(--ease)}
+.pk-cta:hover{color:#fff;border-bottom-color:var(--red-lt)}
+.pk-cta:hover::after{transform:translateX(3px)}
+
+@media(max-width:820px){
+  /* name, then price, then what you get */
+  .pk{grid-template-columns:1fr;grid-template-areas:"id" "price" "detail"}
+  .pk-price{margin-top:16px}
+  .pk-detail{margin-top:20px}
+  .pk-inc{columns:1}
+}
+
+/* maintenance: restricted rate, kept away from the entry-price families */
+.pr-maint{display:block}
+.pr-elig{margin:clamp(16px,2vw,22px) 0 0;padding:14px 0 0;border-top:1px solid var(--ink-line);
+  font-size:.94rem;line-height:1.6;color:var(--ink-dim)}
+.pr-elig b{color:var(--red-lt);font-weight:600}
+
+/* add-ons */
+.pr-addons{list-style:none;margin:clamp(18px,2.2vw,26px) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(24px,3vw,48px)}
+.pr-addons li{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:11px 0;border-bottom:1px solid var(--ink-line);font-size:.95rem;color:var(--ink-dim)}
+.pr-addons b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.14rem;
+  color:#fff;white-space:nowrap}
+.pr-addons small{font-weight:400;font-size:.62em;color:var(--ink-mute)}
+@media(max-width:820px){.pr-addons{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.pr-addons{grid-template-columns:1fr}}
+
+/* closing notes */
+.pr-notes{margin-top:clamp(34px,4.2vw,56px);padding-top:clamp(20px,2.4vw,28px);
+  border-top:1px solid var(--ink-line);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,48px)}
+.pr-notes p{margin:0;font-size:.92rem;line-height:1.62;color:var(--ink-mute)}
+.pr-notes b{color:var(--ink-text);font-weight:600}
+.pr-notes a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.28);transition:color .18s var(--ease),border-color .18s var(--ease)}
+.pr-notes a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+@media(max-width:760px){.pr-notes{grid-template-columns:1fr;gap:18px}}
+
+#pricing a:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 .tier{
   display:flex;flex-direction:column;background:linear-gradient(170deg,rgba(26,39,69,.9),rgba(8,13,26,.95));
   border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative
@@ -572,9 +675,6 @@ footer p{color:var(--steel);font-size:.9rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 <noscript><style>
-  /* No JavaScript: show every pricing panel stacked instead of hiding two-thirds of the prices. */
-  .panel[hidden]{display:block!important}
-  .tabs{display:none}
   /* No JavaScript: the burger cannot toggle the panel, so lay the nav out inline. */
   @media(max-width:1160px){
     nav.main{position:static;transform:none;max-height:none;padding-bottom:16px}
@@ -728,9 +828,9 @@ footer p{color:var(--steel);font-size:.9rem}
       <li class="svc">
         <p class="svc-idx">03</p>
         <div class="svc-main">
-          <h3>Full Detail</h3>
+          <h3>Inside &amp; Out Detailing</h3>
           <p>Inside and out in one visit. Scrubin's Basic Detail is a maintenance reset; Scrubin's Full Detail adds decontamination, seat and carpet extraction and paint protection.</p>
-          <p class="svc-inc">Scrubin's Basic Detail &#183; Scrubin's Full Detail from $200 &#183; Maintenance Detail from $85</p>
+          <p class="svc-inc">Scrubin's Basic Detail &#183; Scrubin's Full Detail from $200</p>
         </div>
         <div class="svc-aside">
           <p class="svc-price"><span>From</span><b>$115</b></p>
@@ -790,295 +890,319 @@ footer p{color:var(--steel);font-size:.9rem}
 </section>
 
 <!-- ================= PRICING ================= -->
-<section id="pricing" class="alt">
+<section id="pricing">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow r">Transparent, published pricing</p>
-      <h2><span class="chrome">Mobile Detailing Prices</span><br><span class="rw" style="font-size:.5em;letter-spacing:.04em">Temecula Valley &#183; No Trip Fee</span></h2>
-      <p class="lede">Real prices, listed up front &mdash; no "call for a quote" runaround. Every price below includes mobile service anywhere in our core area. <b style="color:#fff">Sedan / SUV &amp; Truck / Oversized</b> tiers shown.</p>
+    <div class="pr-head">
+      <p class="eyebrow-q">Transparent, published pricing</p>
+      <h2>Mobile Detailing Prices</h2>
+      <p class="pr-lede">Real prices, listed up front &mdash; no "call for a quote" runaround. Every price below includes mobile service anywhere in our core area, with no trip charge. Rates are shown for <b>Sedan</b>, <b>SUV &amp; Truck</b> and <b>Oversized</b> vehicles.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Pricing categories">
-      <button role="tab" id="t1" aria-controls="p1" aria-selected="true">Full Detail Packages</button>
-      <button role="tab" id="t2" aria-controls="p2" aria-selected="false">Interior &amp; Exterior Only</button>
-      <button role="tab" id="t3" aria-controls="p3" aria-selected="false">Maintenance &amp; Add-Ons</button>
-    </div>
-
-    <!-- PANEL 1 -->
-    <div class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
-      <div class="grid g2" style="gap:18px">
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's Basic Detail</h3>
-            <p class="sub">Inside &amp; out maintenance reset</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$115</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$130</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$145</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Interior vacuum</li>
-              <li>Interior 1-step clean and conditioning wipe down</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Basic Detail</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Most popular</span>
-          <div class="tier-top">
-            <h3>Scrubin's Full Detail</h3>
-            <p class="sub">Decontaminated, extracted &amp; protected</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$200</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$225</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$250</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>6-month paint protection wax</li>
-              <li>Thorough vacuuming of the seats and flooring</li>
-              <li>Carpet shampooing</li>
-              <li>Seat and carpet extraction (cloth seats only)</li>
-              <li>Scrub and decontamination on all plastics &amp; leather</li>
-              <li>Steam clean</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-              <li>Trim shine</li>
-            </ul>
-            <a class="btn" href="#quote">Book Full Detail</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's 1 Step Paint Correction Detail</h3>
-            <p class="sub">Removes light swirl marks &amp; oxidation</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$300</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$350</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$400</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
-            </ul>
-            <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">You can also add an interior detail if you would like.</p>
-            <a class="btn ghost" href="#quote">Book Paint Correction</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Ultimate protection</span>
-          <div class="tier-top">
-            <h3>Ceramic Coating Package</h3>
-            <p class="sub">4-year ceramic coating</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$550</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$650</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$750</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath (pH neutral)</li>
-              <li>Deep wheel treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar</li>
-              <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
-              <li>4-year ceramic coating &mdash; semi-permanent barrier to vehicle paint, high gloss and protection</li>
-            </ul>
-            <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">You can also add an interior detail if you would like.</p>
-            <a class="btn" href="#quote">Get My Ceramic Coating Quote</a>
-          </div>
-        </article>
-
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Exterior</h3>
+        <p>Two levels: a safe maintenance wash, or a full decontamination and protection.</p>
       </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Exterior Wash</h4>
+            <p class="pk-sub">Safe hand wash &amp; wheels</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$60</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$60</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$75</dd></div>
+            <div><dt>Oversized</dt><dd>$90</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Exterior Detail, Clay &amp; Wax</h4>
+            <p class="pk-sub">Decontaminated &amp; protected</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$130</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$130</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$145</dd></div>
+            <div><dt>Oversized</dt><dd>$160</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>6-month paint protection wax</li>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <!-- PANEL 2 -->
-    <div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
-      <div class="grid g2" style="gap:18px">
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Scrubin's Basic Interior Detail</h3>
-            <p class="sub">Interior only &#183; quick reset</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$75</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$90</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$105</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>Interior vacuum</li>
-              <li>Interior 1-step clean and conditioning wipe down</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Basic Interior</a>
-          </div>
-        </article>
-
-        <article class="tier feat">
-          <span class="flag">Deep clean</span>
-          <div class="tier-top">
-            <h3>Scrubin's Premium Interior Detail</h3>
-            <p class="sub">Steam, shampoo &amp; extraction</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$130</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$150</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$170</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>Thorough vacuuming of the seats and flooring</li>
-              <li>Carpet shampooing</li>
-              <li>Seat and carpet extraction (cloth seats only)</li>
-              <li>Scrub and decontamination on all plastics &amp; leather</li>
-              <li>Steam clean</li>
-              <li>Streak-free interior windows</li>
-              <li>Floor mats cleaned and shined</li>
-              <li>Door jambs cleaned</li>
-            </ul>
-            <a class="btn" href="#quote">Book Premium Interior</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Exterior Wash</h3>
-            <p class="sub">Safe hand wash &amp; wheels</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$60</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$75</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$90</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Exterior Wash</a>
-          </div>
-        </article>
-
-        <article class="tier">
-          <div class="tier-top">
-            <h3>Exterior Detail, Clay &amp; Wax</h3>
-            <p class="sub">Decontaminated &amp; protected</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$130</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$145</span></li>
-              <li><span class="lbl">Oversized</span><span class="amt">$160</span></li>
-            </ul>
-          </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Wheel well treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Iron fallout remover</li>
-              <li>Clay bar decontamination</li>
-              <li>6-month paint protection wax</li>
-            </ul>
-            <a class="btn ghost" href="#quote">Book Clay &amp; Wax</a>
-          </div>
-        </article>
-
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Interior</h3>
+        <p>Two levels: a vacuum-and-wipe reset, or steam, shampoo and hot-water extraction.</p>
       </div>
-    </div>
-
-    <!-- PANEL 3 -->
-    <div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
-      <div class="grid g2" style="gap:18px;align-items:start">
-
-        <article class="tier feat">
-          <span class="flag">Returning clients</span>
-          <div class="tier-top">
-            <h3>Maintenance Detail</h3>
-            <p class="sub">Vehicles detailed within the last 60 days</p>
-            <ul class="prices">
-              <li><span class="lbl">Sedan</span><span class="amt">$85</span></li>
-              <li><span class="lbl">SUV / Truck</span><span class="amt">$100</span></li>
-            </ul>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Basic Interior Detail</h4>
+            <p class="pk-sub">Interior only &#183; quick reset</p>
           </div>
-          <div class="tier-body">
-            <p class="inc">What's included</p>
-            <ul>
-              <li>100% safe wash &amp; foam bath</li>
-              <li>Wheel treatment and shine</li>
-              <li>Tire shine</li>
-              <li>Vacuum &mdash; floors, seats, mats</li>
-              <li>Interior quick wipe</li>
-              <li>Interior windows cleaned</li>
-              <li>Leather wipe</li>
-              <li>Mats shined</li>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$75</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$75</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$90</dd></div>
+            <div><dt>Oversized</dt><dd>$105</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>Interior vacuum</li>
+            <li>Interior 1-step clean and conditioning wipe down</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
             </ul>
-            <a class="btn" href="#quote">Set Up Recurring Service</a>
           </div>
         </article>
-
-        <div>
-          <h3 style="margin-bottom:16px">Add-On Services</h3>
-          <ul class="addons" style="grid-template-columns:1fr">
-            <li><span>Clay bar treatment</span><span class="amt">$40</span></li>
-            <li><span>Headlight restoration</span><span class="amt">$30</span></li>
-            <li><span>Engine bay detail</span><span class="amt">$30</span></li>
-            <li><span>Trim restoration</span><span class="amt">$30</span></li>
-            <li><span>Pet hair removal</span><span class="amt">$30<small style="font-weight:400;font-size:.62em;color:var(--steel)">/hr</small></span></li>
-          </ul>
-          <div class="note" style="margin-top:18px">
-            <b>Why a maintenance plan makes sense here.</b> Between spring pollen, Santa Ana dust and hard-water sprinkler overspray, paint in the Temecula Valley gets attacked year-round. Keeping a vehicle on a 60-day maintenance detail is far cheaper than paying to correct etched water spots later.
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Premium Interior Detail</h4>
+            <p class="pk-sub">Steam, shampoo &amp; extraction</p>
           </div>
-        </div>
-
-      </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$130</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$130</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$150</dd></div>
+            <div><dt>Oversized</dt><dd>$170</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>Thorough vacuuming of the seats and flooring</li>
+            <li>Carpet shampooing</li>
+            <li>Seat and carpet extraction (cloth seats only)</li>
+            <li>Scrub and decontamination on all plastics &amp; leather</li>
+            <li>Steam clean</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <div class="note">
-      <b>Pricing notes.</b> Prices shown are per vehicle and include mobile service in Temecula, Murrieta, Menifee, French Valley, Winchester and Wildomar &mdash; there is no trip charge or convenience fee. Heavily soiled vehicles, excessive pet hair, or oversized/lifted rigs may need additional time; we'll always confirm before we start, never after. <a href="#quote" style="color:#fff;font-weight:600">Send a photo for an exact quote &rarr;</a>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Inside &amp; Out</h3>
+        <p>The whole vehicle in one visit &mdash; from a maintenance reset to a decontaminated, extracted and protected finish.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Basic Detail</h4>
+            <p class="pk-sub">Inside &amp; out maintenance reset</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$115</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$115</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$130</dd></div>
+            <div><dt>Oversized</dt><dd>$145</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Interior vacuum</li>
+            <li>Interior 1-step clean and conditioning wipe down</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's Full Detail<span class="pk-tag">Most popular</span></h4>
+            <p class="pk-sub">Decontaminated, extracted &amp; protected</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$200</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$200</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$225</dd></div>
+            <div><dt>Oversized</dt><dd>$250</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>6-month paint protection wax</li>
+            <li>Thorough vacuuming of the seats and flooring</li>
+            <li>Carpet shampooing</li>
+            <li>Seat and carpet extraction (cloth seats only)</li>
+            <li>Scrub and decontamination on all plastics &amp; leather</li>
+            <li>Steam clean</li>
+            <li>Streak-free interior windows</li>
+            <li>Floor mats cleaned and shined</li>
+            <li>Door jambs cleaned</li>
+            <li>Trim shine</li>
+            </ul>
+          </div>
+        </article>
+    </div>
+
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Paint Correction &amp; Protection</h3>
+        <p>Machine correction to lift defects out of the clearcoat, then optional four-year ceramic protection.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Scrubin's 1 Step Paint Correction Detail</h4>
+            <p class="pk-sub">Removes light swirl marks &amp; oxidation</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$300</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$300</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$350</dd></div>
+            <div><dt>Oversized</dt><dd>$400</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Wheel well treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar decontamination</li>
+            <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
+            </ul>
+          <p class="pk-extra">You can also add an interior detail if you would like.</p>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Ceramic Coating Package</h4>
+            <p class="pk-sub">4-year ceramic coating</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$550</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$550</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$650</dd></div>
+            <div><dt>Oversized</dt><dd>$750</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath (pH neutral)</li>
+            <li>Deep wheel treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Iron fallout remover</li>
+            <li>Clay bar</li>
+            <li>1-step paint correction &mdash; removes light swirl marks &amp; oxidation</li>
+            <li>4-year ceramic coating &mdash; semi-permanent barrier to vehicle paint, high gloss and protection</li>
+            </ul>
+          <p class="pk-extra">You can also add an interior detail if you would like.</p>
+          </div>
+        </article>
+    </div>
+
+    <aside class="pr-fam pr-maint" aria-labelledby="maint-title">
+      <div class="pr-fam-head">
+        <h3 id="maint-title">Returning Clients</h3>
+        <p>A reduced rate for vehicles Scrubin has already detailed. It is not a first-visit service.</p>
+      </div>
+      <p class="pr-elig"><b>Who qualifies:</b> vehicles detailed by Scrubin within the previous 60 days. If it has been longer than that, or we have not detailed the vehicle before, one of the packages above applies instead.</p>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Maintenance Detail</h4>
+            <p class="pk-sub">Vehicles detailed within the last 60 days</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-from"><span>From</span><b>$85</b></p>
+            <dl class="pk-sizes">
+            <div><dt>Sedan</dt><dd>$85</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$100</dd></div>
+            </dl>
+            <a class="pk-cta" href="#quote">Book this service</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
+            <li>100% safe wash &amp; foam bath</li>
+            <li>Wheel treatment and shine</li>
+            <li>Tire shine</li>
+            <li>Vacuum &mdash; floors, seats, mats</li>
+            <li>Interior quick wipe</li>
+            <li>Interior windows cleaned</li>
+            <li>Leather wipe</li>
+            <li>Mats shined</li>
+            </ul>
+          </div>
+        </article>
+    </aside>
+
+    <div class="pr-fam pr-addons-wrap">
+      <div class="pr-fam-head">
+        <h3>Add-On Services</h3>
+        <p>Priced per vehicle and added to any package above.</p>
+      </div>
+      <ul class="pr-addons">
+        <li><span>Clay bar treatment</span><b>$40</b></li>
+        <li><span>Headlight restoration</span><b>$30</b></li>
+        <li><span>Engine bay detail</span><b>$30</b></li>
+        <li><span>Trim restoration</span><b>$30</b></li>
+        <li><span>Pet hair removal</span><b>$30<small>/hr</small></b></li>
+      </ul>
+    </div>
+
+    <div class="pr-notes">
+      <p><b>Why a maintenance plan makes sense here.</b> Between spring pollen, Santa Ana dust and hard-water sprinkler overspray, paint in the Temecula Valley gets attacked year-round. Keeping a vehicle on a 60-day maintenance detail is far cheaper than paying to correct etched water spots later.</p>
+      <p><b>Pricing notes.</b> Prices shown are per vehicle and include mobile service in Temecula, Murrieta, Menifee, French Valley, Winchester and Wildomar &mdash; there is no trip charge or convenience fee. Heavily soiled vehicles, excessive pet hair, or oversized/lifted rigs may need additional time; we'll always confirm before we start, never after. <a href="#quote">Send a photo for an exact quote</a></p>
     </div>
   </div>
 </section>
@@ -1757,34 +1881,6 @@ footer p{color:var(--steel);font-size:.9rem}
   nav.addEventListener('click', function(e){
     if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Open menu'); }
   });
-
-  /* ---- pricing tabs ---- */
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role=tab]'));
-  function select(tab){
-    tabs.forEach(function(t){
-      var on = t === tab;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-  }
-  tabs.forEach(function(t, i){
-    t.addEventListener('click', function(){ select(t); });
-    t.addEventListener('keydown', function(e){
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      var n = tabs[(i + d + tabs.length) % tabs.length];
-      n.focus(); select(n);
-    });
-  });
-  /* deep-link support: #p2 / #p3 open the right pricing tab */
-  function openFromHash(){
-    var h = location.hash.replace('#','');
-    var t = document.querySelector('.tabs [aria-controls="' + h + '"]');
-    if (t){ select(t); document.getElementById('pricing').scrollIntoView({behavior:'smooth'}); }
-  }
-  window.addEventListener('hashchange', openFromHash);
-  if (location.hash) openFromHash();
 
   /* ---- quote form ---- */
   var form = document.getElementById('quoteForm'),
