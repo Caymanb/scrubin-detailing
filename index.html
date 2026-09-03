@@ -512,42 +512,34 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
 @media(max-width:760px){.pr-notes{grid-template-columns:1fr;gap:18px}}
 
 #pricing a:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
-.tier{
-  display:flex;flex-direction:column;background:linear-gradient(170deg,rgba(26,39,69,.9),rgba(8,13,26,.95));
-  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative
+
+/* ============ RV / MARINE / POWERSPORTS ============ */
+/* Reuses the pricing menu components. A slightly lifted charcoal plateau separates this
+   division from the automotive pricing above without turning it into a container. */
+#marine{
+  padding:clamp(58px,7.2vw,102px) 0 clamp(54px,6.8vw,94px);
+  background:linear-gradient(180deg,var(--navy-950) 0%,var(--ink-900) 5%,var(--ink-900) 95%,var(--navy-950) 100%);
 }
-.tier.feat{border-color:rgba(255,69,80,.5);box-shadow:0 0 0 1px rgba(255,69,80,.18),var(--sh)}
-.tier .flag{position:absolute;top:0;right:0;background:linear-gradient(180deg,var(--red-lt),var(--red));
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
-  font-size:.72rem;padding:6px 14px;border-bottom-left-radius:12px}
-.tier-top{padding:26px 24px 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
-.tier-top h3{font-size:1.42rem;margin-bottom:.35em}
-.tier-top .sub{font-size:.85rem;color:var(--steel);text-transform:uppercase;letter-spacing:.11em;margin:0}
-.prices{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px}
-.prices li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
-.prices .lbl{font-size:.83rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ice-dim)}
-.prices .amt{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.5rem;color:#fff;line-height:1}
-.tier-body{padding:22px 24px 26px;flex:1;display:flex;flex-direction:column}
-.tier-body .inc{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--blue-lt);margin:0 0 .8em;font-weight:600}
-.tier-body ul{margin:0;padding:0;list-style:none;font-size:.94rem;color:var(--ice-dim);flex:1}
-.tier-body ul li{padding:5px 0 5px 23px;position:relative}
-.tier-body ul li::before{content:"";position:absolute;left:1px;top:12px;width:11px;height:6px;
-  border:2px solid var(--red-lt);border-top:0;border-right:0;transform:rotate(-45deg)}
-.tier-body ul li.prev{color:var(--ice);font-weight:500}
-.tier-body ul li.prev::before{border-color:#fff}
-.tier .btn{margin-top:20px;width:100%}
+.pr-subhead{margin:.55em 0 0;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.15em;font-size:.86rem;color:var(--red-lt)}
 
-.addons{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.addons li{display:flex;justify-content:space-between;align-items:center;gap:12px;
-  background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:var(--r);padding:15px 18px}
-.addons .amt{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.35rem;color:var(--red-lt);white-space:nowrap}
-@media(max-width:860px){.addons{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.addons{grid-template-columns:1fr}}
+/* single-rate price block: per-foot or flat, never ambiguous */
+.pk-rate{margin:0;display:flex;align-items:baseline;gap:.1em;white-space:nowrap;line-height:1}
+.pk-rate b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.92rem;
+  letter-spacing:.01em;color:#fff}
+.pk-unit{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.02rem;
+  color:var(--ink-mute)}
+.pk-basis{margin:9px 0 0;padding-top:9px;border-top:1px solid var(--ink-line);
+  font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
 
-.note{background:rgba(37,99,235,.1);border:1px solid rgba(79,139,255,.32);border-radius:var(--r);
-  padding:16px 20px;font-size:.93rem;color:#d5e2fb;margin-top:26px}
-.note b{color:#fff}
+/* an inclusion carried forward from the cheaper package it builds on */
+.pk-inc li.prev{color:var(--ink-text);font-weight:500}
+.pk-inc li.prev::before{background:var(--red-lt);width:8px}
+
+.pr-notes--one{grid-template-columns:1fr}
+.pr-notes--one p{max-width:96ch}
+
+#marine a:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* reviews */
 .rev{display:flex;flex-direction:column;gap:14px}
@@ -915,7 +907,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$75</dd></div>
             <div><dt>Oversized</dt><dd>$90</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -939,7 +931,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$145</dd></div>
             <div><dt>Oversized</dt><dd>$160</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -973,7 +965,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$90</dd></div>
             <div><dt>Oversized</dt><dd>$105</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -998,7 +990,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$150</dd></div>
             <div><dt>Oversized</dt><dd>$170</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1033,7 +1025,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$130</dd></div>
             <div><dt>Oversized</dt><dd>$145</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1062,7 +1054,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$225</dd></div>
             <div><dt>Oversized</dt><dd>$250</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1105,7 +1097,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$350</dd></div>
             <div><dt>Oversized</dt><dd>$400</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1133,7 +1125,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>SUV / Truck</dt><dd>$650</dd></div>
             <div><dt>Oversized</dt><dd>$750</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1168,7 +1160,7 @@ footer p{color:var(--steel);font-size:.9rem}
             <div><dt>Sedan</dt><dd>$85</dd></div>
             <div><dt>SUV / Truck</dt><dd>$100</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Book this service</a>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1210,22 +1202,31 @@ footer p{color:var(--steel);font-size:.9rem}
 <!-- ================= MARINE / RV / OFFROAD ================= -->
 <section id="marine">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Auto. Marine. Offroad.</p>
-      <h2><span class="chrome">RV, Boat &amp; Jet Ski Detailing</span><br><span class="rw" style="font-size:.5em;letter-spacing:.04em">Mobile RV Detailing Across the Temecula Valley</span></h2>
-      <p class="lede">Lake Skinner, Diamond Valley Lake, Lake Elsinore and Canyon Lake are all a short tow away &mdash; and Temecula Valley driveways are full of motorhomes, fifth wheels, ski boats and dirt bikes. We detail all of them on site, so you never have to find a rig-friendly wash bay.</p>
+    <div class="pr-head">
+      <p class="eyebrow-q">Auto. Marine. Offroad.</p>
+      <h2>RV, Boat &amp; Jet Ski Detailing</h2>
+      <p class="pr-subhead">Mobile RV detailing across the Temecula Valley</p>
+      <p class="pr-lede">Lake Skinner, Diamond Valley Lake, Lake Elsinore and Canyon Lake are all a short tow away &mdash; and Temecula Valley driveways are full of motorhomes, fifth wheels, ski boats and dirt bikes. We detail all of them on site, so you never have to find a rig-friendly wash bay.</p>
     </div>
 
-    <div class="grid g4">
-      <article class="tier">
-        <div class="tier-top">
-          <h3>RV &amp; Trailer Exterior Wash</h3>
-          <p class="sub">Motorhomes &#183; fifth wheels &#183; travel trailers</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$7<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>RV &amp; Trailers</h3>
+        <p>Motorhomes, fifth wheels and travel trailers.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">RV &amp; Trailer Exterior Wash</h4>
+            <p class="pk-sub">Motorhomes &#183; fifth wheels &#183; travel trailers</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Roof wash</li>
             <li>Bug removal</li>
@@ -1234,20 +1235,29 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Spot-free rinse &amp; hand dry</li>
             <li>Tire shine</li>
             <li>Final quality inspection</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My RV</a>
-        </div>
-      </article>
+            </ul>
+          </div>
+        </article>
+    </div>
 
-      <article class="tier">
-        <div class="tier-top">
-          <h3>Boat Exterior Wash</h3>
-          <p class="sub">Hull &amp; topside, trailer included</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$7<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Marine</h3>
+        <p>Boats and jet skis &mdash; hull, topside and trailer.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Boat Exterior Wash</h4>
+            <p class="pk-sub">Hull &amp; topside, trailer included</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Hull and topside wash</li>
             <li>Bug, bird dropping &amp; light algae removal</li>
@@ -1256,21 +1266,22 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Trailer wheels &amp; tires cleaned (if applicable)</li>
             <li>Tire shine (if applicable)</li>
             <li>Spot-free rinse &amp; hand dry</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My Boat</a>
-        </div>
-      </article>
-
-      <article class="tier feat">
-        <span class="flag">Full detail</span>
-        <div class="tier-top">
-          <h3>Boat Full Detail</h3>
-          <p class="sub">Inside, out, decks &amp; seating</p>
-          <ul class="prices"><li><span class="lbl">Priced per foot</span><span class="amt">$15<small style="font-size:.55em;font-weight:400;color:var(--steel)">/ft</small></span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">Everything in the exterior wash, plus</p>
-          <ul>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Boat Full Detail</h4>
+            <p class="pk-sub">Inside, out, decks &amp; seating</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$15</b><span class="pk-unit">/ft</span></p>
+            <p class="pk-basis">Priced per foot</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">Everything in the exterior wash, plus</p>
+            <ul class="pk-inc">
             <li class="prev">Full boat exterior wash</li>
             <li>Thorough vacuuming (if carpeted)</li>
             <li>If not carpeted, power wash on flooring</li>
@@ -1280,20 +1291,22 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Storage compartments cleaned</li>
             <li>Streak-free windows</li>
             <li>Ceramic detail spray</li>
-          </ul>
-          <a class="btn" href="#quote">Quote Full Boat Detail</a>
-        </div>
-      </article>
-
-      <article class="tier">
-        <div class="tier-top">
-          <h3>Jet Ski Detail</h3>
-          <p class="sub">Per jet ski, trailer included</p>
-          <ul class="prices"><li><span class="lbl">Flat rate</span><span class="amt">$150</span></li></ul>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul>
+            </ul>
+          </div>
+        </article>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Jet Ski Detail</h4>
+            <p class="pk-sub">Per jet ski, trailer included</p>
+          </div>
+          <div class="pk-price">
+            <p class="pk-rate"><b>$150</b></p>
+            <p class="pk-basis">Flat rate</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Complete exterior wash</li>
             <li>Bug &amp; water spot removal</li>
@@ -1302,24 +1315,29 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>UV protectant applied to plastics &amp; vinyl</li>
             <li>Ceramic detail spray</li>
             <li>Trailer wheels &amp; tires cleaned (if applicable)</li>
-          </ul>
-          <a class="btn ghost" href="#quote">Quote My Jet Ski</a>
-        </div>
-      </article>
+            </ul>
+          </div>
+        </article>
     </div>
 
-    <div class="grid g2" style="margin-top:18px">
-      <article class="tier">
-        <div class="tier-top" style="display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap">
-          <div>
-            <h3>Motorcycle &amp; Dirt Bike Detail</h3>
-            <p class="sub">Street, cruiser, MX &amp; offroad</p>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Motorcycles &amp; Powersports</h3>
+        <p>Street, cruiser, MX and offroad.</p>
+      </div>
+        <article class="pk">
+          <div class="pk-id">
+            <h4 class="pk-name">Motorcycle &amp; Dirt Bike Detail</h4>
+            <p class="pk-sub">Street, cruiser, MX &amp; offroad</p>
           </div>
-          <span class="amt" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.2rem;color:#fff">$50</span>
-        </div>
-        <div class="tier-body">
-          <p class="inc">What's included</p>
-          <ul style="columns:2;column-gap:28px">
+          <div class="pk-price">
+            <p class="pk-rate"><b>$50</b></p>
+            <p class="pk-basis">Flat rate</p>
+            <a class="pk-cta" href="#quote">Get a Quote</a>
+          </div>
+          <div class="pk-detail">
+            <p class="pk-inc-label">What's included</p>
+            <ul class="pk-inc">
             <li>Premium foam bath &amp; hand wash</li>
             <li>Wheels, tires &amp; rims cleaned</li>
             <li>Bug removal</li>
@@ -1328,24 +1346,27 @@ footer p{color:var(--steel);font-size:.9rem}
             <li>Seat cleaned &amp; conditioned</li>
             <li>Spot-free rinse &amp; hand dry</li>
             <li>Final quality inspection</li>
-          </ul>
-          <p style="margin:14px 0 0;font-size:.92rem;color:var(--ice-dim)">Add-on: <b style="color:#fff">Chrome Polish &amp; Protection +$50</b></p>
-          <a class="btn ghost" href="#quote">Quote My Bike</a>
-        </div>
-      </article>
+            </ul>
+            <p class="pk-extra">Add-on: Chrome Polish &amp; Protection +$50</p>
+          </div>
+        </article>
+    </div>
 
-      <div>
-        <h3 style="margin-bottom:16px">Marine &amp; RV Add-Ons</h3>
-        <ul class="addons" style="grid-template-columns:1fr">
-          <li><span>Machine polish wax</span><span class="amt">$150</span></li>
-          <li><span>4-month paint protection wax</span><span class="amt">$75</span></li>
-          <li><span>Awning clean</span><span class="amt">$75</span></li>
-          <li><span>Trim restoration (jet skis)</span><span class="amt">$30</span></li>
-        </ul>
-        <div class="note" style="margin-top:18px">
-          <b>Heading out to Skinner or Diamond Valley?</b> Both are Metropolitan Water District reservoirs, and every vessel has to pass a pre-launch inspection in clean, seaworthy condition. Book a wash the day before your trip and roll up to the ramp inspection-ready.
-        </div>
+    <div class="pr-fam">
+      <div class="pr-fam-head">
+        <h3>Marine &amp; RV Add-Ons</h3>
+        <p>Added to any RV, boat or jet ski service above.</p>
       </div>
+      <ul class="pr-addons">
+        <li><span>Machine polish wax</span><b>$150</b></li>
+        <li><span>4-month paint protection wax</span><b>$75</b></li>
+        <li><span>Awning clean</span><b>$75</b></li>
+        <li><span>Trim restoration (jet skis)</span><b>$30</b></li>
+      </ul>
+    </div>
+
+    <div class="pr-notes pr-notes--one">
+      <p><b>Heading out to Skinner or Diamond Valley?</b> Both are Metropolitan Water District reservoirs, and every vessel has to pass a pre-launch inspection in clean, seaworthy condition. Book a wash the day before your trip and roll up to the ramp inspection-ready.</p>
     </div>
   </div>
 </section>
@@ -1676,13 +1697,13 @@ footer p{color:var(--steel);font-size:.9rem}
         <h4>Services</h4>
         <ul>
           <li><a href="#pricing">Full Auto Detailing</a></li>
-          <li><a href="#p2">Interior Detailing</a></li>
+          <li><a href="#pricing">Interior Detailing</a></li>
           <li><a href="#pricing">Ceramic Coating</a></li>
           <li><a href="#services">Paint Correction</a></li>
           <li><a href="#marine">RV &amp; Trailer Detailing</a></li>
           <li><a href="#marine">Boat &amp; Jet Ski Detailing</a></li>
           <li><a href="#marine">Motorcycle &amp; Dirt Bike</a></li>
-          <li><a href="#p3">Maintenance Details</a></li>
+          <li><a href="#pricing">Maintenance Details</a></li>
         </ul>
       </div>
       <div>
