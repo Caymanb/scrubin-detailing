@@ -46,9 +46,14 @@
   --r:14px; --r-lg:22px; --maxw:1220px;
   --sh:0 18px 50px -14px rgba(0,0,0,.75);
   --ease:cubic-bezier(.22,1,.36,1);
+  /* Phase 1 redesign: neutral charcoal foundation for the header and hero. */
+  --ink-950:#0a0b0d; --ink-900:#101216;
+  --ink-line:rgba(255,255,255,.10); --ink-line-2:rgba(255,255,255,.20);
+  --ink-text:#f4f6f9; --ink-dim:#a8b0bd; --ink-mute:#7d8592;
+  --head-h:88px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 14px);-webkit-text-size-adjust:100%}
 body{
   margin:0;background:var(--navy-950);color:var(--ice);
   font:400 16.5px/1.65 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -98,69 +103,150 @@ p{margin:0 0 1em}
 .btn-row{display:flex;flex-wrap:wrap;gap:12px}
 
 /* ============ HEADER ============ */
+.skip{position:absolute;left:16px;top:-64px;z-index:200;background:var(--red);color:#fff;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:1rem;padding:13px 20px;border-radius:6px;text-decoration:none;
+  transition:top .18s var(--ease)}
+.skip:focus{top:16px}
+
 header{
   position:sticky;top:0;z-index:60;
-  background:rgba(5,9,18,.82);backdrop-filter:blur(14px) saturate(1.3);
-  border-bottom:1px solid var(--line);
+  background:var(--ink-950);
+  border-bottom:1px solid var(--ink-line);
 }
-.hbar{display:flex;align-items:center;gap:18px;min-height:70px;max-width:var(--maxw);margin:0 auto;padding:8px 20px}
-.brand{flex:none;line-height:0}
-header .brand img{width:186px;height:auto}
-nav.main{margin-left:auto;display:flex;gap:2px;flex:0 1 auto}
-nav.main a{
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
-  letter-spacing:.05em;font-size:.97rem;color:var(--ice-dim);text-decoration:none;
-  padding:9px 10px;border-radius:8px;transition:.16s;white-space:nowrap;
+.hbar{display:flex;align-items:center;gap:clamp(14px,2.2vw,36px);
+  height:var(--head-h);max-width:var(--maxw);margin:0 auto;
+  padding:0 clamp(18px,3vw,28px)}
+
+.brand{flex:none;line-height:0;display:block;padding:7px 0}
+header .brand img{height:clamp(46px,6.5vw,68px);max-height:calc(var(--head-h) - 20px);width:auto}
+
+/* --- primary navigation --- */
+nav.main{margin-left:auto;display:flex;align-items:center;gap:clamp(6px,1.6vw,24px)}
+nav.main>a{
+  position:relative;font-family:"Barlow Condensed",sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.13em;font-size:.9rem;
+  color:var(--ink-dim);text-decoration:none;padding:11px 2px;white-space:nowrap;
+  transition:color .18s var(--ease);
 }
-nav.main a:hover{color:#fff;background:rgba(255,255,255,.07)}
-@media(min-width:1301px){nav.main a.navlast{display:none}}
-.hcta{display:flex;gap:9px;align-items:center;flex:none}
-.hphone{
-  font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.22rem;
-  color:#fff;text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;gap:.4em;
-  padding:8px 12px;border-radius:9px;border:1px solid var(--line-2);background:rgba(255,255,255,.04)
-}
-.hphone:hover{border-color:var(--red-lt);background:rgba(220,36,48,.14)}
-.hphone svg{width:17px;height:17px;color:var(--red-lt)}
-.burger{display:none;width:46px;height:46px;border:1px solid var(--line-2);background:rgba(255,255,255,.05);
-  border-radius:10px;color:#fff;align-items:center;justify-content:center;cursor:pointer}
-.burger svg{width:24px;height:24px}
-@media(max-width:1300px){
-  nav.main{position:fixed;inset:70px 0 auto;flex-direction:column;gap:0;background:var(--navy-900);
-    border-bottom:1px solid var(--line);padding:10px 16px 20px;transform:translateY(-130%);
-    transition:transform .35s var(--ease);max-height:calc(100vh - 70px);overflow:auto}
+nav.main>a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;
+  background:var(--red-lt);transform:scaleX(0);transform-origin:left center;
+  transition:transform .24s var(--ease)}
+nav.main>a:hover,nav.main>a:focus-visible{color:#fff}
+nav.main>a:hover::after,nav.main>a:focus-visible::after{transform:scaleX(1)}
+.nav-foot{display:none}
+
+/* --- header actions --- */
+.hcta{display:flex;align-items:center;gap:clamp(10px,1.3vw,18px);flex:none;
+  margin-left:clamp(8px,1.8vw,24px)}
+.htel{display:inline-flex;align-items:center;gap:.5em;text-decoration:none;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.06rem;letter-spacing:.05em;
+  color:var(--ink-text);transition:color .18s var(--ease)}
+.htel svg{width:15px;height:15px;flex:none;color:var(--red-lt)}
+.htel:hover{color:var(--red-lt)}
+
+.burger{display:none;width:44px;height:44px;border:1px solid var(--ink-line-2);
+  background:transparent;border-radius:6px;color:#fff;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .18s var(--ease),background .18s var(--ease)}
+.burger:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.05)}
+.burger svg{width:22px;height:22px}
+
+/* --- mobile navigation panel --- */
+@media(max-width:1160px){
+  nav.main{
+    position:fixed;left:0;right:0;top:var(--head-h);margin:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--ink-950);border-bottom:1px solid var(--ink-line);
+    padding:4px clamp(18px,5vw,28px) 28px;
+    transform:translateY(-140%);transition:transform .38s var(--ease);
+    max-height:calc(100vh - var(--head-h));overflow-y:auto;
+  }
   nav.main.open{transform:translateY(0)}
-  nav.main a{padding:14px 10px;font-size:1.15rem;border-bottom:1px solid var(--line)}
+  nav.main>a{font-size:1.15rem;letter-spacing:.11em;padding:18px 2px;
+    color:var(--ink-text);border-bottom:1px solid var(--ink-line)}
+  nav.main>a::after{display:none}
+  .nav-foot{display:flex;flex-direction:column;gap:12px;padding-top:24px}
+  .nav-foot .cta{width:100%}
+  .tel-block{display:inline-flex;align-items:center;justify-content:center;min-height:52px;
+    border:1px solid var(--ink-line-2);border-radius:6px;text-decoration:none;color:var(--ink-text);
+    font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.24rem;letter-spacing:.06em}
+  .tel-block:hover{border-color:rgba(255,255,255,.45)}
   .burger{display:flex}
-  .hcta .btn{display:none}
-  header .brand img{width:152px}
+  .hcta>.cta{display:none}
 }
-@media(max-width:520px){.hphone span{display:none}header .brand img{width:132px}}
+@media(max-width:600px){
+  .htel span{display:none}
+  .hcta>.htel{width:44px;height:44px;justify-content:center;
+    border:1px solid var(--ink-line-2);border-radius:6px}
+  .hcta>.htel svg{width:19px;height:19px;color:#fff}
+}
+
+/* ============ CTA BUTTONS (header + hero) ============ */
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55em;
+  min-height:54px;padding:0 30px;border-radius:6px;cursor:pointer;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.08rem;
+  text-transform:uppercase;letter-spacing:.11em;text-decoration:none;
+  color:#fff;background:var(--red);border:1px solid var(--red);
+  transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
+}
+.cta:hover{background:#b81c26;border-color:#b81c26;color:#fff}
+.cta--sm{min-height:46px;padding:0 22px;font-size:1rem}
+.cta--ghost{background:transparent;color:var(--ink-text);border-color:rgba(255,255,255,.45)}
+.cta--ghost:hover{background:rgba(255,255,255,.07);border-color:#fff;color:#fff}
+
+header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
+  outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
 
 /* ============ HERO ============ */
-.hero{position:relative;isolation:isolate;background:var(--navy-950)}
-.hero picture,.hero img.hbg{display:block;width:100%}
-.hero img.hbg{aspect-ratio:1717/709;object-fit:cover;object-position:50% 42%}
-.hero .scrim{
-  position:absolute;inset:0;z-index:1;pointer-events:none;
+/* The image band is bottom-anchored and zoomed so only the photographic strip of the
+   source artwork is shown; the lettering baked into the top of that file stays cropped out.
+   Keep --band and --band-zoom in step: (2.421 x band) / (viewport x zoom) must stay under 0.28. */
+.hero{
+  --band:min(13vw,275px);
+  --band-zoom:1.3;
+  position:relative;isolation:isolate;padding:0;overflow:hidden;
+  background:linear-gradient(180deg,var(--ink-950) 0%,#0b0d12 46%,var(--navy-900) 100%);
+}
+.hero-media{position:absolute;left:0;right:0;bottom:0;height:var(--band);overflow:hidden;z-index:0}
+.hero-media picture{display:block;height:100%}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;
+  transform:scale(var(--band-zoom));transform-origin:50% 100%}
+.hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(5,9,18,.55) 0%,rgba(5,9,18,0) 24%,rgba(5,9,18,.52) 50%,rgba(5,9,18,.82) 66%,rgba(5,9,18,.95) 78%,var(--navy-950) 92%,var(--navy-950) 100%),
-    radial-gradient(120% 70% at 50% 108%,rgba(18,58,143,.4),transparent 60%);
+    linear-gradient(180deg,var(--ink-950) 0%,rgba(11,13,18,.60) 24%,rgba(11,13,18,.26) 52%,rgba(10,16,32,.58) 82%,var(--navy-900) 100%),
+    linear-gradient(90deg,rgba(11,13,18,.72) 0%,rgba(11,13,18,0) 24%,rgba(11,13,18,0) 76%,rgba(11,13,18,.72) 100%);
 }
-.hero-copy{position:relative;z-index:2;margin-top:-10%;padding-bottom:38px;text-align:center}
-@media(max-width:900px){.hero-copy{margin-top:-9%}}
-@media(max-width:660px){
-  .hero img.hbg{aspect-ratio:800/575;object-position:50% 50%}
-  .hero .scrim{background:linear-gradient(180deg,rgba(5,9,18,.2) 0%,rgba(5,9,18,0) 24%,rgba(5,9,18,0) 66%,rgba(5,9,18,.62) 85%,var(--navy-950) 98%)}
-  .hero-copy{margin-top:-9%}
-}
-h1{font-size:clamp(2rem,5.1vw,3.65rem);text-transform:uppercase;text-wrap:balance;margin:0 0 .45em}
-h1 .l2{display:block;font-size:.62em;font-weight:700;letter-spacing:.03em;color:var(--ice);margin-top:.25em}
-.hero .lede{margin:0 auto 1.5em;color:#dbe4f4;font-size:clamp(1rem,1.5vw,1.15rem)}
-.hero .btn-row{justify-content:center}
-.hero-note{margin:16px 0 0;font-size:.9rem;color:var(--steel)}
-.hero-note b{color:var(--ice)}
 
+.hero-inner{position:relative;z-index:1;
+  padding-top:clamp(52px,7.4vw,100px);
+  padding-bottom:calc(var(--band) + clamp(26px,3.6vw,52px));
+  padding-left:clamp(20px,3vw,28px);padding-right:clamp(20px,3vw,28px)}
+.hero-accent{width:52px;height:2px;background:var(--red);margin:0 0 22px}
+.hero-eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.34em;font-size:.8rem;color:var(--ink-mute);margin:0 0 clamp(16px,2.2vw,24px)}
+h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
+  font-size:clamp(2.3rem,5.2vw,4.15rem);line-height:.99;letter-spacing:.005em;
+  text-transform:uppercase;text-wrap:balance;margin:0;max-width:720px}
+.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:56ch;color:var(--ink-dim);
+  font-size:clamp(1.02rem,1.3vw,1.16rem);line-height:1.62}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.4vw,40px)}
+.hero-tel{margin:clamp(18px,2.2vw,24px) 0 0;font-size:.97rem;color:var(--ink-mute)}
+.hero-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px;
+  transition:color .18s var(--ease),border-color .18s var(--ease)}
+.hero-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+.hero-areas{margin:clamp(28px,3.8vw,44px) 0 0;padding-top:clamp(16px,2vw,22px);
+  border-top:1px solid var(--ink-line);max-width:640px;
+  font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.2em;font-size:.78rem;color:var(--ink-mute)}
+
+@media(max-width:900px){:root{--head-h:76px}.hero{--band:17vw;--band-zoom:1.75}}
+@media(max-width:660px){
+  :root{--head-h:68px}
+  .hero{--band:34vw;--band-zoom:3.5}
+  .hero-actions .cta{flex:1 1 100%}
+}
 /* ============ PILL FEATURES (replaces baked-in art strip) ============ */
 .pills{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--navy-900),var(--navy-950))}
 .pills ul{list-style:none;margin:0;padding:20px;display:grid;gap:8px 26px;
@@ -394,64 +480,71 @@ footer p{color:var(--steel);font-size:.9rem}
   /* No JavaScript: show every pricing panel stacked instead of hiding two-thirds of the prices. */
   .panel[hidden]{display:block!important}
   .tabs{display:none}
+  /* No JavaScript: the burger cannot toggle the panel, so lay the nav out inline. */
+  @media(max-width:1160px){
+    nav.main{position:static;transform:none;max-height:none;padding-bottom:16px}
+    .burger{display:none}
+  }
 </style></noscript>
 </head>
 <body>
 
 <!-- ================= HEADER ================= -->
+<a class="skip" href="#services">Skip to main content</a>
 <header>
   <div class="hbar">
-    <a class="brand" href="#top" aria-label="Scrubin Detailing home">
-      <img src="logo-sm.webp" width="520" height="260" alt="Scrubin Detailing — mobile auto, marine and offroad detailing in Temecula, CA">
+    <a class="brand" href="#top" aria-label="Scrubin Detailing &mdash; home">
+      <img src="logo-sm.webp" width="520" height="260" alt="Scrubin Detailing &mdash; mobile auto, marine and offroad detailing in Temecula, CA">
     </a>
-    <nav class="main" id="nav">
+
+    <nav class="main" id="nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#pricing">Pricing</a>
       <a href="#marine">RV &amp; Marine</a>
       <a href="#reviews">Reviews</a>
       <a href="#areas">Areas</a>
-      <a href="#faq" class="navlast">FAQ</a>
-      <a href="#quote" class="navlast">Get a Quote</a>
+      <a href="#faq">FAQ</a>
+      <div class="nav-foot">
+        <a class="tel-block" href="tel:+19513913669">Call (951) 391-3669</a>
+        <a class="cta" href="#quote">Get a Free Quote</a>
+      </div>
     </nav>
+
     <div class="hcta">
-      <a class="hphone" href="tel:+19513913669">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
+      <a class="htel" href="tel:+19513913669" aria-label="Call Scrubin Detailing at (951) 391-3669">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
         <span>(951) 391-3669</span>
       </a>
-      <a class="btn" href="#quote">Free Quote</a>
+      <a class="cta cta--sm" href="#quote">Get a Free Quote</a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
   </div>
 </header>
 
 <!-- ================= HERO ================= -->
-<div class="hero" id="top">
-  <picture>
-    <source media="(max-width:660px)" type="image/webp" srcset="hero-mobile.webp">
-    <source media="(max-width:660px)" type="image/jpeg" srcset="hero-mobile.jpg">
-    <source type="image/webp" srcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" sizes="100vw">
-    <img class="hbg" src="hero-1600.jpg" srcset="hero-760.jpg 760w, hero-1100.jpg 1100w, hero-1600.jpg 1600w" sizes="100vw" width="1717" height="709" alt="Scrubin Detailing — premium mobile auto, marine and offroad detailing in Temecula, Murrieta, Menifee and French Valley, California" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="scrim"></div>
-  <div class="wrap hero-copy">
-    <h1>
-      <span class="chrome">Mobile Auto Detailing in Temecula &amp; Murrieta</span>
-      <span class="l2">Menifee &#183; French Valley &#183; Winchester &#183; Wildomar</span>
-    </h1>
-    <p class="lede">Premium detailing done right &mdash; in your driveway. We bring our own water and power, so you never leave the house. Cars, trucks, RVs, boats, jet skis and dirt bikes. <b class="rw">No trip fee. Ever.</b></p>
-    <div class="btn-row">
-      <a class="btn" href="#quote">Get My Free Quote</a>
-      <a class="btn blue" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-4-.8L3 21l1.9-4.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"/></svg>
-        Text a Photo
-      </a>
-      <a class="btn ghost" href="tel:+19513913669">Call (951) 391-3669</a>
-    </div>
-    <p class="hero-note">Full details from <b>$115</b> &nbsp;&#124;&nbsp; Ceramic coating from <b>$550</b> &nbsp;&#124;&nbsp; <b>Same-day &amp; weekend</b> appointments available</p>
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-media">
+    <picture>
+      <source type="image/webp" srcset="hero-760.webp 760w, hero-1100.webp 1100w, hero-1600.webp 1600w" sizes="100vw">
+      <img src="hero-1600.jpg" srcset="hero-760.jpg 760w, hero-1100.jpg 1100w, hero-1600.jpg 1600w" sizes="100vw" width="1600" height="661" alt="Scrubin Detailing &mdash; premium mobile auto, marine and offroad detailing in Temecula, Murrieta, Menifee and French Valley, California" fetchpriority="high" decoding="async">
+    </picture>
   </div>
-</div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-accent"></div>
+    <p class="hero-eyebrow">Mobile Detailing &#183; Southwest Riverside County</p>
+    <h1 id="hero-title">Premium Mobile Auto Detailing in Temecula &amp; Murrieta</h1>
+    <p class="hero-lede">Professional detailing brought to your home or workplace &mdash; for daily drivers, luxury vehicles, trucks, SUVs, RVs and marine.</p>
+    <div class="hero-actions">
+      <a class="cta" href="#quote">Get a Free Quote</a>
+      <a class="cta cta--ghost" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo</a>
+    </div>
+    <p class="hero-tel">Or call <a href="tel:+19513913669">(951) 391-3669</a> &#183; seven days a week, no trip fee.</p>
+    <p class="hero-areas">Temecula &#183; Murrieta &#183; Menifee &#183; French Valley &#183; Winchester &#183; Wildomar</p>
+  </div>
+</section>
 
 <!-- ================= FEATURE PILLS ================= -->
 <div class="pills">
@@ -1527,9 +1620,18 @@ footer p{color:var(--steel);font-size:.9rem}
   burger.addEventListener('click', function(){
     var open = nav.classList.toggle('open');
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      burger.setAttribute('aria-label','Open menu');
+      burger.focus();
+    }
   });
   nav.addEventListener('click', function(e){
-    if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+    if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Open menu'); }
   });
 
   /* ---- pricing tabs ---- */
