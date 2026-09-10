@@ -228,12 +228,17 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
 .hero-buy .nb{white-space:nowrap}
 .hero-buy b{color:#fff;font-weight:700}
 .hero-buy .sep{color:var(--ink-mute)}
-/* On the narrowest phones each fact takes its own line, so the nowrap that keeps a fact
-   intact mid-sentence has to be released or "Same-Day & Weekend Appointments Available"
-   runs past the viewport (silently, since body has overflow-x:hidden). */
+/* On phones each fact takes its own line. The nowrap is kept here — at 360px and up
+   the longest fact ("Same-Day & Weekend Appointments Available", ~295px) still fits a
+   single line, so the block is three lines rather than four. */
 @media(max-width:420px){
   .hero-buy .sep{display:none}
-  .hero-buy .nb{display:block;white-space:normal}
+  .hero-buy .nb{display:block}
+}
+/* Below ~340px that fact no longer fits, so release the nowrap and let it wrap rather
+   than run past the viewport (silently, since body has overflow-x:hidden). */
+@media(max-width:340px){
+  .hero-buy .nb{white-space:normal}
 }
 .hero-areas{margin:clamp(28px,3.8vw,44px) 0 0;padding-top:clamp(16px,2vw,22px);
   border-top:1px solid var(--ink-line);max-width:min(100%,560px);
@@ -276,6 +281,32 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   .hero-media{aspect-ratio:870/916;max-height:min(52vh,430px)}
   .hero-media img{object-position:50% 50%}
   .hero-actions .cta{flex:1 1 100%}
+}
+
+/* Below 820px the fixed Call/Text/Quote bar occupies the last ~71px of the viewport,
+   and the buying line was landing underneath it. The headline, lede and the three
+   54px CTAs are all load-bearing, so the space comes out of the surrounding rhythm
+   instead: the hero's own padding, the gaps between blocks, and the eyebrow's very
+   wide tracking, which was costing a whole extra line on a narrow screen. Roughly
+   50px is recovered, which lifts the buying line clear of the bar. */
+@media(max-width:820px){
+  /* padding-bottom keeps the areas rule off the photograph without opening a gap */
+  .hero-inner{padding-top:26px;padding-bottom:22px}
+  .hero-accent{margin-bottom:14px}
+  /* .34em tracking pushed this onto a second line on a phone; .16em measures 323px
+     against 335px of column at 375, so it sits on one line and returns ~21px. Still
+     visibly tracked, just not luxuriously so. */
+  .hero-eyebrow{letter-spacing:.16em;margin-bottom:12px}
+  .hero-lede{margin-top:16px}
+  .hero-actions{margin-top:20px;gap:12px}
+  .hero-buy{margin-top:14px}
+  .hero-areas{margin-top:20px}
+}
+/* Narrower than ~400px the eyebrow still needed a second line at .16em, so it steps
+   down once more. Below this the column is too narrow to hold the line at any tracking
+   worth keeping. */
+@media(max-width:400px){
+  .hero-eyebrow{font-size:.72rem;letter-spacing:.12em}
 }
 /* ============ CAPABILITY BAND (replaces the icon-pill strip) ============ */
 .eyebrow-q{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
