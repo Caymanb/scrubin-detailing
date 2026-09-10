@@ -122,10 +122,21 @@ nav.main>a:hover::after,nav.main>a:focus-visible::after{transform:scaleX(1)}
     flex-direction:column;align-items:stretch;gap:0;
     background:var(--ink-950);border-bottom:1px solid var(--ink-line);
     padding:4px clamp(18px,5vw,28px) 28px;
-    transform:translateY(-140%);transition:transform .38s var(--ease);
     max-height:calc(100vh - var(--head-h));overflow-y:auto;
+    /* The panel is only moved off-screen by the transform, so its links stayed in the
+       tab order while closed — a keyboard user tabbed through eight invisible items.
+       visibility:hidden takes them out of the tab order and the accessibility tree.
+       It is switched with a 0s transition delayed by the slide duration, so closing
+       still animates fully before the panel goes hidden; opening applies it at once.
+       (Under prefers-reduced-motion the global transition:none makes both instant,
+       which is still correct.) */
+    transform:translateY(-140%);visibility:hidden;
+    transition:transform .38s var(--ease),visibility 0s linear .38s;
   }
-  nav.main.open{transform:translateY(0)}
+  nav.main.open{
+    transform:translateY(0);visibility:visible;
+    transition:transform .38s var(--ease),visibility 0s;
+  }
   nav.main>a{font-size:1.15rem;letter-spacing:.11em;padding:18px 2px;
     color:var(--ink-text);border-bottom:1px solid var(--ink-line)}
   nav.main>a::after{display:none}
@@ -156,8 +167,13 @@ nav.main>a:hover::after,nav.main>a:focus-visible::after{transform:scaleX(1)}
 }
 .cta:hover{background:#b81c26;border-color:#b81c26;color:#fff}
 .cta--sm{min-height:46px;padding:0 22px;font-size:1rem}
-.cta--ghost{background:transparent;color:var(--ink-text);border-color:rgba(255,255,255,.45)}
-.cta--ghost:hover{background:rgba(255,255,255,.07);border-color:#fff;color:#fff}
+/* Secondary action with equal weight to the primary — a light fill rather than a second
+   red, so "text a photo" reads as a real button without two competing primaries. */
+.cta--solid{background:var(--ink-text);color:var(--ink-950);border-color:var(--ink-text)}
+.cta--solid:hover{background:#fff;border-color:#fff;color:var(--ink-950)}
+/* Tertiary: still a surface with a visible edge, not a hairline outline. */
+.cta--ghost{background:rgba(255,255,255,.07);color:var(--ink-text);border-color:rgba(255,255,255,.5)}
+.cta--ghost:hover{background:rgba(255,255,255,.13);border-color:#fff;color:#fff}
 
 header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
   outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
@@ -195,14 +211,35 @@ header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
 h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   font-size:clamp(2.3rem,5.2vw,4.15rem);line-height:.99;letter-spacing:.005em;
   text-transform:uppercase;text-wrap:balance;margin:0;max-width:min(100%,660px)}
-.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:min(100%,46ch);color:var(--ink-dim);
+.hero-lede{margin:clamp(20px,2.6vw,30px) 0 0;max-width:min(100%,50ch);color:var(--ink-dim);
   font-size:clamp(1.02rem,1.3vw,1.16rem);line-height:1.62}
+/* "No trip fee" is the single most repeated objection this business answers, so it is
+   stated in the lede at full contrast rather than in a muted line below the buttons.
+   #ff4550 on #0a0b0d measures 5.8:1, so it clears AA at this size. */
+.hero-lede b{color:var(--red-lt);font-weight:700}
 .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.4vw,40px)}
-.hero-tel{margin:clamp(18px,2.2vw,24px) 0 0;font-size:.97rem;color:var(--ink-mute)}
-.hero-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
-  border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px;
-  transition:color .18s var(--ease),border-color .18s var(--ease)}
-.hero-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+
+/* Buying information directly under the actions: price floor, ceiling and availability,
+   so a mobile visitor can qualify themselves without scrolling into the pricing menu. */
+.hero-buy{margin:clamp(18px,2.2vw,24px) 0 0;font-size:.95rem;line-height:1.75;
+  color:var(--ink-dim);max-width:min(100%,62ch)}
+/* Each fact stays on one line; the line breaks BETWEEN facts. The source keeps real
+   whitespace around the separators so those break opportunities exist. */
+.hero-buy .nb{white-space:nowrap}
+.hero-buy b{color:#fff;font-weight:700}
+.hero-buy .sep{color:var(--ink-mute)}
+/* On phones each fact takes its own line. The nowrap is kept here — at 360px and up
+   the longest fact ("Same-Day & Weekend Appointments Available", ~295px) still fits a
+   single line, so the block is three lines rather than four. */
+@media(max-width:420px){
+  .hero-buy .sep{display:none}
+  .hero-buy .nb{display:block}
+}
+/* Below ~340px that fact no longer fits, so release the nowrap and let it wrap rather
+   than run past the viewport (silently, since body has overflow-x:hidden). */
+@media(max-width:340px){
+  .hero-buy .nb{white-space:normal}
+}
 .hero-areas{margin:clamp(28px,3.8vw,44px) 0 0;padding-top:clamp(16px,2vw,22px);
   border-top:1px solid var(--ink-line);max-width:min(100%,560px);
   font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
@@ -244,6 +281,32 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   .hero-media{aspect-ratio:870/916;max-height:min(52vh,430px)}
   .hero-media img{object-position:50% 50%}
   .hero-actions .cta{flex:1 1 100%}
+}
+
+/* Below 820px the fixed Call/Text/Quote bar occupies the last ~71px of the viewport,
+   and the buying line was landing underneath it. The headline, lede and the three
+   54px CTAs are all load-bearing, so the space comes out of the surrounding rhythm
+   instead: the hero's own padding, the gaps between blocks, and the eyebrow's very
+   wide tracking, which was costing a whole extra line on a narrow screen. Roughly
+   50px is recovered, which lifts the buying line clear of the bar. */
+@media(max-width:820px){
+  /* padding-bottom keeps the areas rule off the photograph without opening a gap */
+  .hero-inner{padding-top:26px;padding-bottom:22px}
+  .hero-accent{margin-bottom:14px}
+  /* .34em tracking pushed this onto a second line on a phone; .16em measures 323px
+     against 335px of column at 375, so it sits on one line and returns ~21px. Still
+     visibly tracked, just not luxuriously so. */
+  .hero-eyebrow{letter-spacing:.16em;margin-bottom:12px}
+  .hero-lede{margin-top:16px}
+  .hero-actions{margin-top:20px;gap:12px}
+  .hero-buy{margin-top:14px}
+  .hero-areas{margin-top:20px}
+}
+/* Narrower than ~400px the eyebrow still needed a second line at .16em, so it steps
+   down once more. Below this the column is too narrow to hold the line at any tracking
+   worth keeping. */
+@media(max-width:400px){
+  .hero-eyebrow{font-size:.72rem;letter-spacing:.12em}
 }
 /* ============ CAPABILITY BAND (replaces the icon-pill strip) ============ */
 .eyebrow-q{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
@@ -351,19 +414,27 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
 section{padding:clamp(56px,7vw,96px) 0;position:relative}
 
 /* proof strip */
+/* Compact proof band, promoted to sit immediately under the hero. */
+.trustbar{background:var(--ink-900);border-top:1px solid var(--ink-line);
+  border-bottom:1px solid var(--ink-line)}
 .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;padding:0;
-  margin:clamp(36px,4.4vw,58px) 0 0;border-top:1px solid var(--ink-line)}
-.trust li{padding:24px 24px 0;border-left:1px solid var(--ink-line)}
+  margin:0}
+.trust li{padding:clamp(18px,2.2vw,26px) clamp(16px,2vw,24px);
+  border-left:1px solid var(--ink-line)}
 .trust li:first-child{border-left:0;padding-left:0}
 .trust b{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;
-  font-size:clamp(1.65rem,2.5vw,2.15rem);line-height:1;color:#fff}
-.trust span{display:block;margin-top:8px;font-size:.76rem;text-transform:uppercase;
-  letter-spacing:.16em;color:var(--ink-mute)}
+  font-size:clamp(1.5rem,2.4vw,2.05rem);line-height:1;color:#fff}
+.trust li:first-child b{color:var(--red-lt)}
+.trust span{display:block;margin-top:7px;font-size:.75rem;text-transform:uppercase;
+  letter-spacing:.15em;color:var(--ink-mute)}
+/* the coverage cell carries the longest label, so ease its tracking rather than let it
+   wrap to three lines in the two-column phone layout */
+.trust .t-wide span{letter-spacing:.08em}
 @media(max-width:760px){
   .trust{grid-template-columns:1fr 1fr}
-  .trust li{padding:20px 18px}
+  .trust li{padding:18px 16px}
   .trust li:nth-child(odd){border-left:0;padding-left:0}
-  .trust li:nth-child(n+3){border-top:1px solid var(--ink-line);padding-top:20px}
+  .trust li:nth-child(n+3){border-top:1px solid var(--ink-line)}
 }
 
 /* ============ PRICING MENU ============ */
@@ -432,14 +503,16 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
 .pk-sizes dt{font-size:.79rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mute)}
 .pk-sizes dd{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:700;
   font-size:1.05rem;color:var(--ink-text)}
-.pk-cta{display:inline-flex;align-items:center;gap:.5em;margin-top:16px;text-decoration:none;
-  white-space:nowrap;font-family:"Barlow Condensed",sans-serif;font-weight:700;
-  text-transform:uppercase;letter-spacing:.11em;font-size:.87rem;color:var(--ink-text);
-  border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:3px;
-  transition:color .18s var(--ease),border-color .18s var(--ease)}
-.pk-cta::after{content:"\2192";transition:transform .18s var(--ease)}
-.pk-cta:hover{color:#fff;border-bottom-color:var(--red-lt)}
-.pk-cta:hover::after{transform:translateX(3px)}
+/* The package CTA is the highest-intent moment on the page — a visitor who has just read
+   a price they like. It is a real button with a 46px+ target, not an underlined link. */
+.pk-cta{display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  margin-top:18px;min-height:46px;padding:0 22px;border-radius:6px;
+  text-decoration:none;white-space:nowrap;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:.92rem;
+  color:#fff;background:var(--red);border:1px solid var(--red);
+  transition:background .2s var(--ease),border-color .2s var(--ease)}
+.pk-cta:hover{background:#b81c26;border-color:#b81c26;color:#fff}
 
 @media(max-width:820px){
   /* name, then price, then what you get */
@@ -447,6 +520,12 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
   .pk-price{margin-top:16px}
   .pk-detail{margin-top:20px}
   .pk-inc{columns:1}
+  /* full-width thumb target once the card is a single column */
+  .pk-cta{display:flex;width:100%;min-height:50px}
+}
+@media(max-width:420px){
+  /* the longest labels ("Get Ceramic Coating Quote") need to be allowed to wrap */
+  .pk-cta{white-space:normal;text-align:center;line-height:1.25;padding:12px 16px}
 }
 
 /* maintenance: restricted rate, kept away from the entry-price families */
@@ -534,11 +613,14 @@ section{padding:clamp(56px,7vw,96px) 0;position:relative}
 .rev-head .eyebrow-q{grid-column:1;grid-row:1;margin-bottom:0}
 .rev-head h2{grid-column:1;grid-row:2}
 .rev-head .rev-rating{grid-column:2;grid-row:2;justify-self:end}
-.rev-rating{margin:0;display:flex;align-items:baseline;gap:.5em;white-space:nowrap}
+.rev-rating{margin:0;display:flex;align-items:center;flex-wrap:wrap;gap:.2em .55em;
+  white-space:nowrap}
 .rev-rating b{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.9rem;
   color:#fff;line-height:1}
-.rev-rating b::after{content:"\2605";margin-left:.12em;font-size:.68em;color:var(--red-lt)}
-.rev-rating span{font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+.rr-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute)}
+/* Star shorthand: a rating reads at a glance as five marks, not as a decimal. */
+.rev-stars{color:var(--red-lt);line-height:1;letter-spacing:.14em;font-size:1rem}
+.rev-rating .rev-stars{font-size:1.12rem}
 
 .rev-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
   border-top:1px solid var(--ink-line);border-bottom:1px solid var(--ink-line)}
@@ -681,12 +763,16 @@ details .a a:hover{color:#fff;border-bottom-color:var(--red-lt)}
   color:#fff;line-height:1.02;max-width:18ch}
 .fc-lede{margin:1.05em 0 0;color:var(--ink-dim);font-size:1.06rem;line-height:1.62;max-width:56ch}
 .fc-actions{display:flex;flex-wrap:wrap;align-items:center;
-  gap:14px clamp(20px,3vw,34px);margin-top:clamp(26px,3.4vw,40px)}
-.fc-tel{margin:0;font-size:.97rem;color:var(--ink-mute)}
-.fc-tel a{color:var(--ink-text);text-decoration:none;font-weight:600;
-  border-bottom:1px solid rgba(255,255,255,.28);
-  transition:color .18s var(--ease),border-color .18s var(--ease)}
-.fc-tel a:hover{color:#fff;border-bottom-color:var(--red-lt)}
+  gap:14px;margin-top:clamp(26px,3.4vw,40px)}
+/* the closing block is the last chance to convert, so the phone number is a full
+   button here rather than an inline link */
+.fc-call{font-size:1.14rem}
+.fc-note{margin:clamp(20px,2.4vw,26px) 0 0;font-size:.95rem;line-height:1.7;
+  color:var(--ink-dim);max-width:min(100%,56ch)}
+.fc-note b{color:#fff;font-weight:700}
+@media(max-width:660px){
+  .fc-actions .cta{flex:1 1 100%}
+}
 @media(max-width:520px){.fc-actions .cta{width:100%}}
 
 /* ============ FOOTER ============ */
@@ -698,7 +784,14 @@ footer{background:var(--ink-950);border-top:2px solid var(--red);
 footer h3{margin:0 0 1.1em;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;
   color:var(--ink-mute);font-family:"Barlow Condensed",sans-serif;font-weight:700}
 footer ul{list-style:none;margin:0;padding:0}
-footer li{margin-bottom:9px;color:var(--ink-dim)}
+/* Footer rows carry the touch target rather than the text run. The old inline links
+   measured 18px inside a ~34px row pitch (24.8px line box + 9px margin); that margin is
+   traded for row height at the same 34px, so the spacing is visually unchanged while
+   every link clears the 24px WCAG 2.5.8 minimum. The three contact actions — call, text
+   and email, all conversion paths — get a full 44px. */
+footer li{margin-bottom:0;color:var(--ink-dim)}
+footer li a,footer li.f-meta{display:flex;align-items:center;min-height:34px}
+.f-contact li a{min-height:44px}
 footer a{color:var(--ink-dim);text-decoration:none;transition:color .18s var(--ease)}
 footer a:hover{color:#fff}
 footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
@@ -715,7 +808,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 .legal{border-top:1px solid var(--ink-line);margin-top:clamp(30px,3.6vw,44px);padding-top:20px;
   display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;
   color:var(--ink-mute);font-size:.82rem}
-.legal a{color:var(--ink-mute);border-bottom:1px solid var(--ink-line-2);padding-bottom:1px}
+/* "Site by …" is inline in a sentence, so 2.5.8 exempts it — but a few px of padding
+   clears 24px outright and only moves the underline 2px. */
+.legal a{color:var(--ink-mute);border-bottom:1px solid var(--ink-line-2);
+  display:inline-block;padding-top:4px;padding-bottom:3px}
 .legal a:hover{color:#fff;border-bottom-color:var(--red-lt)}
 #quote a:focus-visible,#faq a:focus-visible,.finalcta a:focus-visible,footer a:focus-visible{
   outline:2px solid var(--blue-lt);outline-offset:3px;border-radius:4px}
@@ -725,17 +821,48 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 @media(max-width:820px){
   .callbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;
     z-index:70;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-    background:var(--ink-950);border-top:1px solid var(--ink-line)}
-  .callbar .cta{min-height:48px;padding:0 10px;font-size:.98rem;letter-spacing:.08em}
-  footer{padding-bottom:104px}
+    background:var(--ink-950);border-top:1px solid var(--ink-line-2);
+    box-shadow:0 -10px 24px -12px rgba(0,0,0,.9)}
+  .callbar .cta{min-height:50px;padding:0 8px;font-size:1rem;letter-spacing:.07em}
+  /* Call and Text carry equal visual weight; Quote stays a clearly filled surface
+     rather than a hairline outline. */
+  .callbar .cta--ghost{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.58)}
+
+  /* The hero already offers these same three actions, so the bar stays parked off-screen
+     until the hero's CTA and buying blocks have both scrolled away — it is redundant
+     there and costs 71px of a short phone's viewport. Same technique as the nav panel:
+     visibility carries the focusability and is switched instantly on reveal but delayed
+     past the slide on hide, so the bar animates out fully before it goes untabbable.
+     JS adds .is-visible; the <noscript> block below pins it open when JS is off. */
+  .callbar{transform:translateY(100%);visibility:hidden;
+    transition:transform .28s var(--ease),visibility 0s linear .28s}
+  .callbar.is-visible{transform:translateY(0);visibility:visible;
+    transition:transform .28s var(--ease),visibility 0s}
+  footer{padding-bottom:108px}
+  /* the bar sits over the last ~70px of the viewport, so keep anchor targets and
+     keyboard focus clear of it */
+  html{scroll-padding-bottom:88px}
+}
+/* The mobile nav panel can run the full height of the viewport, and the bar's higher
+   stacking order would cover its last row. Browsers without :has() keep the old
+   behaviour, which is why .nav-foot repeats Call and Get a Free Quote inside the panel. */
+@media(max-width:820px){
+  body:has(nav.main.open) .callbar{display:none}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 <noscript><style>
-  /* No JavaScript: the burger cannot toggle the panel, so lay the nav out inline. */
+  /* No JavaScript: the burger cannot toggle the panel, so lay the nav out inline.
+     visibility must be restored here too, or the no-JS nav would be unreachable. */
   @media(max-width:1160px){
-    nav.main{position:static;transform:none;max-height:none;padding-bottom:16px}
+    nav.main{position:static;transform:none;visibility:visible;transition:none;
+      max-height:none;padding-bottom:16px}
     .burger{display:none}
+  }
+  /* Nothing can add .is-visible without JS, so pin the call bar open rather than
+     leave it permanently off-screen. */
+  @media(max-width:820px){
+    .callbar{transform:none;visibility:visible;transition:none}
   }
 </style></noscript>
 </head>
@@ -792,13 +919,34 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     <div class="hero-accent"></div>
     <p class="hero-eyebrow">Mobile Detailing &#183; Southwest Riverside County</p>
     <h1 id="hero-title">Premium Mobile Auto Detailing in Temecula &amp; Murrieta</h1>
-    <p class="hero-lede">Professional detailing brought to your home or workplace &mdash; for daily drivers, luxury vehicles, trucks, SUVs, RVs and marine.</p>
+    <p class="hero-lede">Professional detailing at your home or workplace &mdash; we arrive with our own water and power, so you never have to leave. Cars, trucks, SUVs, RVs and marine. <b>No trip fee. Ever.</b></p>
     <div class="hero-actions">
-      <a class="cta" href="#quote">Get a Free Quote</a>
-      <a class="cta cta--ghost" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo</a>
+      <a class="cta" href="#quote">Get My Free Quote</a>
+      <a class="cta cta--solid" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo</a>
+      <a class="cta cta--ghost" href="tel:+19513913669">Call (951) 391-3669</a>
     </div>
-    <p class="hero-tel">Or call <a href="tel:+19513913669">(951) 391-3669</a> &#183; seven days a week, no trip fee.</p>
+    <p class="hero-buy">
+      <span class="nb">Full Details from <b>$115</b></span>
+      <span class="sep">&#183;</span>
+      <span class="nb">Ceramic Coating from <b>$550</b></span>
+      <span class="sep">&#183;</span>
+      <span class="nb"><b>Same-Day &amp; Weekend</b> Appointments Available</span>
+    </p>
     <p class="hero-areas">Temecula &#183; Murrieta &#183; Menifee &#183; French Valley &#183; Winchester &#183; Wildomar</p>
+  </div>
+</section>
+
+<!-- ================= TRUST STRIP =================
+     Sits directly under the hero so the rating, the $0 trip fee and the coverage are
+     the first thing after the CTAs, rather than the tail of the capability section. -->
+<section class="trustbar" aria-label="At a glance">
+  <div class="wrap">
+    <ul class="trust">
+      <li><b>5.0&#9733;</b><span>Google rated</span></li>
+      <li><b>$0</b><span>Trip fee</span></li>
+      <li><b>7 Days</b><span>A week, incl. evenings</span></li>
+      <li class="t-wide"><b>All Types</b><span>Cars &#183; Trucks &#183; RVs &#183; Marine</span></li>
+    </ul>
   </div>
 </section>
 
@@ -839,14 +987,6 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     </dl>
   </div>
 
-  <div class="wrap">
-    <ul class="trust">
-      <li><b>5.0&#9733;</b><span>Google rated</span></li>
-      <li><b>$0</b><span>Trip / travel fee</span></li>
-      <li><b>7 Days</b><span>A week, incl. evenings</span></li>
-      <li><b>9+</b><span>Vehicle types serviced</span></li>
-    </ul>
-  </div>
 </section>
 
 <!-- ================= SERVICES ================= -->
@@ -976,7 +1116,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$75</dd></div>
             <div><dt>Oversized</dt><dd>$90</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Get Exterior Wash Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1000,7 +1140,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$145</dd></div>
             <div><dt>Oversized</dt><dd>$160</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Get Exterior Detail Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1034,7 +1174,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$90</dd></div>
             <div><dt>Oversized</dt><dd>$105</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Book Basic Interior</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1059,7 +1199,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$150</dd></div>
             <div><dt>Oversized</dt><dd>$170</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Get Interior Detail Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1094,7 +1234,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$130</dd></div>
             <div><dt>Oversized</dt><dd>$145</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Book Basic Detail</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1123,7 +1263,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$225</dd></div>
             <div><dt>Oversized</dt><dd>$250</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Book Full Detail</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1166,7 +1306,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$350</dd></div>
             <div><dt>Oversized</dt><dd>$400</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Get Paint Correction Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1194,7 +1334,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>SUV / Truck</dt><dd>$650</dd></div>
             <div><dt>Oversized</dt><dd>$750</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Get Ceramic Coating Quote</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1229,7 +1369,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <div><dt>Sedan</dt><dd>$85</dd></div>
             <div><dt>SUV / Truck</dt><dd>$100</dd></div>
             </dl>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Set Up Recurring Service</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1291,7 +1431,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           <div class="pk-price">
             <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
             <p class="pk-basis">Priced per foot</p>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Quote My RV</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1322,7 +1462,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           <div class="pk-price">
             <p class="pk-rate"><b>$7</b><span class="pk-unit">/ft</span></p>
             <p class="pk-basis">Priced per foot</p>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Quote My Boat</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1346,7 +1486,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           <div class="pk-price">
             <p class="pk-rate"><b>$15</b><span class="pk-unit">/ft</span></p>
             <p class="pk-basis">Priced per foot</p>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Quote Full Boat Detail</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">Everything in the exterior wash, plus</p>
@@ -1371,7 +1511,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           <div class="pk-price">
             <p class="pk-rate"><b>$150</b></p>
             <p class="pk-basis">Flat rate</p>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Quote My Jet Ski</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1401,7 +1541,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           </div>
           <div class="pk-price">
             <p class="pk-rate"><b>$50</b></p>
-            <a class="pk-cta" href="#quote">Get a Quote</a>
+            <a class="pk-cta" href="#quote">Quote My Bike</a>
           </div>
           <div class="pk-detail">
             <p class="pk-inc-label">What's included</p>
@@ -1479,19 +1619,22 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     <div class="pr-head rev-head">
       <p class="eyebrow-q">Reviews</p>
       <h2 id="rev-title">What clients say</h2>
-      <p class="rev-rating"><b>5.0</b> <span>rated on Google</span></p>
+      <p class="rev-rating"><b>5.0</b> <span class="rev-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <span class="rr-label">rated on Google</span></p>
     </div>
 
     <div class="rev-list">
       <figure>
+        <div class="rev-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <blockquote>&ldquo;Outstanding quality of work. Very professional, respectful, and easy to work with.&rdquo;</blockquote>
         <figcaption>Mohammed Zubair</figcaption>
       </figure>
       <figure>
+        <div class="rev-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <blockquote>&ldquo;Attention to detail and little extras were amazing. Excellent communication.&rdquo;</blockquote>
         <figcaption>Justin Hodge</figcaption>
       </figure>
       <figure>
+        <div class="rev-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <blockquote>&ldquo;Thorough &mdash; my car was cleaner than the day I got it.&rdquo;</blockquote>
         <figcaption>Claire Russell</figcaption>
       </figure>
@@ -1562,7 +1705,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       <li>
         <p class="step-idx">02</p>
         <h3>We come to you</h3>
-        <p>Pick a day and time that works, including evenings and weekends. We arrive fully self-contained with our own water and power, so all you need is a parking spot.</p>
+        <p>Pick a day and time that works &mdash; same-day, evening and weekend appointments are available. We arrive fully self-contained with our own water and power, so all you need is a parking spot. No trip fee, no convenience fee.</p>
       </li>
       <li>
         <p class="step-idx">03</p>
@@ -1756,9 +1899,11 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     <h2 id="fc-title">Park it. We'll handle the rest.</h2>
     <p class="fc-lede">Send a photo and we'll come back with an exact price and the next open slot.</p>
     <div class="fc-actions">
-      <a class="cta" href="#quote">Get a Free Quote</a>
-      <p class="fc-tel">or call <a href="tel:+19513913669">(951) 391-3669</a></p>
+      <a class="cta" href="#quote">Get My Free Quote</a>
+      <a class="cta cta--solid" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote%20on%20this%20vehicle%3A">Text a Photo for a Price</a>
+      <a class="cta cta--ghost fc-call" href="tel:+19513913669">Call (951) 391-3669</a>
     </div>
+    <p class="fc-note"><b>Same-Day &amp; Weekend</b> appointments available &#183; <b>No trip fee</b> anywhere in our core service area.</p>
   </div>
 </section>
 
@@ -1805,7 +1950,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       </div>
       <div>
         <h3>Contact</h3>
-        <ul>
+        <ul class="f-contact">
           <li><a class="f-tel" href="tel:+19513913669">(951) 391-3669</a></li>
           <li><a href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text us a photo</a></li>
           <li><a href="mailto:Caymanb4747@outlook.com?subject=Detailing%20quote%20request&amp;body=Hi%20Scrubin%20Detailing%2C%0D%0A%0D%0AVehicle%20(year%20/%20make%20/%20model)%3A%0D%0ACity%3A%0D%0AService%20I%20am%20interested%20in%3A%0D%0A%0D%0AThanks%21">Caymanb4747@outlook.com</a></li>
@@ -1825,7 +1970,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 <!-- ================= STICKY MOBILE CALL BAR ================= -->
 <div class="callbar">
   <a class="cta" href="tel:+19513913669">Call</a>
-  <a class="cta cta--ghost" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text</a>
+  <a class="cta cta--solid" href="sms:+19513913669?&amp;body=Hi%20Scrubin%20Detailing%20-%20looking%20for%20a%20quote.">Text</a>
   <a class="cta cta--ghost" href="#quote">Quote</a>
 </div>
 
@@ -1969,22 +2114,88 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 
   /* ---- mobile nav ---- */
   var burger = document.getElementById('burger'), nav = document.getElementById('nav');
-  burger.addEventListener('click', function(){
-    var open = nav.classList.toggle('open');
+
+  /* The panel is only moved off-screen by a transform, so without this its links stay
+     in the tab order while closed. The CSS visibility rule covers that declaratively,
+     but the flip is delayed by the slide duration so the close still animates — which
+     would make focusability depend on a transition actually running. `inert` is applied
+     synchronously instead, and only in the breakpoint where the panel is a drawer, so
+     the desktop nav is never affected. Browsers without `inert` still get the CSS rule.
+     The burger is displayed by exactly the media query that turns the nav into a
+     drawer, so read the mode off it and keep the breakpoint defined once, in the CSS. */
+  function drawerMode(){ return getComputedStyle(burger).display !== 'none'; }
+  function syncNavInert(){
+    if (drawerMode() && !nav.classList.contains('open')) nav.setAttribute('inert','');
+    else nav.removeAttribute('inert');
+  }
+  syncNavInert();
+  var navPanel = window.matchMedia('(max-width:1160px)');
+  if (navPanel.addEventListener) navPanel.addEventListener('change', syncNavInert);
+  else if (navPanel.addListener) navPanel.addListener(syncNavInert);
+  /* Called directly rather than through requestAnimationFrame: rAF is paused in hidden
+     tabs, and this sync should never depend on the page being painted. It is one
+     getComputedStyle read and an attribute toggle. */
+  window.addEventListener('resize', syncNavInert);
+
+  function setNav(open){
+    nav.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    syncNavInert();
+  }
+  burger.addEventListener('click', function(){
+    setNav(!nav.classList.contains('open'));
   });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      burger.setAttribute('aria-expanded','false');
-      burger.setAttribute('aria-label','Open menu');
+      /* focus has to leave the panel before it goes inert, so move it first */
       burger.focus();
+      setNav(false);
     }
   });
   nav.addEventListener('click', function(e){
-    if (e.target.tagName === 'A'){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Open menu'); }
+    /* routed through setNav so the panel is re-inerted here too, not just on the
+       burger and Escape paths */
+    if (e.target.tagName === 'A'){ setNav(false); }
   });
+
+  /* ---- sticky call bar reveal ----
+     The bar duplicates the hero's three actions, so it stays hidden until both the
+     hero CTA block and the buying line have left the viewport. Watching the buying
+     line as well as the buttons is what guarantees the bar can never come up
+     underneath "Same-Day & Weekend Appointments Available" on a short phone.
+     IntersectionObserver rather than a scroll listener: no polling, and it reports
+     the initial state on its own, including when the page is loaded deep-linked.
+     `inert` mirrors the CSS visibility so the hidden bar is out of the tab order and
+     the accessibility tree without waiting on a transition to finish. */
+  var callbar = document.querySelector('.callbar');
+  if (callbar) {
+    var heroWatch = [document.querySelector('.hero-actions'),
+                     document.querySelector('.hero-buy')].filter(Boolean);
+
+    var setCallbar = function(show){
+      callbar.classList.toggle('is-visible', show);
+      if (show) callbar.removeAttribute('inert');
+      else callbar.setAttribute('inert', '');
+    };
+
+    if (heroWatch.length && 'IntersectionObserver' in window) {
+      setCallbar(false);
+      var heroOnScreen = [];
+      var heroObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          var i = heroOnScreen.indexOf(entry.target);
+          if (entry.isIntersecting) { if (i < 0) heroOnScreen.push(entry.target); }
+          else if (i > -1) { heroOnScreen.splice(i, 1); }
+        });
+        setCallbar(heroOnScreen.length === 0);
+      }, {threshold: 0});
+      heroWatch.forEach(function(el){ heroObserver.observe(el); });
+    } else {
+      /* no IntersectionObserver, or no hero to watch: fall back to the bar always up */
+      setCallbar(true);
+    }
+  }
 
   /* ---- quote form ---- */
   var form = document.getElementById('quoteForm'),
