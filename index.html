@@ -827,6 +827,17 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
   /* Call and Text carry equal visual weight; Quote stays a clearly filled surface
      rather than a hairline outline. */
   .callbar .cta--ghost{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.58)}
+
+  /* The hero already offers these same three actions, so the bar stays parked off-screen
+     until the hero's CTA and buying blocks have both scrolled away — it is redundant
+     there and costs 71px of a short phone's viewport. Same technique as the nav panel:
+     visibility carries the focusability and is switched instantly on reveal but delayed
+     past the slide on hide, so the bar animates out fully before it goes untabbable.
+     JS adds .is-visible; the <noscript> block below pins it open when JS is off. */
+  .callbar{transform:translateY(100%);visibility:hidden;
+    transition:transform .28s var(--ease),visibility 0s linear .28s}
+  .callbar.is-visible{transform:translateY(0);visibility:visible;
+    transition:transform .28s var(--ease),visibility 0s}
   footer{padding-bottom:108px}
   /* the bar sits over the last ~70px of the viewport, so keep anchor targets and
      keyboard focus clear of it */
@@ -847,6 +858,11 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     nav.main{position:static;transform:none;visibility:visible;transition:none;
       max-height:none;padding-bottom:16px}
     .burger{display:none}
+  }
+  /* Nothing can add .is-visible without JS, so pin the call bar open rather than
+     leave it permanently off-screen. */
+  @media(max-width:820px){
+    .callbar{transform:none;visibility:visible;transition:none}
   }
 </style></noscript>
 </head>
@@ -2142,6 +2158,44 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
        burger and Escape paths */
     if (e.target.tagName === 'A'){ setNav(false); }
   });
+
+  /* ---- sticky call bar reveal ----
+     The bar duplicates the hero's three actions, so it stays hidden until both the
+     hero CTA block and the buying line have left the viewport. Watching the buying
+     line as well as the buttons is what guarantees the bar can never come up
+     underneath "Same-Day & Weekend Appointments Available" on a short phone.
+     IntersectionObserver rather than a scroll listener: no polling, and it reports
+     the initial state on its own, including when the page is loaded deep-linked.
+     `inert` mirrors the CSS visibility so the hidden bar is out of the tab order and
+     the accessibility tree without waiting on a transition to finish. */
+  var callbar = document.querySelector('.callbar');
+  if (callbar) {
+    var heroWatch = [document.querySelector('.hero-actions'),
+                     document.querySelector('.hero-buy')].filter(Boolean);
+
+    var setCallbar = function(show){
+      callbar.classList.toggle('is-visible', show);
+      if (show) callbar.removeAttribute('inert');
+      else callbar.setAttribute('inert', '');
+    };
+
+    if (heroWatch.length && 'IntersectionObserver' in window) {
+      setCallbar(false);
+      var heroOnScreen = [];
+      var heroObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          var i = heroOnScreen.indexOf(entry.target);
+          if (entry.isIntersecting) { if (i < 0) heroOnScreen.push(entry.target); }
+          else if (i > -1) { heroOnScreen.splice(i, 1); }
+        });
+        setCallbar(heroOnScreen.length === 0);
+      }, {threshold: 0});
+      heroWatch.forEach(function(el){ heroObserver.observe(el); });
+    } else {
+      /* no IntersectionObserver, or no hero to watch: fall back to the bar always up */
+      setCallbar(true);
+    }
+  }
 
   /* ---- quote form ---- */
   var form = document.getElementById('quoteForm'),
