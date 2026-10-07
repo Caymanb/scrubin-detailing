@@ -32,8 +32,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" media="(min-width:661px)" href="hero-wide-1717.webp" imagesrcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" imagesizes="100vw" fetchpriority="high">
-<link rel="preload" as="image" media="(max-width:660px)" href="hero-tall-870.webp" imagesrcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(min-width:661px) and (max-width:1279px)" href="hero-truck-wide-1206.webp" imagesrcset="hero-truck-wide-760.webp 760w, hero-truck-wide-1100.webp 1100w, hero-truck-wide-1206.webp 1206w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(min-width:1280px)" href="hero-truck-panel-1206.webp" imagesrcset="hero-truck-panel-760.webp 760w, hero-truck-panel-1100.webp 1100w, hero-truck-panel-1206.webp 1206w" imagesizes="44vw" fetchpriority="high">
+<link rel="preload" as="image" media="(max-width:660px)" href="hero-truck-tall-870.webp" imagesrcset="hero-truck-tall-640.webp 640w, hero-truck-tall-870.webp 870w" imagesizes="100vw" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -190,9 +191,9 @@ header a:focus-visible,header button:focus-visible,.hero a:focus-visible{
 }
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media picture{display:block;height:100%}
-/* the vehicle sits right of centre in the frame, so bias the crop right and keep the
-   open sky and hills on the left, where the headline sits */
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:66% 50%}
+/* the detailer stands at the left of the frame and the truck fills the centre-right,
+   so the crop is centred rather than biased right as the previous artwork was */
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
 /* just enough scrim for text contrast; the right side stays clear so the paint keeps
    its gloss and reflections */
 .hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -245,29 +246,44 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;
   letter-spacing:.2em;font-size:.78rem;color:var(--ink-mute)}
 
-/* Between 901 and 1200px the frame is cropped harder, which slides the vehicle left
-   under the copy. Keep more of the left of the frame and hold the scrim a little wider. */
-@media(max-width:1200px){
-  .hero-media img{object-position:28% 50%}
-  .hero-media::after{background:
-    linear-gradient(94deg,rgba(6,7,10,.93) 0%,rgba(6,7,10,.90) 34%,rgba(6,7,10,.84) 48%,rgba(6,7,10,.56) 60%,rgba(6,7,10,.20) 71%,rgba(6,7,10,0) 82%),
-    linear-gradient(180deg,rgba(6,7,10,.45) 0%,rgba(6,7,10,0) 16%,rgba(6,7,10,0) 76%,rgba(6,7,10,.50) 100%)}
-  h1{max-width:min(100%,600px)}
-  .hero-lede{max-width:min(100%,44ch)}
-}
-
 @media(max-width:900px){:root{--head-h:76px}}
 
-/* Below 1024px the copy needs most of the width, so an overlay would either bury the
+/* ---- desktop split (>=1280px) ----
+   The copy keeps the left of the hero and the photograph occupies the right panel, so
+   the detailer is in the open rather than sitting behind the headline. The panel is
+   portrait-ish, which is why it is fed the tall crop; a horizontal gradient dissolves
+   its left edge into the same charcoal the copy sits on, so the two read as one hero
+   rather than two boxes. */
+@media(min-width:1280px){
+  .hero-media{inset:0 0 0 56%}
+  /* the panel crop is cut to the panel's own aspect (0.72), so the full width of the
+     photograph is always shown and only the sky/driveway crop vertically - the subject
+     band sits at 35-65% of the crop and stays centred */
+  .hero-media img{object-position:50% 50%}
+  /* The blend must finish before the detailer begins (he starts ~13% across), so it is
+     a tight feather over the first ~12% of the panel rather than a wide wash. */
+  .hero-media::after{background:
+    linear-gradient(90deg,var(--ink-950) 0%,rgba(10,11,13,.85) 2%,rgba(10,11,13,.50) 5%,rgba(10,11,13,.18) 9%,rgba(10,11,13,.04) 12%,rgba(10,11,13,0) 16%),
+    linear-gradient(180deg,rgba(6,7,10,.50) 0%,rgba(6,7,10,0) 18%,rgba(6,7,10,0) 78%,rgba(6,7,10,.56) 100%)}
+  /* these two have no intrinsic max-width, so cap them to the copy column. The
+     headline is capped a little tighter so its box never reaches the panel edge at
+     1280px; its longest line measures ~530px, so wrapping is unchanged. */
+  .hero-eyebrow,.hero-actions{max-width:min(100%,660px)}
+  h1{max-width:min(100%,620px)}
+}
+
+
+/* Below the split the copy needs most of the width, so an overlay would either bury the
    vehicle under a scrim or leave small text sitting on bright paint (measured: the
    phone line drops to 3.6:1 at 901px). The hero stacks instead: copy on charcoal,
-   then the photograph full-width beneath it. */
-@media(max-width:1023px){
+   then the photograph full-width beneath it - which also keeps the detailer fully
+   visible at these widths. */
+@media(max-width:1279px){
   .hero{display:flex;flex-direction:column;min-height:0;background:var(--ink-950)}
   .hero-inner{order:1;padding-top:clamp(38px,6vw,60px);padding-bottom:clamp(28px,4.6vw,40px)}
   .hero-media{order:2;position:relative;inset:auto;width:100%;
-    aspect-ratio:1717/916;max-height:min(46vh,420px)}
-  .hero-media img{object-position:58% 50%}
+    aspect-ratio:1206/643;max-height:min(46vh,420px)}
+  .hero-media img{object-position:50% 50%}
   .hero-media::after{background:
     linear-gradient(180deg,var(--ink-950) 0%,rgba(6,7,10,.32) 8%,rgba(6,7,10,0) 20%,
       rgba(6,7,10,0) 84%,rgba(6,7,10,.50) 95%,var(--navy-900) 100%)}
@@ -278,7 +294,7 @@ h1{font-family:"Barlow Condensed",Inter,sans-serif;font-weight:800;color:#fff;
   :root{--head-h:68px}
   /* phones swap the wide frame for the dedicated portrait crop, which fits the whole
      front of the vehicle into a narrow column */
-  .hero-media{aspect-ratio:870/916;max-height:min(52vh,430px)}
+  .hero-media{aspect-ratio:1206/1270;max-height:min(52vh,430px)}
   .hero-media img{object-position:50% 50%}
   .hero-actions .cta{flex:1 1 100%}
 }
@@ -908,10 +924,12 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero-media">
     <picture>
-      <source media="(max-width:660px)" type="image/webp" srcset="hero-tall-640.webp 640w, hero-tall-870.webp 870w" sizes="100vw">
-      <source media="(max-width:660px)" type="image/jpeg" srcset="hero-tall-640.jpg 640w, hero-tall-870.jpg 870w" sizes="100vw">
-      <source type="image/webp" srcset="hero-wide-760.webp 760w, hero-wide-1100.webp 1100w, hero-wide-1400.webp 1400w, hero-wide-1717.webp 1717w" sizes="100vw">
-      <img src="hero-wide-1717.jpg" srcset="hero-wide-760.jpg 760w, hero-wide-1100.jpg 1100w, hero-wide-1400.jpg 1400w, hero-wide-1717.jpg 1717w" sizes="100vw" width="1717" height="916" alt="" fetchpriority="high" decoding="async">
+      <source media="(max-width:660px)" type="image/webp" srcset="hero-truck-tall-640.webp 640w, hero-truck-tall-870.webp 870w" sizes="100vw">
+      <source media="(max-width:660px)" type="image/jpeg" srcset="hero-truck-tall-640.jpg 640w, hero-truck-tall-870.jpg 870w" sizes="100vw">
+      <source media="(min-width:1280px)" type="image/webp" srcset="hero-truck-panel-760.webp 760w, hero-truck-panel-1100.webp 1100w, hero-truck-panel-1206.webp 1206w" sizes="44vw">
+      <source media="(min-width:1280px)" type="image/jpeg" srcset="hero-truck-panel-760.jpg 760w, hero-truck-panel-1100.jpg 1100w, hero-truck-panel-1206.jpg 1206w" sizes="44vw">
+      <source type="image/webp" srcset="hero-truck-wide-760.webp 760w, hero-truck-wide-1100.webp 1100w, hero-truck-wide-1206.webp 1206w" sizes="100vw">
+      <img src="hero-truck-wide-1206.jpg" srcset="hero-truck-wide-760.jpg 760w, hero-truck-wide-1100.jpg 1100w, hero-truck-wide-1206.jpg 1206w" sizes="100vw" width="1206" height="643" alt="" fetchpriority="high" decoding="async">
     </picture>
   </div>
 
@@ -974,7 +992,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       </div>
       <div>
         <dt>Ceramic protection</dt>
-        <dd>A four-year semi-permanent barrier against valley sun, hard-water spotting and windblown dust.</dd>
+        <dd>Long-term ceramic protection rated up to 4 years with proper maintenance, against valley sun, hard-water spotting and windblown dust.</dd>
       </div>
       <div>
         <dt>RV, marine and powersports</dt>
@@ -1018,7 +1036,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         <div class="svc-main">
           <h3>Interior Detailing</h3>
           <p>The basic is a vacuum, a one-step clean and a conditioning wipe-down. The premium brings steam, shampoo and hot-water extraction &mdash; built for car seats, spilled coffee and dog hair.</p>
-          <p class="svc-inc">Basic Interior &#183; Premium Interior &#183; Pet hair removal starting at $20</p>
+          <p class="svc-inc">Basic Interior &#183; Premium Interior &#183; Pet hair removal starting at $30</p>
         </div>
         <div class="svc-aside">
           <p class="svc-price"><span>From</span><b>$80</b></p>
@@ -1043,7 +1061,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         <p class="svc-idx">04</p>
         <div class="svc-main">
           <h3>Paint Correction &amp; Ceramic Coating</h3>
-          <p>One-step machine correction reduces light scratches, swirl marks and oxidation. A two-step correction adds a cutting stage before the polish for more noticeable defects. Finish it with a four-year ceramic coating: a semi-permanent barrier that leaves paint slicker, glossier and far easier to wash.</p>
+          <p>One-step machine correction reduces light scratches, swirl marks and oxidation. A two-step correction adds a cutting stage before the polish for more noticeable defects. Finish it with a four-year ceramic coating: long-term ceramic protection rated up to 4 years with proper maintenance, leaving paint slicker, glossier and far easier to wash.</p>
           <p class="svc-inc">1 Step Paint Correction &#183; 2 Step Paint Correction &#183; Scrubin's 4-Year Ceramic Coating from $700</p>
         </div>
         <div class="svc-aside">
@@ -1066,7 +1084,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
           <li><span>Boat exterior wash</span><b>$7<small>/ft</small></b></li>
           <li><span>Boat full detail</span><b>$15<small>/ft</small></b></li>
           <li><span>Jet ski detail</span><b>$150</b></li>
-          <li><span>Motorcycle &amp; dirt bike detail</span><b>$50</b></li>
+          <li><span>Motorcycle &amp; dirt bike detail</span><b>Starting at $75</b></li>
         </ul>
         <a class="svc-link" href="#marine">RV &amp; marine detail</a>
       </div>
@@ -1075,10 +1093,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
     <div class="svc-addons">
       <p class="svc-addons__label">Add to any package</p>
       <ul>
-        <li>Headlight restoration <b>$50</b></li>
+        <li>Headlight restoration <b>$75</b></li>
         <li>Engine bay detail <b>$50</b></li>
         <li>Trim restoration <b>$50</b></li>
-        <li>Pet hair removal <b>Starting at $20</b></li>
+        <li>Pet hair removal <b>Starting at $30</b></li>
       </ul>
     </div>
 
@@ -1192,10 +1210,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <p class="pk-sub">Steam, shampoo &amp; extraction</p>
           </div>
           <div class="pk-price">
-            <p class="pk-from"><span>From</span><b>$150</b></p>
+            <p class="pk-from"><span>From</span><b>$160</b></p>
             <dl class="pk-sizes">
-            <div><dt>Sedan</dt><dd>$150</dd></div>
-            <div><dt>SUV / Truck</dt><dd>$175</dd></div>
+            <div><dt>Sedan</dt><dd>$160</dd></div>
+            <div><dt>SUV / Truck</dt><dd>$180</dd></div>
             <div><dt>Oversized</dt><dd>$200</dd></div>
             </dl>
             <a class="pk-cta" href="#quote">Get Interior Detail Quote</a>
@@ -1231,7 +1249,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <dl class="pk-sizes">
             <div><dt>Sedan</dt><dd>$125</dd></div>
             <div><dt>SUV / Truck</dt><dd>$150</dd></div>
-            <div><dt>Oversized</dt><dd>$180</dd></div>
+            <div><dt>Oversized</dt><dd>$150</dd></div>
             </dl>
             <a class="pk-cta" href="#quote">Book Basic Detail</a>
           </div>
@@ -1260,7 +1278,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <dl class="pk-sizes">
             <div><dt>Sedan</dt><dd>$250</dd></div>
             <div><dt>SUV / Truck</dt><dd>$285</dd></div>
-            <div><dt>Oversized</dt><dd>$325</dd></div>
+            <div><dt>Oversized</dt><dd>$300</dd></div>
             </dl>
             <a class="pk-cta" href="#quote">Book Full Detail</a>
           </div>
@@ -1375,7 +1393,8 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <li>Iron fallout remover</li>
             <li>Clay bar</li>
             <li>1-step paint correction &mdash; reduces light scratches, swirl marks &amp; oxidation.</li>
-            <li>4-year ceramic coating &mdash; semi-permanent barrier to vehicle paint, high gloss and protection</li>
+            <li>4-year ceramic coating &mdash; long-term ceramic protection rated up to 4 years with proper maintenance, high gloss and protection</li>
+            <li>Windows + windshield coating</li>
             <li>Trim Shield</li>
             <li>Complimentary Basic Interior Detail</li>
             </ul>
@@ -1396,9 +1415,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <p class="pk-sub">Available for returning clients every 2&ndash;4 weeks.</p>
           </div>
           <div class="pk-price">
-            <p class="pk-from"><span>Flat rate</span><b>$100</b></p>
+            <p class="pk-from"><span>From</span><b>$90</b></p>
             <dl class="pk-sizes">
-            <div><dt>All vehicle sizes</dt><dd>$100</dd></div>
+            <div><dt>Bi-weekly</dt><dd>$90</dd></div>
+            <div><dt>Monthly</dt><dd>$100</dd></div>
             </dl>
             <a class="pk-cta" href="#quote">Set Up Recurring Service</a>
           </div>
@@ -1425,10 +1445,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         <p>Priced per vehicle and added to any package above.</p>
       </div>
       <ul class="pr-addons">
-        <li><span>Headlight restoration</span><b>$50</b></li>
+        <li><span>Headlight restoration</span><b>$75</b></li>
         <li><span>Engine bay detail</span><b>$50</b></li>
         <li><span>Trim restoration</span><b>$50</b></li>
-        <li><span>Pet hair removal</span><b>Starting at $20</b></li>
+        <li><span>Pet hair removal</span><b>Starting at $30</b></li>
       </ul>
     </div>
 
@@ -1568,10 +1588,10 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         <article class="pk">
           <div class="pk-id">
             <h4 class="pk-name">Motorcycle &amp; Dirt Bike Detail</h4>
-            <p class="pk-sub">Street, cruiser, MX &amp; offroad</p>
+            <p class="pk-sub">Street, cruiser, MX &amp; offroad &#183; starting at $75</p>
           </div>
           <div class="pk-price">
-            <p class="pk-rate"><b>$50</b></p>
+            <p class="pk-rate"><b>$75</b></p>
             <a class="pk-cta" href="#quote">Quote My Bike</a>
           </div>
           <div class="pk-detail">
@@ -1841,14 +1861,14 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
             <option>2 Step Paint Correction Detail (from $450)</option>
             <option>Scrubin's 4-Year Ceramic Coating (from $700)</option>
             <option>Basic Interior Detail (from $80)</option>
-            <option>Premium Interior Detail (from $150)</option>
+            <option>Premium Interior Detail (from $160)</option>
             <option>Scrubin's Basic Exterior Detail (from $60)</option>
             <option>Scrubin's Clay &amp; Wax Detail (from $150)</option>
             <option>Maintenance Detail (returning client)</option>
             <option>RV / trailer wash ($7/ft)</option>
             <option>Boat wash or full detail ($7&ndash;$15/ft)</option>
             <option>Jet ski detail ($150)</option>
-            <option>Motorcycle / dirt bike ($50)</option>
+            <option>Motorcycle / dirt bike (starting at $75)</option>
           </select>
         </div>
 
@@ -1891,7 +1911,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       </details>
       <details>
         <summary>What's the difference between wax, sealant and ceramic coating?</summary>
-        <div class="a"><p>Wax is the shortest-lived &mdash; our <b>6-month paint protection wax</b> (included in the Full Detail and Scrubin's Clay &amp; Wax Detail) adds gloss and real protection. A <b>ceramic coating</b> goes much further: a semi-permanent barrier that bonds to the clearcoat, lasts <b>four years</b>, and is the only one that really stands up to Temecula Valley conditions &mdash; hard-water sprinkler spotting, relentless UV and windblown dust. Coated paint is also noticeably slicker, so future washes take less time and less contact.</p></div>
+        <div class="a"><p>Wax is the shortest-lived &mdash; our <b>6-month paint protection wax</b> (included in the Full Detail and Scrubin's Clay &amp; Wax Detail) adds gloss and real protection. A <b>ceramic coating</b> goes much further: <b>long-term ceramic protection rated up to 4 years with proper maintenance</b> that bonds to the clearcoat, and is the only one that really stands up to Temecula Valley conditions &mdash; hard-water sprinkler spotting, relentless UV and windblown dust. Coated paint is also noticeably slicker, so future washes take less time and less contact.</p></div>
       </details>
       <details>
         <summary>Can you get hard water spots off my paint?</summary>
@@ -1899,11 +1919,11 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       </details>
       <details>
         <summary>Do you remove pet hair, stains and odors?</summary>
-        <div class="a"><p>Yes. Our <b>Premium Interior Detail</b> ($150&ndash;$200) includes seat and carpet extraction on cloth seats, carpet shampooing, steam cleaning, and scrub and decontamination on all plastics and leather. Heavy pet hair is billed as an add-on <b>starting at $20</b> because it genuinely takes extra time. We'll always confirm that with you before we start, never after.</p></div>
+        <div class="a"><p>Yes. Our <b>Premium Interior Detail</b> ($160&ndash;$200) includes seat and carpet extraction on cloth seats, carpet shampooing, steam cleaning, and scrub and decontamination on all plastics and leather. Heavy pet hair is billed as an add-on <b>starting at $30</b> because it genuinely takes extra time. We'll always confirm that with you before we start, never after.</p></div>
       </details>
       <details>
         <summary>Do you detail RVs, boats, jet skis and dirt bikes?</summary>
-        <div class="a"><p>All of them. RV and trailer exterior washes are <b>$7 per foot</b>, boat exterior washes <b>$7 per foot</b>, boat full details <b>$15 per foot</b>, jet skis <b>$150 each</b> (trailer included), and motorcycles or dirt bikes <b>$50</b>. If you're launching at Lake Skinner or Diamond Valley Lake, book the day before &mdash; both are MWD reservoirs with pre-launch inspection requirements, and a clean vessel makes that a lot smoother.</p></div>
+        <div class="a"><p>All of them. RV and trailer exterior washes are <b>$7 per foot</b>, boat exterior washes <b>$7 per foot</b>, boat full details <b>$15 per foot</b>, jet skis <b>$150 each</b> (trailer included), and motorcycles or dirt bikes <b>starting at $75</b>. If you're launching at Lake Skinner or Diamond Valley Lake, book the day before &mdash; both are MWD reservoirs with pre-launch inspection requirements, and a clean vessel makes that a lot smoother.</p></div>
       </details>
       <details>
         <summary>What do you need from me on the day?</summary>
@@ -1911,7 +1931,7 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
       </details>
       <details>
         <summary>How often should I get my car detailed here?</summary>
-        <div class="a"><p>For most daily drivers in the valley, a full detail every 3&ndash;4 months with a maintenance detail in between keeps paint protected and interiors from ever getting bad. Returning clients get our <b>Maintenance Detail at a flat $100</b> every 2&ndash;4 weeks after a qualifying full detail. Given how fast pollen, dust and sprinkler water build up here, staying on a schedule is cheaper than fixing neglect later.</p></div>
+        <div class="a"><p>For most daily drivers in the valley, a full detail every 3&ndash;4 months with a maintenance detail in between keeps paint protected and interiors from ever getting bad. Returning clients get our <b>Maintenance Detail at $90 bi-weekly or $100 monthly</b> after a qualifying full detail. Given how fast pollen, dust and sprinkler water build up here, staying on a schedule is cheaper than fixing neglect later.</p></div>
       </details>
       <details>
         <summary>Which cities and neighborhoods do you serve?</summary>
@@ -2080,25 +2100,25 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         "@type": "OfferCatalog",
         "name": "Mobile Detailing Services & Pricing",
         "itemListElement": [
-          { "@type": "Offer", "name": "Scrubin's Basic Detail", "description": "100% safe wash and foam bath, wheel treatment and shine, wheel well treatment and shine, tire shine, interior vacuum, interior 1-step clean and conditioning wipe down, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 125, "maxPrice": 180, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Full auto detailing", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Scrubin's Full Detail", "description": "Safe wash and foam bath, wheels and wheel wells, tire shine, iron fallout remover, clay bar decontamination, 6-month paint protection wax, thorough vacuuming of seats and flooring, carpet shampooing, seat and carpet extraction on cloth seats, scrub and decontamination on all plastics and leather, steam clean, streak-free interior windows, floor mats, door jambs, trim shine and Trim Shield.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 250, "maxPrice": 325, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Full auto detailing", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Scrubin's Basic Detail", "description": "100% safe wash and foam bath, wheel treatment and shine, wheel well treatment and shine, tire shine, interior vacuum, interior 1-step clean and conditioning wipe down, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 125, "maxPrice": 150, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Full auto detailing", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Scrubin's Full Detail", "description": "Safe wash and foam bath, wheels and wheel wells, tire shine, iron fallout remover, clay bar decontamination, 6-month paint protection wax, thorough vacuuming of seats and flooring, carpet shampooing, seat and carpet extraction on cloth seats, scrub and decontamination on all plastics and leather, steam clean, streak-free interior windows, floor mats, door jambs, trim shine and Trim Shield.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 250, "maxPrice": 300, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Full auto detailing", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's 1 Step Paint Correction Detail", "description": "Safe wash and foam bath, wheel and wheel well treatment, tire shine, iron fallout remover, clay bar decontamination and 1-step paint correction that reduces light scratches, swirl marks and oxidation, and Trim Shield. An interior detail can be added.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 300, "maxPrice": 400, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Paint correction", "serviceType": "Paint correction", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's 2 Step Paint Correction Detail", "description": "Safe wash and foam bath, wheel and wheel well treatment, tire shine, iron fallout remover, clay bar decontamination, and a two-step paint correction: a cutting stage followed by a polishing stage that removes more swirl marks, oxidation, scratches and paint defects than the 1 Step Paint Correction Detail. Includes Trim Shield. Deeper scratches may not be fully removable. An interior detail can be added.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 450, "maxPrice": 550, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Paint correction", "serviceType": "Paint correction", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Scrubin's 4-Year Ceramic Coating", "description": "pH neutral safe wash and foam bath, deep wheel treatment and shine, tire shine, iron fallout remover, clay bar, 1-step paint correction, and a 4-year ceramic coating providing a semi-permanent barrier, high gloss and protection, Trim Shield, plus a complimentary Basic Interior Detail. An additional interior detail can be added.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 700, "maxPrice": 900, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Ceramic coating", "serviceType": "Ceramic coating", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Scrubin's 4-Year Ceramic Coating", "description": "pH neutral safe wash and foam bath, deep wheel treatment and shine, tire shine, iron fallout remover, clay bar, 1-step paint correction, and a 4-year ceramic coating providing long-term ceramic protection rated up to 4 years with proper maintenance, high gloss and protection, windows and windshield coating, Trim Shield, plus a complimentary Basic Interior Detail. An additional interior detail can be added.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 700, "maxPrice": 900, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Ceramic coating", "serviceType": "Ceramic coating", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's Basic Interior Detail", "description": "Interior vacuum, interior 1-step clean and conditioning wipe down, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 80, "maxPrice": 120, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Interior detailing", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Scrubin's Premium Interior Detail", "description": "Thorough vacuuming of the seats and flooring, carpet shampooing, seat and carpet extraction on cloth seats, scrub and decontamination on all plastics and leather, steam clean, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 150, "maxPrice": 200, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Interior detailing", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Scrubin's Premium Interior Detail", "description": "Thorough vacuuming of the seats and flooring, carpet shampooing, seat and carpet extraction on cloth seats, scrub and decontamination on all plastics and leather, steam clean, streak-free interior windows, floor mats cleaned and shined, door jambs cleaned.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 160, "maxPrice": 200, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Interior detailing", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's Basic Exterior Detail", "description": "100% safe wash and foam bath, wheel treatment and shine, wheel well treatment and shine, tire shine.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 60, "maxPrice": 90, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Exterior hand wash", "serviceType": "Exterior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Scrubin's Clay & Wax Detail", "description": "Safe wash and foam bath, wheel and wheel well treatment, tire shine, iron fallout remover, clay bar decontamination and 6-month paint protection wax.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 150, "maxPrice": 200, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Clay bar and wax", "serviceType": "Exterior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Maintenance Detail", "description": "For returning clients on a 2 to 4 week schedule whose vehicle has already had a qualifying full detail, at a flat $100 for all vehicle sizes: safe wash and foam bath, wheel treatment and shine, tire shine, vacuum of floors seats and mats, interior quick wipe, interior windows cleaned, leather wipe and mats shined.", "priceCurrency": "USD", "price": 100, "itemOffered": { "@type": "Service", "name": "Maintenance detail", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Maintenance Detail", "description": "For returning clients on a 2 to 4 week schedule whose vehicle has already had a qualifying full detail, at $90 bi-weekly or $100 monthly: safe wash and foam bath, wheel treatment and shine, tire shine, vacuum of floors seats and mats, interior quick wipe, interior windows cleaned, leather wipe and mats shined.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 90, "maxPrice": 100, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Maintenance detail", "serviceType": "Auto detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "RV & Trailer Exterior Wash", "description": "Premium foam bath and hand wash, roof wash, bug removal, wheels tires and wheel wells cleaned, exterior windows cleaned, spot-free rinse and hand dry, tire shine and final quality inspection. Priced per foot.", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": 7, "priceCurrency": "USD", "unitText": "per foot" }, "itemOffered": { "@type": "Service", "name": "RV detailing", "serviceType": "RV detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Boat Exterior Wash", "description": "Premium foam bath and hand wash, hull and topside wash, bug bird dropping and light algae removal, exterior windows cleaned, vinyl wipe down, trailer wheels and tires cleaned, spot-free rinse and hand dry. Priced per foot.", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": 7, "priceCurrency": "USD", "unitText": "per foot" }, "itemOffered": { "@type": "Service", "name": "Boat detailing", "serviceType": "Boat detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Boat Full Detail", "description": "Everything in the boat exterior wash plus thorough vacuuming if carpeted, power wash on flooring if not carpeted, deep cleaning of seating, scrub and decontamination of all plastics and vinyl, non-skid deck cleaned, storage compartments cleaned, streak-free windows and ceramic detail spray. Priced per foot.", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": 15, "priceCurrency": "USD", "unitText": "per foot" }, "itemOffered": { "@type": "Service", "name": "Boat full detail", "serviceType": "Boat detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Jet Ski Detail", "description": "Premium foam bath and hand wash, complete exterior wash, bug and water spot removal, vinyl seat deep cleaned, storage compartments cleaned, UV protectant on plastics and vinyl, ceramic detail spray, trailer wheels and tires cleaned, spot-free rinse and hand dry.", "priceCurrency": "USD", "price": 150, "itemOffered": { "@type": "Service", "name": "Jet ski detailing", "serviceType": "Watercraft detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Motorcycle & Dirt Bike Detail", "description": "Premium foam bath and hand wash, wheels tires and rims cleaned, bug removal, engine frame and swingarm cleaned, plastic and trim protectant, seat cleaned and conditioned, spot-free rinse and hand dry, final quality inspection.", "priceCurrency": "USD", "price": 50, "itemOffered": { "@type": "Service", "name": "Motorcycle detailing", "serviceType": "Motorcycle detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Headlight Restoration", "description": "Add-on headlight restoration.", "priceCurrency": "USD", "price": 50, "itemOffered": { "@type": "Service", "name": "Headlight restoration", "serviceType": "Headlight restoration", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Motorcycle & Dirt Bike Detail", "description": "Premium foam bath and hand wash, wheels tires and rims cleaned, bug removal, engine frame and swingarm cleaned, plastic and trim protectant, seat cleaned and conditioned, spot-free rinse and hand dry, final quality inspection. Starting at $75.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 75, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Motorcycle detailing", "serviceType": "Motorcycle detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Headlight Restoration", "description": "Add-on headlight restoration.", "priceCurrency": "USD", "price": 75, "itemOffered": { "@type": "Service", "name": "Headlight restoration", "serviceType": "Headlight restoration", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Engine Bay Detail", "description": "Add-on engine bay detailing.", "priceCurrency": "USD", "price": 50, "itemOffered": { "@type": "Service", "name": "Engine bay detailing", "serviceType": "Engine bay detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Trim Restoration", "description": "Add-on trim restoration.", "priceCurrency": "USD", "price": 50, "itemOffered": { "@type": "Service", "name": "Trim restoration", "serviceType": "Trim restoration", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
-          { "@type": "Offer", "name": "Pet Hair Removal", "description": "Add-on pet hair removal, starting at $20.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 20, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Pet hair removal", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
+          { "@type": "Offer", "name": "Pet Hair Removal", "description": "Add-on pet hair removal, starting at $30.", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 30, "priceCurrency": "USD" }, "itemOffered": { "@type": "Service", "name": "Pet hair removal", "serviceType": "Interior detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Chrome Polish & Protection", "description": "Motorcycle and dirt bike add-on.", "priceCurrency": "USD", "price": 50, "itemOffered": { "@type": "Service", "name": "Chrome polishing", "serviceType": "Chrome polishing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "Machine Polish Wax", "description": "RV, boat and jet ski add-on.", "priceCurrency": "USD", "price": 150, "itemOffered": { "@type": "Service", "name": "Machine polish wax", "serviceType": "Marine detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
           { "@type": "Offer", "name": "4 Month Paint Protection Wax", "description": "RV, boat and jet ski add-on.", "priceCurrency": "USD", "price": 75, "itemOffered": { "@type": "Service", "name": "Paint protection wax", "serviceType": "Marine detailing", "provider": { "@id": "https://www.scrubindetailing.com/#business" } } },
@@ -2126,12 +2146,12 @@ footer .brand img{width:min(190px,70%);height:auto;margin-bottom:16px}
         { "@type": "Question", "name": "Do you really come to me — and is there a trip fee?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Scrubin Detailing is fully mobile. We arrive with our own water and power and work wherever your vehicle is parked — home, apartment complex, office lot or storage yard. There is no trip fee, travel fee or convenience fee anywhere in Temecula, Murrieta, Menifee, French Valley, Winchester or Wildomar." } },
         { "@type": "Question", "name": "How much does mobile detailing cost in Temecula?", "acceptedAnswer": { "@type": "Answer", "text": "Full inside-and-out details start at $125 for a sedan on the Basic Detail and run to $400 for an oversized vehicle on the 1 Step Paint Correction Detail, or $550 on the 2 Step Paint Correction Detail. Interior-only details start at $80, Scrubin's Basic Exterior Detail starts at $60, and Scrubin's 4-Year Ceramic Coating runs $700 to $900 depending on vehicle size. RVs and boats are priced per foot, $7 to $15 per foot." } },
         { "@type": "Question", "name": "How long does a detail take?", "acceptedAnswer": { "@type": "Answer", "text": "A Basic Detail is typically 1.5 to 2 hours. A Full Detail usually runs 2.5 to 4 hours. The 1 Step and 2 Step Paint Correction Details and Scrubin's 4-Year Ceramic Coating are longer appointments — plan on most of the day. RVs and boats vary with length." } },
-        { "@type": "Question", "name": "What's the difference between wax, sealant and ceramic coating?", "acceptedAnswer": { "@type": "Answer", "text": "Wax is shortest-lived; our 6-month paint protection wax, included in the Full Detail and Scrubin's Clay & Wax Detail, adds gloss and real protection. A ceramic coating goes further: a semi-permanent barrier that bonds to the clearcoat, lasts four years, and is the only one that really stands up to Temecula Valley hard water spotting, UV and windblown dust. Coated paint is also slicker, so future washes are faster and safer." } },
+        { "@type": "Question", "name": "What's the difference between wax, sealant and ceramic coating?", "acceptedAnswer": { "@type": "Answer", "text": "Wax is shortest-lived; our 6-month paint protection wax, included in the Full Detail and Scrubin's Clay & Wax Detail, adds gloss and real protection. A ceramic coating goes further: long-term ceramic protection rated up to 4 years with proper maintenance that bonds to the clearcoat, and is the only one that really stands up to Temecula Valley hard water spotting, UV and windblown dust. Coated paint is also slicker, so future washes are faster and safer." } },
         { "@type": "Question", "name": "Can you get hard water spots off my paint?", "acceptedAnswer": { "@type": "Answer", "text": "Usually yes. Fresh water spots come off with a clay bar decontamination. Spots that have been baking in the sun for months are etched into the clearcoat and need machine polishing — the 1 Step or 2 Step Paint Correction Detail, or Scrubin's 4-Year Ceramic Coating. Text a photo in good light and we will tell you which one your paint needs." } },
-        { "@type": "Question", "name": "Do you remove pet hair, stains and odors?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Premium Interior Detail includes seat and carpet extraction on cloth seats, carpet shampooing, steam cleaning, and scrub and decontamination on all plastics and leather. Heavy pet hair is billed as an add-on starting at $20, always confirmed with you before work starts." } },
-        { "@type": "Question", "name": "Do you detail RVs, boats, jet skis and dirt bikes?", "acceptedAnswer": { "@type": "Answer", "text": "All of them. RV and trailer exterior washes are $7 per foot, boat exterior washes $7 per foot, boat full details $15 per foot, jet skis $150 each including trailer, and motorcycles or dirt bikes $50. If you are launching at Lake Skinner or Diamond Valley Lake, book the day before — both are Metropolitan Water District reservoirs with pre-launch inspection requirements." } },
+        { "@type": "Question", "name": "Do you remove pet hair, stains and odors?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Premium Interior Detail includes seat and carpet extraction on cloth seats, carpet shampooing, steam cleaning, and scrub and decontamination on all plastics and leather. Heavy pet hair is billed as an add-on starting at $30, always confirmed with you before work starts." } },
+        { "@type": "Question", "name": "Do you detail RVs, boats, jet skis and dirt bikes?", "acceptedAnswer": { "@type": "Answer", "text": "All of them. RV and trailer exterior washes are $7 per foot, boat exterior washes $7 per foot, boat full details $15 per foot, jet skis $150 each including trailer, and motorcycles or dirt bikes starting at $75. If you are launching at Lake Skinner or Diamond Valley Lake, book the day before — both are Metropolitan Water District reservoirs with pre-launch inspection requirements." } },
         { "@type": "Question", "name": "What do you need from me on the day?", "acceptedAnswer": { "@type": "Answer", "text": "A parking spot with a little room to work around the vehicle, and keys or access to the interior. We bring our own water, power and all equipment. For apartments or gated communities, just let us know where to park and how to get in." } },
-        { "@type": "Question", "name": "How often should I get my car detailed in the Temecula Valley?", "acceptedAnswer": { "@type": "Answer", "text": "For most daily drivers here, a full detail every 3 to 4 months with a maintenance detail in between keeps paint protected and interiors from getting bad. Returning clients get the Maintenance Detail at a flat $100 every 2 to 4 weeks after a qualifying full detail." } },
+        { "@type": "Question", "name": "How often should I get my car detailed in the Temecula Valley?", "acceptedAnswer": { "@type": "Answer", "text": "For most daily drivers here, a full detail every 3 to 4 months with a maintenance detail in between keeps paint protected and interiors from getting bad. Returning clients get the Maintenance Detail at $90 bi-weekly or $100 monthly after a qualifying full detail." } },
         { "@type": "Question", "name": "Which cities and neighborhoods do you serve?", "acceptedAnswer": { "@type": "Answer", "text": "Our core area is Temecula (92590, 92591, 92592), Murrieta (92562, 92563), Menifee (92584, 92585, 92586) and French Valley and Winchester (92563, 92596) — including Redhawk, Harveston, Wolf Creek, Vail Ranch, Bear Creek, Copper Canyon, California Oaks, Audie Murphy Ranch, Menifee Lakes and Sun City. We also regularly serve Wildomar, Lake Elsinore, Canyon Lake, Perris and Fallbrook. There is no trip fee anywhere in that area." } },
         { "@type": "Question", "name": "What payment do you take, and are you insured?", "acceptedAnswer": { "@type": "Answer", "text": "We take major cards, cash and common digital payments, due at completion. Scrubin Detailing is a locally owned and operated mobile detailing business serving Southwest Riverside County. For specific insurance or fleet requirements, call (951) 391-3669." } }
       ]
